@@ -492,7 +492,15 @@ def apply_exclusions_and_overrides(result: dict, messages: list[dict] | None,
         saved_signal = (override.get("signal") or "").lower()
         saved_status = override.get("status", "")
 
-        # Honour manual Excluded flags recorded via signal text
+        # Honour ANY manually-set Excluded status (No FTD, Oddify, Promo, generic)
+        if saved_status and saved_status.startswith("Excluded"):
+            result["approval_status"] = saved_status
+            result["approval_signal"] = override.get("signal") or saved_status
+            if override.get("reviewed_by"):
+                result["approving_admin"] = override["reviewed_by"]
+            return
+
+        # Honour manual Excluded flags recorded via signal text (legacy)
         if "oddify" in saved_signal:
             result["approval_status"] = "Excluded (Oddify)"
             result["approval_signal"] = override.get("signal", "Oddify — does not count")
