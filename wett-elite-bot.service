@@ -1,0 +1,16 @@
+[Unit]
+Description=Wett Elite Telegram Bot Listener
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/.openclaw/workspace
+ExecStart=/usr/bin/python3 /root/.openclaw/workspace/telegram-bot-listener.py
+Restart=always
+RestartSec=5
+Environment="TG_BOT_TOKEN=8637002260:AAHmr8VNjus3TTVY_TcKueSNJHSEIWFQ_ug"
+Environment="GITHUB_REPO=wettelite/wett-elite-dashboard"
+# GITHUB_TOKEN is injected at deploy time — see deploy instructions
+
+[Install]
+WantedBy=multi-user.target

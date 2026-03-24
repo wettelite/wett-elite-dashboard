@@ -1190,24 +1190,62 @@ def main():
         u_bet   = count_unique_registrations([r for r in results if r["campaign"] == "Betlabel"])
         u_win   = count_unique_registrations([r for r in results if r["campaign"] == "Winnerz"])
         u_rol   = count_unique_registrations([r for r in results if r["campaign"] == "Winrolla"])
-        msg = (
-            f"🎰 <b>Wett Elite Deposit Dashboard</b> — updated\n\n"
+
+        # Summary message
+        summary = (
+            f"🎰 <b>Wett Elite — Daily Update</b>\n\n"
             f"📊 <b>Unique Registrations:</b> {u_reg}\n"
             f"  • Betlabel: {u_bet}\n"
             f"  • Winnerz:  {u_win}\n"
             f"  • Winrolla: {u_rol}\n"
         )
         if to_check_items:
-            msg += f"\n⚠️ <b>{len(to_check_items)} tickets need your review:</b>\n"
-            for r in to_check_items[:10]:
-                msg += f"  — {r.get('user','?')} ({r.get('campaign','?')})\n"
-            if len(to_check_items) > 10:
-                msg += f"  … and {len(to_check_items)-10} more\n"
-            msg += f"\n🔗 <a href='{sheet_url}'>Open Sheet</a>"
+            summary += f"\n⚠️ <b>{len(to_check_items)} ticket(s) need review</b> — see below 👇"
         else:
-            msg += "\n✅ No tickets need review."
-        send_telegram(msg)
-        log("📱 Telegram notification sent")
+            summary += "\n✅ No tickets need review."
+        send_telegram(summary)
+
+        # Send one message per "to be checked" ticket with inline approve buttons
+        for r in to_check_items:
+            ticket   = r["ticket"]
+            user     = r.get("user", "?") or "?"
+            campaign = r.get("campaign", "Unknown")
+            ss       = "✅ Yes" if r.get("has_screenshot") else "❌ No"
+            text = (
+                f"⚠️ <b>Ticket needs review</b>\n\n"
+                f"👤 <b>User:</b> {user}\n"
+                f"🎯 <b>Detected campaign:</b> {campaign}\n"
+                f"📸 <b>Screenshot:</b> {ss}\n"
+                f"🎫 <b>Ticket:</b> <code>{ticket}</code>"
+            )
+            # Callback data format: action:ticket  (max 64 bytes — kept short)
+            # Actions: app_B=approve Betlabel, app_W=approve Winnerz,
+            #          app_R=approve Winrolla,  exc_O=exclude Oddify, exc_P=exclude Promo
+            t = ticket  # shorthand
+            buttons = {
+                "inline_keyboard": [
+                    [
+                        {"text": "✅ Betlabel", "callback_data": f"app_B:{t}"},
+                        {"text": "✅ Winnerz",  "callback_data": f"app_W:{t}"},
+                        {"text": "✅ Winrolla", "callback_data": f"app_R:{t}"},
+                    ],
+                    [
+                        {"text": "❌ Excl. Oddify", "callback_data": f"exc_O:{t}"},
+                        {"text": "❌ Excl. Promo",  "callback_data": f"exc_P:{t}"},
+                    ],
+                ]
+            }
+            try:
+                http_requests.post(
+                    f"https://api.telegram.org/bot{TG_BOT_TOKEN}/sendMessage",
+                    json={"chat_id": TG_CHAT_ID, "text": text,
+                          "parse_mode": "HTML", "reply_markup": buttons},
+                    timeout=10,
+                )
+            except Exception as e:
+                log(f"⚠️  Telegram inline msg error: {e}")
+
+        log(f"📱 Telegram: summary + {len(to_check_items)} inline ticket(s) sent")
 
 if __name__ == "__main__":
     main()
