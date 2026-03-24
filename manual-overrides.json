@@ -1185,13 +1185,15 @@
     "ticket_date": "2026-03-20T19:25:14.900000+00:00"
   },
   "closed-0003_1428386565473833057": {
-    "status": "To be checked",
+    "status": "Excluded (Promo)",
     "signal": "",
     "user": "furkancbk66",
     "campaign": "Unknown",
     "has_screenshot": true,
     "approving_admin": "",
-    "ticket_date": "2026-03-11T22:42:18.782000+00:00"
+    "ticket_date": "2026-03-11T22:42:18.782000+00:00",
+    "reviewed_by": "@FrancRei",
+    "reviewed_at": "2026-03-24T15:36:25.543633+00:00"
   },
   "closed-0014_939898401062027334": {
     "status": "Excluded (Oddify)",
