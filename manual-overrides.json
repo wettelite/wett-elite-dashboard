@@ -1165,13 +1165,15 @@
     "ticket_date": "2026-03-20T19:47:35.855000+00:00"
   },
   "koenischzugang-0240-furkan_1428386565473833057": {
-    "status": "To be checked",
+    "status": "Excluded (Promo)",
     "signal": "",
     "user": "furkancbk66",
     "campaign": "Unknown",
     "has_screenshot": true,
     "approving_admin": "",
-    "ticket_date": "2026-03-09T19:00:45.648000+00:00"
+    "ticket_date": "2026-03-09T19:00:45.648000+00:00",
+    "reviewed_by": "@FrancRei",
+    "reviewed_at": "2026-03-24T15:36:20.381279+00:00"
   },
   "closed-0843_462209494919938049": {
     "status": "Approved",
