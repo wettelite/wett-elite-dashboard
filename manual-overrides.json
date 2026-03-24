@@ -840,7 +840,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "ticket_date": "2026-03-09T17:45:16.707000+00:00",
-    "telegram_sent_at": "2026-03-24T15:55:42.776979+00:00"
+    "telegram_sent_at": "2026-03-24T15:55:42.776979+00:00",
+    "campaign_source": "vision"
   },
   "closed-0753_269427128758435840": {
     "status": "Not Approved",
@@ -868,7 +869,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "ticket_date": "2026-03-09T17:45:16.707000+00:00",
-    "telegram_sent_at": "2026-03-24T15:55:42.290421+00:00"
+    "telegram_sent_at": "2026-03-24T15:55:42.290421+00:00",
+    "campaign_source": "vision"
   },
   "closed-0021_313357681739956224": {
     "status": "Not Approved",
@@ -1217,7 +1219,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "ticket_date": "2026-03-10T10:41:17.905000+00:00",
-    "telegram_sent_at": "2026-03-24T15:55:43.278974+00:00"
+    "telegram_sent_at": "2026-03-24T15:55:43.278974+00:00",
+    "campaign_source": "vision"
   },
   "koenisch-0858_1326899251053330508": {
     "status": "Approved",
@@ -1932,7 +1935,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "ticket_date": "2026-03-11T22:23:22.338000+00:00",
-    "telegram_sent_at": "2026-03-24T15:55:48.491681+00:00"
+    "telegram_sent_at": "2026-03-24T15:55:48.491681+00:00",
+    "campaign_source": "vision"
   },
   "support-0076_798115848438284328": {
     "status": "Approved",
@@ -6413,7 +6417,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "ticket_date": "2026-03-09T17:32:38.026000+00:00",
-    "telegram_sent_at": "2026-03-24T15:55:43.689063+00:00"
+    "telegram_sent_at": "2026-03-24T15:55:43.689063+00:00",
+    "campaign_source": "vision"
   },
   "closed-0728_1058472435554467851": {
     "status": "Approved",
