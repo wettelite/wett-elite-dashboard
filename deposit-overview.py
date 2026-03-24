@@ -755,7 +755,7 @@ def write_to_sheets(sheets_service, results: list[dict]) -> str:
 # Telegram notification
 # ---------------------------------------------------------------------------
 TG_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "8637002260:AAHmr8VNjus3TTVY_TcKueSNJHSEIWFQ_ug")
-TG_CHAT_ID   = os.environ.get("TELEGRAM_CHAT_ID",   "")
+TG_CHAT_ID   = os.environ.get("TELEGRAM_CHAT_ID",   "-1003760626133")
 
 def send_telegram(text: str) -> None:
     try:
