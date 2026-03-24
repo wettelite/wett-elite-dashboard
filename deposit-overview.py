@@ -816,6 +816,18 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
         c = r.get("campaign", "Unknown")
         new_per_brand[c] = new_per_brand.get(c, 0) + 1
 
+    # Pre-build 24h brand pills (avoids escaped-quote issues inside f-string)
+    h24_brands_html = "".join(
+        f'<div class="h24-brand"><span style="color:{CAMP_COLOURS.get(b, "#6b7280")}">{b}</span>'
+        f' <strong>{n}</strong></div>'
+        for b, n in sorted(new_per_brand.items())
+    )
+    h24_review_html = (
+        f'<div class="h24-warn">⚠️ {len(new_to_check)} new ticket(s) need review</div>'
+        if new_to_check else
+        '<div class="h24-ok">✅ No new tickets pending review</div>'
+    )
+
     # Status badge colours
     STATUS_COLOURS = {
         "Approved":         ("#d1fae5", "#065f46"),
@@ -960,9 +972,9 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
       <div class="h24-label">New First Deposits</div>
     </div>
     <div class="h24-brands">
-      {"".join(f'<div class="h24-brand"><span style="color:{CAMP_COLOURS.get(b,\"#6b7280\")}">{b}</span> <strong>{n}</strong></div>' for b,n in sorted(new_per_brand.items()))}
+      {h24_brands_html}
     </div>
-    {f'<div class="h24-warn">⚠️ {len(new_to_check)} new ticket(s) need review</div>' if new_to_check else '<div class="h24-ok">✅ No new tickets pending review</div>'}
+    {h24_review_html}
   </div>
 
   <div class="section-title">All-Time Totals</div>
