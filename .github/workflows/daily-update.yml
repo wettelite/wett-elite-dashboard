@@ -3,7 +3,12 @@ name: Update Deposit Dashboard
 on:
   schedule:
     - cron: '0 0,6,12,18 * * *'  # Every 6h: 00:00, 06:00, 12:00, 18:00 UTC
-  workflow_dispatch:               # Manual "Run workflow" button in GitHub UI
+  workflow_dispatch:               # Manual trigger (bot button presses / GitHub UI)
+    inputs:
+      skip_telegram:
+        description: 'Skip Telegram notifications (dashboard refresh only)'
+        required: false
+        default: 'false'
 
 jobs:
   update:
@@ -33,6 +38,7 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+          SKIP_TELEGRAM:      ${{ github.event.inputs.skip_telegram || 'false' }}
         run: python deposit-overview.py
 
       - name: Commit updated files

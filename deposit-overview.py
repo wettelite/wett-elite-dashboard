@@ -1252,8 +1252,11 @@ def main():
     print(f"\nOpen your sheet: {sheet_url}")
 
     # Send Telegram notification
+    # SKIP_TELEGRAM=true when triggered by bot button presses (dashboard refresh only)
+    # Only scheduled runs (every 6h) send actual Telegram messages
+    skip_telegram = os.environ.get("SKIP_TELEGRAM", "false").lower() == "true"
     to_check_items = [r for r in results if r["approval_status"] == "To be checked"]
-    if TG_BOT_TOKEN and TG_CHAT_ID:
+    if TG_BOT_TOKEN and TG_CHAT_ID and not skip_telegram:
         cutoff_24h = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=24)).isoformat()
         def is_new(r):
             d = r.get("ticket_date", "")

@@ -70,11 +70,11 @@ def gh_update_file(path: str, sha: str, content: dict, message: str) -> None:
 
 
 def gh_trigger_workflow() -> None:
-    """Triggers the daily-update GitHub Actions workflow."""
+    """Triggers a dashboard-only refresh (no Telegram spam)."""
     requests.post(
         f"{GH_API}/repos/{GH_REPO}/actions/workflows/daily-update.yml/dispatches",
         headers=GH_HEADERS,
-        json={"ref": "main"},
+        json={"ref": "main", "inputs": {"skip_telegram": "true"}},
     ).raise_for_status()
 
 
