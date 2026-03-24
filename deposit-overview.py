@@ -18,6 +18,7 @@ NOTE: First run will trigger a browser OAuth re-auth (Sheets scope added).
 """
 
 import base64
+import datetime
 import json
 import os
 import re
@@ -277,6 +278,15 @@ def detect_screenshot(messages: list[dict]) -> tuple[bool, str]:
                 return True, username
     return False, ""
 
+def extract_ticket_date(messages: list[dict]) -> str:
+    """Return ISO-8601 UTC datetime of the first message, or '' if unavailable."""
+    for msg in messages:
+        created_ms = msg.get("created")
+        if created_ms and isinstance(created_ms, (int, float)) and created_ms > 1_000_000_000_000:
+            dt = datetime.datetime.fromtimestamp(created_ms / 1000, tz=datetime.timezone.utc)
+            return dt.isoformat()
+    return ""
+
 def detect_approval(messages: list[dict], screenshot_present: bool) -> tuple[str, str, str]:
     """
     Returns (status, signal, approving_admin).
@@ -505,6 +515,10 @@ def apply_exclusions_and_overrides(result: dict, messages: list[dict] | None,
                 if override.get("campaign_source"):
                     result["campaign_source"] = override["campaign_source"]
 
+        # Restore saved ticket_date if analysis couldn't extract it
+        if not result.get("ticket_date") and override.get("ticket_date"):
+            result["ticket_date"] = override["ticket_date"]
+
 
 def analyze_transcript(html_bytes: bytes, filename: str,
                        manual_overrides: dict | None = None) -> dict:
@@ -521,6 +535,7 @@ def analyze_transcript(html_bytes: bytes, filename: str,
         "approval_status": "Not Approved",
         "approval_signal": "",
         "approving_admin": "",
+        "ticket_date":     "",
         "parse_error":     False,
     }
 
@@ -528,7 +543,8 @@ def analyze_transcript(html_bytes: bytes, filename: str,
         result["parse_error"] = True
         return result
 
-    result["campaign"] = detect_campaign(messages)
+    result["campaign"]     = detect_campaign(messages)
+    result["ticket_date"]  = extract_ticket_date(messages)
 
     has_screenshot, user = detect_screenshot(messages)
     result["has_screenshot"] = has_screenshot
@@ -771,8 +787,8 @@ def send_telegram(text: str) -> None:
 # HTML Dashboard
 # ---------------------------------------------------------------------------
 def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
-    import datetime
-    now = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+    now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    cutoff_24h = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=24)).isoformat()
 
     # Build summary per campaign
     campaigns_data = []
@@ -786,6 +802,19 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
     total_unique   = count_unique_registrations(results)
     total_approved = sum(1 for r in results if r["approval_status"] == "Approved")
     total_check    = sum(1 for r in results if r["approval_status"] == "To be checked")
+
+    # Last-24h stats
+    def is_new(r):
+        d = r.get("ticket_date", "")
+        return bool(d and d >= cutoff_24h)
+
+    new_approved    = [r for r in results if r["approval_status"] == "Approved" and is_new(r)]
+    new_to_check    = [r for r in results if r["approval_status"] == "To be checked" and is_new(r)]
+    new_total       = len(new_approved)
+    new_per_brand   = {}
+    for r in new_approved:
+        c = r.get("campaign", "Unknown")
+        new_per_brand[c] = new_per_brand.get(c, 0) + 1
 
     # Status badge colours
     STATUS_COLOURS = {
@@ -875,6 +904,15 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
   .tbl-container {{ max-height: 600px; overflow-y: auto; }}
   .stat-pill {{ display: inline-flex; align-items: center; gap: 6px; background: #0f172a; border: 1px solid #334155; border-radius: 20px; padding: 4px 14px; font-size: 0.8rem; color: #94a3b8; }}
   .stat-pill strong {{ color: #f1f5f9; }}
+  .section-title {{ font-size: 0.75rem; text-transform: uppercase; letter-spacing: .08em; color: #64748b; font-weight: 600; margin: 28px 0 12px; }}
+  .h24-banner {{ background: #1e293b; border: 1px solid #334155; border-left: 4px solid #6366f1; border-radius: 12px; padding: 20px 28px; margin-bottom: 12px; display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }}
+  .h24-num {{ font-size: 2.8rem; font-weight: 800; color: #6366f1; line-height: 1; }}
+  .h24-label {{ font-size: 0.82rem; color: #94a3b8; margin-top: 4px; }}
+  .h24-brands {{ display: flex; gap: 20px; flex-wrap: wrap; }}
+  .h24-brand {{ font-size: 0.9rem; color: #94a3b8; }}
+  .h24-brand strong {{ color: #f1f5f9; }}
+  .h24-warn {{ font-size: 0.85rem; color: #f59e0b; margin-left: auto; }}
+  .h24-ok {{ font-size: 0.85rem; color: #34d399; margin-left: auto; }}
   #gate {{ display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0f172a; }}
   .gate-box {{ background:#1e293b;border:1px solid #334155;border-radius:16px;padding:40px;text-align:center;width:320px; }}
   .gate-box h2 {{ color:#f1f5f9;margin-bottom:8px;font-size:1.3rem; }}
@@ -915,6 +953,19 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
     </div>
   </div>
 
+  <div class="section-title">Last 24 Hours</div>
+  <div class="h24-banner">
+    <div class="h24-main">
+      <div class="h24-num">{new_total}</div>
+      <div class="h24-label">New First Deposits</div>
+    </div>
+    <div class="h24-brands">
+      {"".join(f'<div class="h24-brand"><span style="color:{CAMP_COLOURS.get(b,\"#6b7280\")}">{b}</span> <strong>{n}</strong></div>' for b,n in sorted(new_per_brand.items()))}
+    </div>
+    {f'<div class="h24-warn">⚠️ {len(new_to_check)} new ticket(s) need review</div>' if new_to_check else '<div class="h24-ok">✅ No new tickets pending review</div>'}
+  </div>
+
+  <div class="section-title">All-Time Totals</div>
   <div class="cards">{cards_html}</div>
 
   <div class="table-wrap">
@@ -1144,7 +1195,10 @@ def main():
                 "has_screenshot": r["has_screenshot"],
                 "approving_admin": r["approving_admin"],
                 "campaign_source": r.get("campaign_source", ""),
+                "ticket_date": r.get("ticket_date", ""),
             }
+        elif r.get("ticket_date") and not updated_overrides[t].get("ticket_date"):
+            updated_overrides[t]["ticket_date"] = r["ticket_date"]
         elif r.get("campaign_source") == "vision":
             # Always update campaign_source for vision-classified tickets
             updated_overrides[t]["campaign"] = r["campaign"]
@@ -1183,26 +1237,42 @@ def main():
     log(f"\n✅ Sheet ready: {sheet_url}")
     print(f"\nOpen your sheet: {sheet_url}")
 
-    # Send Telegram notification for unclear cases
+    # Send Telegram notification
     to_check_items = [r for r in results if r["approval_status"] == "To be checked"]
     if TG_BOT_TOKEN and TG_CHAT_ID:
+        cutoff_24h = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=24)).isoformat()
+        def is_new(r):
+            d = r.get("ticket_date", "")
+            return bool(d and d >= cutoff_24h)
+
         u_reg   = count_unique_registrations(results)
         u_bet   = count_unique_registrations([r for r in results if r["campaign"] == "Betlabel"])
         u_win   = count_unique_registrations([r for r in results if r["campaign"] == "Winnerz"])
         u_rol   = count_unique_registrations([r for r in results if r["campaign"] == "Winrolla"])
+        new_24h = sum(1 for r in results if r["approval_status"] == "Approved" and is_new(r))
+        new_bet = sum(1 for r in results if r["approval_status"] == "Approved" and is_new(r) and r["campaign"] == "Betlabel")
+        new_win = sum(1 for r in results if r["approval_status"] == "Approved" and is_new(r) and r["campaign"] == "Winnerz")
+        new_rol = sum(1 for r in results if r["approval_status"] == "Approved" and is_new(r) and r["campaign"] == "Winrolla")
 
-        # Summary message
+        dashboard_url = "https://wettelite.github.io/wett-elite-dashboard/dashboard.html"
+
         summary = (
-            f"🎰 <b>Wett Elite — Daily Update</b>\n\n"
-            f"📊 <b>Unique Registrations:</b> {u_reg}\n"
+            f"🎰 <b>Wett Elite Dashboard Updated</b>\n"
+            f"🕐 {time.strftime('%d.%m.%Y %H:%M')} UTC\n\n"
+            f"📅 <b>Last 24 Hours:</b> +{new_24h} new deposits\n"
+            f"  • Betlabel: +{new_bet}\n"
+            f"  • Winnerz:  +{new_win}\n"
+            f"  • Winrolla: +{new_rol}\n\n"
+            f"📊 <b>All-Time Unique Registrations:</b> {u_reg}\n"
             f"  • Betlabel: {u_bet}\n"
             f"  • Winnerz:  {u_win}\n"
-            f"  • Winrolla: {u_rol}\n"
+            f"  • Winrolla: {u_rol}\n\n"
+            f"🔗 <a href='{dashboard_url}'>Open Dashboard</a>"
         )
         if to_check_items:
-            summary += f"\n⚠️ <b>{len(to_check_items)} ticket(s) need review</b> — see below 👇"
+            summary += f"\n\n⚠️ <b>{len(to_check_items)} ticket(s) need review</b> — see below 👇"
         else:
-            summary += "\n✅ No tickets need review."
+            summary += "\n\n✅ No tickets need review."
         send_telegram(summary)
 
         # Send one message per "to be checked" ticket with inline approve buttons

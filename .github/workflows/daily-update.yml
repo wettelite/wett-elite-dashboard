@@ -2,8 +2,8 @@ name: Update Deposit Dashboard
 
 on:
   schedule:
-    - cron: '0 6 * * *'   # 06:00 UTC = 13:00 Vietnam time
-  workflow_dispatch:        # Manual "Run workflow" button in GitHub UI
+    - cron: '0 0,6,12,18 * * *'  # Every 6h: 00:00, 06:00, 12:00, 18:00 UTC
+  workflow_dispatch:               # Manual "Run workflow" button in GitHub UI
 
 jobs:
   update:
