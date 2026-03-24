@@ -834,6 +834,8 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
           {f'<div class="card-warn">⚠️ {c["to_check"]} to review</div>' if c["to_check"] else ""}
         </div>"""
 
+    PASSWORD_HASH = "0caa2ea1f7b59cd2995a1a43e8ddeb224c2fd317bf238692a35fddbae7a5ac58"
+
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -873,9 +875,28 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
   .tbl-container {{ max-height: 600px; overflow-y: auto; }}
   .stat-pill {{ display: inline-flex; align-items: center; gap: 6px; background: #0f172a; border: 1px solid #334155; border-radius: 20px; padding: 4px 14px; font-size: 0.8rem; color: #94a3b8; }}
   .stat-pill strong {{ color: #f1f5f9; }}
+  #gate {{ display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0f172a; }}
+  .gate-box {{ background:#1e293b;border:1px solid #334155;border-radius:16px;padding:40px;text-align:center;width:320px; }}
+  .gate-box h2 {{ color:#f1f5f9;margin-bottom:8px;font-size:1.3rem; }}
+  .gate-box p {{ color:#64748b;font-size:0.85rem;margin-bottom:24px; }}
+  .gate-box input {{ width:100%;background:#0f172a;border:1px solid #334155;border-radius:8px;color:#e2e8f0;padding:10px 14px;font-size:1rem;outline:none;margin-bottom:12px; }}
+  .gate-box input:focus {{ border-color:#6366f1; }}
+  .gate-box button {{ width:100%;background:#6366f1;color:#fff;border:none;border-radius:8px;padding:10px;font-size:1rem;font-weight:600;cursor:pointer; }}
+  .gate-box button:hover {{ background:#4f46e5; }}
+  .gate-error {{ color:#f87171;font-size:0.82rem;margin-top:8px;display:none; }}
 </style>
 </head>
 <body>
+<div id="gate">
+  <div class="gate-box">
+    <h2>🔒 Wett Elite Dashboard</h2>
+    <p>Enter the password to continue</p>
+    <input type="password" id="pw" placeholder="Password" onkeydown="if(event.key==='Enter')unlock()">
+    <button onclick="unlock()">Enter</button>
+    <div class="gate-error" id="gate-err">Wrong password — try again.</div>
+  </div>
+</div>
+<div id="dashboard" style="display:none">
 <div class="header">
   <h1>🎰 Wett Elite — Deposit Dashboard</h1>
   <div class="updated">Last updated: {now}</div>
@@ -927,7 +948,29 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
   </div>
 
 </div>
+</div>
 <script>
+const HASH = "{PASSWORD_HASH}";
+async function sha256(msg) {{
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}}
+async function unlock() {{
+  const pw = document.getElementById('pw').value;
+  const h  = await sha256(pw);
+  if (h === HASH) {{
+    sessionStorage.setItem('we_auth','1');
+    document.getElementById('gate').style.display='none';
+    document.getElementById('dashboard').style.display='block';
+  }} else {{
+    document.getElementById('gate-err').style.display='block';
+  }}
+}}
+// Auto-unlock if already authenticated this session
+if (sessionStorage.getItem('we_auth')==='1') {{
+  document.getElementById('gate').style.display='none';
+  document.getElementById('dashboard').style.display='block';
+}}
 function filterTable() {{
   const camp   = document.getElementById('filterCamp').value.toLowerCase();
   const status = document.getElementById('filterStatus').value.toLowerCase();
