@@ -1,0 +1,8 @@
+oauth-client.json
+oauth-token.json
+anthropic-api-key.txt
+google-sa-key.json
+__pycache__/
+*.pyc
+venv/
+.env
