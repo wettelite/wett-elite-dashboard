@@ -36,11 +36,12 @@ GH_HEADERS  = {
 }
 
 ACTION_MAP = {
-    "app_B": ("Approved", "Betlabel",  "✅ Approved — Betlabel"),
-    "app_W": ("Approved", "Winnerz",   "✅ Approved — Winnerz"),
-    "app_R": ("Approved", "Winrolla",  "✅ Approved — Winrolla"),
-    "exc_O": ("Excluded (Oddify)", "Unknown", "❌ Excluded — Oddify"),
-    "exc_P": ("Excluded (Promo)",  "Unknown", "❌ Excluded — Promo"),
+    "app_B": ("Approved",           "Betlabel", "✅ Approved — Betlabel"),
+    "app_W": ("Approved",           "Winnerz",  "✅ Approved — Winnerz"),
+    "app_R": ("Approved",           "Winrolla", "✅ Approved — Winrolla"),
+    "exc_O": ("Excluded (Oddify)",  "Unknown",  "❌ Excluded — Oddify"),
+    "exc_P": ("Excluded (Promo)",   "Unknown",  "❌ Excluded — Promo"),
+    "exc_F": ("Excluded (No FTD)",  "Unknown",  "❌ No successful FTD"),
 }
 
 # ---------------------------------------------------------------------------

@@ -1290,8 +1290,20 @@ def main():
         send_telegram(summary)
 
         # Send one message per "to be checked" ticket with inline approve buttons
+        # Skip tickets already sent to Telegram (prevent re-blast on every workflow trigger)
+        overrides_path = Path("manual-overrides.json")
+        try:
+            current_overrides = json.loads(overrides_path.read_text()) if overrides_path.exists() else {}
+        except Exception:
+            current_overrides = {}
+
+        newly_sent = 0
         for r in to_check_items:
             ticket   = r["ticket"]
+            # Skip if already sent to Telegram
+            if current_overrides.get(ticket, {}).get("telegram_sent_at"):
+                continue
+
             user     = r.get("user", "?") or "?"
             campaign = r.get("campaign", "Unknown")
             ss       = "✅ Yes" if r.get("has_screenshot") else "❌ No"
@@ -1304,7 +1316,8 @@ def main():
             )
             # Callback data format: action:ticket  (max 64 bytes — kept short)
             # Actions: app_B=approve Betlabel, app_W=approve Winnerz,
-            #          app_R=approve Winrolla,  exc_O=exclude Oddify, exc_P=exclude Promo
+            #          app_R=approve Winrolla,  exc_O=exclude Oddify,
+            #          exc_P=exclude Promo,     exc_F=no successful FTD
             t = ticket  # shorthand
             buttons = {
                 "inline_keyboard": [
@@ -1314,8 +1327,9 @@ def main():
                         {"text": "✅ Winrolla", "callback_data": f"app_R:{t}"},
                     ],
                     [
-                        {"text": "❌ Excl. Oddify", "callback_data": f"exc_O:{t}"},
-                        {"text": "❌ Excl. Promo",  "callback_data": f"exc_P:{t}"},
+                        {"text": "❌ Oddify",   "callback_data": f"exc_O:{t}"},
+                        {"text": "❌ Promo",    "callback_data": f"exc_P:{t}"},
+                        {"text": "❌ No FTD",   "callback_data": f"exc_F:{t}"},
                     ],
                 ]
             }
@@ -1326,10 +1340,22 @@ def main():
                           "parse_mode": "HTML", "reply_markup": buttons},
                     timeout=10,
                 )
+                # Mark as sent so we don't resend on the next workflow run
+                if ticket not in current_overrides:
+                    current_overrides[ticket] = {}
+                current_overrides[ticket]["telegram_sent_at"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
+                newly_sent += 1
             except Exception as e:
                 log(f"⚠️  Telegram inline msg error: {e}")
 
-        log(f"📱 Telegram: summary + {len(to_check_items)} inline ticket(s) sent")
+        # Save updated telegram_sent_at flags back to manual-overrides.json
+        if newly_sent > 0:
+            try:
+                overrides_path.write_text(json.dumps(current_overrides, indent=2, ensure_ascii=False))
+            except Exception as e:
+                log(f"⚠️  Could not save telegram_sent_at flags: {e}")
+
+        log(f"📱 Telegram: summary + {newly_sent} new inline ticket(s) sent ({len(to_check_items) - newly_sent} skipped, already sent)")
 
 if __name__ == "__main__":
     main()
