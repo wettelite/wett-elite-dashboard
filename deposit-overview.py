@@ -790,6 +790,16 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
     now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     cutoff_24h = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=24)).isoformat()
 
+    # Colours — defined early so 24h pills can reference them
+    STATUS_COLOURS = {
+        "Approved":          ("#d1fae5", "#065f46"),
+        "To be checked":     ("#fef3c7", "#92400e"),
+        "Not Approved":      ("#fee2e2", "#991b1b"),
+        "Excluded (Oddify)": ("#e0e7ff", "#3730a3"),
+        "Excluded (Promo)":  ("#f3e8ff", "#6b21a8"),
+    }
+    CAMP_COLOURS = {"Betlabel": "#3b82f6", "Winnerz": "#10b981", "Winrolla": "#f59e0b", "Unknown": "#6b7280"}
+
     # Build summary per campaign
     campaigns_data = []
     for camp in SUMMARY_CAMPAIGNS:
@@ -828,15 +838,7 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
         '<div class="h24-ok">✅ No new tickets pending review</div>'
     )
 
-    # Status badge colours
-    STATUS_COLOURS = {
-        "Approved":         ("#d1fae5", "#065f46"),
-        "To be checked":    ("#fef3c7", "#92400e"),
-        "Not Approved":     ("#fee2e2", "#991b1b"),
-        "Excluded (Oddify)":("#e0e7ff", "#3730a3"),
-        "Excluded (Promo)": ("#f3e8ff", "#6b21a8"),
-    }
-    CAMP_COLOURS = {"Betlabel": "#3b82f6", "Winnerz": "#10b981", "Winrolla": "#f59e0b", "Unknown": "#6b7280"}
+    # (STATUS_COLOURS and CAMP_COLOURS defined above)
 
     # Rows for the detail table (sorted: approved first, then to_check, then rest)
     def sort_key(r):
