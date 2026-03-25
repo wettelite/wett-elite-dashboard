@@ -9798,5 +9798,71 @@
   },
   "_state": {
     "last_telegram_date": "2026-03-25"
+  },
+  "closed-0137_1486452344295264386": {
+    "status": "Not Approved",
+    "signal": "",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-25T19:50:56.428000+00:00",
+    "first_seen_at": "2026-03-25T20:01:00.341616+00:00"
+  },
+  "closed-0133_1486444913829609720": {
+    "status": "Not Approved",
+    "signal": "",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-25T19:21:25.152000+00:00",
+    "first_seen_at": "2026-03-25T20:01:00.341632+00:00"
+  },
+  "closed-0120_1486416874714562640": {
+    "status": "Not Approved",
+    "signal": "",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-25T17:29:59.794000+00:00",
+    "first_seen_at": "2026-03-25T20:01:00.341636+00:00"
+  },
+  "closed-0102_1486391036476657684": {
+    "status": "To be checked",
+    "signal": "",
+    "user": "der_grinchi",
+    "campaign": "Winrolla",
+    "has_screenshot": true,
+    "approving_admin": "",
+    "campaign_source": "vision",
+    "ticket_date": "2026-03-25T15:47:19.330000+00:00",
+    "first_seen_at": "2026-03-25T20:01:00.341645+00:00"
+  },
+  "closed-0117_1486413787425669274": {
+    "status": "Approved",
+    "signal": "\"stark bro, hab dich freigegeben + bist beim gewinnspiel dabei\"",
+    "user": "ulme1807_36948",
+    "campaign": "Winrolla",
+    "has_screenshot": true,
+    "approving_admin": "wettelitemod",
+    "campaign_source": "",
+    "ticket_date": "2026-03-25T17:17:43.838000+00:00",
+    "first_seen_at": "2026-03-25T20:01:00.341649+00:00"
+  },
+  "closed-0123_1486419953778299141": {
+    "status": "To be checked",
+    "signal": "",
+    "user": "michael.j7230",
+    "campaign": "Winrolla",
+    "has_screenshot": true,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-25T17:42:13.828000+00:00",
+    "first_seen_at": "2026-03-25T20:01:00.341652+00:00"
   }
 }
