@@ -531,6 +531,10 @@ def apply_exclusions_and_overrides(result: dict, messages: list[dict] | None,
         if not result.get("ticket_date") and override.get("ticket_date"):
             result["ticket_date"] = override["ticket_date"]
 
+        # Always carry first_seen_at forward from overrides
+        if override.get("first_seen_at"):
+            result["first_seen_at"] = override["first_seen_at"]
+
 
 def analyze_transcript(html_bytes: bytes, filename: str,
                        manual_overrides: dict | None = None) -> dict:
@@ -825,9 +829,9 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
     total_approved = sum(1 for r in results if r["approval_status"] == "Approved")
     total_check    = sum(1 for r in results if r["approval_status"] == "To be checked")
 
-    # Last-24h stats
+    # Last-24h stats — use first_seen_at (when we discovered it) with ticket_date as fallback
     def is_new(r):
-        d = r.get("ticket_date", "")
+        d = r.get("first_seen_at") or r.get("ticket_date", "")
         return bool(d and d >= cutoff_24h)
 
     new_approved    = [r for r in results if r["approval_status"] == "Approved" and is_new(r)]
@@ -1250,6 +1254,7 @@ def main():
                 "approving_admin": r["approving_admin"],
                 "campaign_source": r.get("campaign_source", ""),
                 "ticket_date": r.get("ticket_date", ""),
+                "first_seen_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             }
         elif r.get("ticket_date") and not updated_overrides[t].get("ticket_date"):
             updated_overrides[t]["ticket_date"] = r["ticket_date"]
@@ -1312,7 +1317,7 @@ def main():
     if TG_BOT_TOKEN and TG_CHAT_ID and not skip_telegram:
         cutoff_24h = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=24)).isoformat()
         def is_new(r):
-            d = r.get("ticket_date", "")
+            d = r.get("first_seen_at") or r.get("ticket_date", "")
             return bool(d and d >= cutoff_24h)
 
         u_reg   = count_unique_registrations(results)
