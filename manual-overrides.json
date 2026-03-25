@@ -9315,7 +9315,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-20T17:05:28.111000+00:00"
+    "ticket_date": "2026-03-20T17:05:28.111000+00:00",
+    "telegram_sent_at": "2026-03-25T08:09:34.159832+00:00"
   },
   "closed-0083_1484863114426974279": {
     "status": "To be checked",
@@ -9325,7 +9326,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "",
-    "ticket_date": "2026-03-21T10:35:54.372000+00:00"
+    "ticket_date": "2026-03-21T10:35:54.372000+00:00",
+    "telegram_sent_at": "2026-03-25T08:09:33.764916+00:00"
   },
   "closed-0084_1484876366640840844": {
     "status": "To be checked",
@@ -9335,7 +9337,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "",
-    "ticket_date": "2026-03-21T11:28:33.862000+00:00"
+    "ticket_date": "2026-03-21T11:28:33.862000+00:00",
+    "telegram_sent_at": "2026-03-25T08:09:32.967864+00:00"
   },
   "closed-0089_1484986961956438096": {
     "status": "To be checked",
@@ -9345,7 +9348,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-21T18:48:02.242000+00:00"
+    "ticket_date": "2026-03-21T18:48:02.242000+00:00",
+    "telegram_sent_at": "2026-03-25T08:09:38.480508+00:00"
   },
   "einzahlung-promo-4_1484863114426974279": {
     "status": "Excluded (Promo)",
@@ -9365,7 +9369,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-21T13:07:20.433000+00:00"
+    "ticket_date": "2026-03-21T13:07:20.433000+00:00",
+    "telegram_sent_at": "2026-03-25T08:09:34.665097+00:00"
   },
   "closed-0090_1485021656777756692": {
     "status": "To be checked",
@@ -9375,7 +9380,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-21T21:05:53.920000+00:00"
+    "ticket_date": "2026-03-21T21:05:53.920000+00:00",
+    "telegram_sent_at": "2026-03-25T08:09:38.078300+00:00"
   },
   "einzahlung-promo-2_1484598762876965037": {
     "status": "Excluded (Promo)",
@@ -9475,7 +9481,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "",
-    "ticket_date": "2026-03-21T23:39:17.904000+00:00"
+    "ticket_date": "2026-03-21T23:39:17.904000+00:00",
+    "telegram_sent_at": "2026-03-25T08:09:38.887707+00:00"
   },
   "einzahlung-promo-11_1485060261131063337": {
     "status": "Excluded (Promo)",
@@ -9495,7 +9502,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-21T08:58:39.278000+00:00"
+    "ticket_date": "2026-03-21T08:58:39.278000+00:00",
+    "telegram_sent_at": "2026-03-25T08:09:39.377812+00:00"
   },
   "closed-0082_1484860064639615080": {
     "status": "Approved",
@@ -9525,7 +9533,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-20T21:06:40.027000+00:00"
+    "ticket_date": "2026-03-20T21:06:40.027000+00:00",
+    "telegram_sent_at": "2026-03-25T08:09:44.258395+00:00"
   },
   "closed-0077_1484673918362058802": {
     "status": "Approved",
@@ -9545,7 +9554,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-20T19:17:27.141000+00:00"
+    "ticket_date": "2026-03-20T19:17:27.141000+00:00",
+    "telegram_sent_at": "2026-03-25T08:09:43.452608+00:00"
   },
   "closed-0073_1484610900093698100": {
     "status": "To be checked",
@@ -9555,7 +9565,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-20T17:53:44.880000+00:00"
+    "ticket_date": "2026-03-20T17:53:44.880000+00:00",
+    "telegram_sent_at": "2026-03-25T08:09:39.878394+00:00"
   },
   "closed-0074_1484622853000138843": {
     "status": "To be checked",
@@ -9565,7 +9576,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "",
-    "ticket_date": "2026-03-20T18:41:11.696000+00:00"
+    "ticket_date": "2026-03-20T18:41:11.696000+00:00",
+    "telegram_sent_at": "2026-03-25T08:09:48.930263+00:00"
   },
   "closed-0068_1484458626121728062": {
     "status": "Not Approved",
@@ -9585,7 +9597,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-20T12:39:28.565000+00:00"
+    "ticket_date": "2026-03-20T12:39:28.565000+00:00",
+    "telegram_sent_at": "2026-03-25T08:09:43.857807+00:00"
   },
   "closed-0065_1483856554343006220": {
     "status": "Not Approved",
@@ -9635,7 +9648,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-20T07:50:13.838000+00:00"
+    "ticket_date": "2026-03-20T07:50:13.838000+00:00",
+    "telegram_sent_at": "2026-03-25T08:09:44.663616+00:00"
   },
   "closed-0081_1484856030952427613": {
     "status": "To be checked",
@@ -9645,7 +9659,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-21T10:07:45.587000+00:00"
+    "ticket_date": "2026-03-21T10:07:45.587000+00:00",
+    "telegram_sent_at": "2026-03-25T08:09:48.543629+00:00"
   },
   "closed-0066_1484385294915473499": {
     "status": "Excluded (Oddify)",
@@ -9665,6 +9680,7 @@
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-16T09:45:12.004000+00:00"
+    "ticket_date": "2026-03-16T09:45:12.004000+00:00",
+    "telegram_sent_at": "2026-03-25T08:09:45.068676+00:00"
   }
 }
