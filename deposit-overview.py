@@ -1293,9 +1293,22 @@ def main():
 
     # Send Telegram notification
     # SKIP_TELEGRAM=true when triggered by bot button presses (dashboard refresh only)
-    # Only scheduled runs (every 6h) send actual Telegram messages
+    # Also enforces once-per-day limit: only one Telegram blast per calendar day (UTC)
     skip_telegram = os.environ.get("SKIP_TELEGRAM", "false").lower() == "true"
     to_check_items = [r for r in results if r["approval_status"] == "To be checked"]
+
+    # Once-per-day guard: check if we already sent today
+    today_utc = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
+    _state_path = Path("manual-overrides.json")
+    try:
+        _state_data = json.loads(_state_path.read_text()) if _state_path.exists() else {}
+    except Exception:
+        _state_data = {}
+    last_sent_date = _state_data.get("_state", {}).get("last_telegram_date", "")
+    if last_sent_date == today_utc and not skip_telegram:
+        log(f"📱 Telegram: already sent today ({today_utc}) — skipping to avoid flood")
+        skip_telegram = True
+
     if TG_BOT_TOKEN and TG_CHAT_ID and not skip_telegram:
         cutoff_24h = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=24)).isoformat()
         def is_new(r):
@@ -1391,12 +1404,14 @@ def main():
             except Exception as e:
                 log(f"⚠️  Telegram inline msg error: {e}")
 
-        # Save updated telegram_sent_at flags back to manual-overrides.json
-        if newly_sent > 0:
-            try:
-                overrides_path.write_text(json.dumps(current_overrides, indent=2, ensure_ascii=False))
-            except Exception as e:
-                log(f"⚠️  Could not save telegram_sent_at flags: {e}")
+        # Save updated telegram_sent_at flags + daily state back to manual-overrides.json
+        try:
+            if "_state" not in current_overrides:
+                current_overrides["_state"] = {}
+            current_overrides["_state"]["last_telegram_date"] = today_utc
+            overrides_path.write_text(json.dumps(current_overrides, indent=2, ensure_ascii=False))
+        except Exception as e:
+            log(f"⚠️  Could not save telegram state flags: {e}")
 
         log(f"📱 Telegram: summary + {newly_sent} new inline ticket(s) sent ({len(to_check_items) - newly_sent} skipped, already sent)")
 
