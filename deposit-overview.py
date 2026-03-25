@@ -1093,20 +1093,40 @@ def main():
     html_files = [f for f in all_files if f["name"].lower().endswith(".html")]
     log(f"Found {len(html_files)} HTML transcripts total across both folders (before dedup)")
 
-    # Deduplicate: each ticket exists as both "closed-XXXX_UID" and "prefix-XXXX_UID"
-    # Group by (ticket_number, user_id), prefer the "closed-" version (most complete)
+    # Deduplicate across both old and new folder naming conventions:
+    #   Old format: "closed-0042_1001174280966525060.html"   → (ticket_num, user_id)
+    #   New format: "serverID:channelID:closed-0062.html"    → (ticket_num, channel_id)
+    # Prefer "closed-" prefix over "support-" or others. Also handle TicketTool
+    # duplicates where the exact same file appears twice in the new folder.
     dedup: dict[str, dict] = {}
     for f in html_files:
-        m = re.match(r'^([a-zA-Z\-]+)-(\d+)_(\d+)\.html$', f["name"])
-        if not m:
-            key = f["name"]  # fallback: keep as-is
-            if key not in dedup:
+        name = f["name"]
+
+        # New format: serverID:channelID:ticketname.html
+        m_new = re.match(r'^\d+:(\d+):([a-zA-Z\-]+)-(\d+)\.html$', name)
+        if m_new:
+            channel_id, prefix, ticket_num = m_new.group(1), m_new.group(2), m_new.group(3)
+            # Normalise filename so the rest of the pipeline sees "closed-XXXX_channelID.html"
+            normalised = f"{prefix}-{ticket_num}_{channel_id}.html"
+            f = dict(f, name=normalised)  # shallow copy with normalised name
+            key = f"{ticket_num}_{channel_id}"
+            if key not in dedup or prefix == "closed":
                 dedup[key] = f
             continue
-        prefix, ticket_num, user_id = m.group(1), m.group(2), m.group(3)
-        key = f"{ticket_num}_{user_id}"
-        if key not in dedup or prefix == "closed":
-            dedup[key] = f
+
+        # Old format: prefix-XXXX_userID.html
+        m_old = re.match(r'^([a-zA-Z\-]+)-(\d+)_(\d+)\.html$', name)
+        if m_old:
+            prefix, ticket_num, user_id = m_old.group(1), m_old.group(2), m_old.group(3)
+            key = f"{ticket_num}_{user_id}"
+            if key not in dedup or prefix == "closed":
+                dedup[key] = f
+            continue
+
+        # Fallback: keep as-is but avoid exact duplicates
+        if name not in dedup:
+            dedup[name] = f
+
     html_files = list(dedup.values())
     log(f"After dedup: {len(html_files)} unique tickets")
 
