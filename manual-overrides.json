@@ -9772,5 +9772,31 @@
     "ticket_date": "2026-03-16T09:45:12.004000+00:00",
     "telegram_sent_at": "2026-03-25T08:09:45.068676+00:00",
     "reviewed_by": "admin"
+  },
+  "closed-0071_1484597409064419409": {
+    "status": "Not Approved",
+    "signal": "",
+    "user": "",
+    "campaign": "Winnerz",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-20T17:00:05.893000+00:00",
+    "first_seen_at": "2026-03-25T15:54:51.966546+00:00"
+  },
+  "support-0093_1485293525997322471": {
+    "status": "To be checked",
+    "signal": "",
+    "user": "wave1871",
+    "campaign": "Betlabel",
+    "has_screenshot": true,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-22T15:06:12.725000+00:00",
+    "first_seen_at": "2026-03-25T15:54:51.966563+00:00",
+    "telegram_sent_at": "2026-03-25T15:54:55.044192+00:00"
+  },
+  "_state": {
+    "last_telegram_date": "2026-03-25"
   }
 }
