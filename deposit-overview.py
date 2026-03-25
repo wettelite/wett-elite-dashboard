@@ -50,7 +50,11 @@ except ImportError:
 # ---------------------------------------------------------------------------
 SCRIPT_DIR = Path(__file__).parent
 
-GDRIVE_TRANSCRIPTS_FOLDER_ID = "1npYHrpWLiq234qP1Ix0ECbU2VC9iDUEq"
+# Old bulk-exported folder (historical, no longer updated)
+GDRIVE_FOLDER_OLD = "1npYHrpWLiq234qP1Ix0ECbU2VC9iDUEq"
+# New folder where TicketTool now auto-uploads transcripts
+GDRIVE_FOLDER_NEW = "1UuKbmwxmEgYqNzM2V3QzquukW4N6ZV5A"
+GDRIVE_TRANSCRIPTS_FOLDER_IDS = [GDRIVE_FOLDER_OLD, GDRIVE_FOLDER_NEW]
 
 OAUTH_CLIENT_FILE    = SCRIPT_DIR / "oauth-client.json"
 OAUTH_TOKEN_FILE     = SCRIPT_DIR / "oauth-token.json"
@@ -1076,10 +1080,18 @@ def main():
     drive_svc, sheets_svc, creds = get_services()
     token = creds.token
 
-    log("Listing transcripts folder...")
-    all_files = drive_list_files(drive_svc, GDRIVE_TRANSCRIPTS_FOLDER_ID)
+    log("Listing transcripts folders (old + new)...")
+    all_files = []
+    seen_ids = set()
+    for folder_id in GDRIVE_TRANSCRIPTS_FOLDER_IDS:
+        folder_files = drive_list_files(drive_svc, folder_id)
+        for f in folder_files:
+            if f["id"] not in seen_ids:
+                seen_ids.add(f["id"])
+                all_files.append(f)
+        log(f"  Folder {folder_id}: {len(folder_files)} files")
     html_files = [f for f in all_files if f["name"].lower().endswith(".html")]
-    log(f"Found {len(html_files)} HTML transcripts (before dedup)")
+    log(f"Found {len(html_files)} HTML transcripts total across both folders (before dedup)")
 
     # Deduplicate: each ticket exists as both "closed-XXXX_UID" and "prefix-XXXX_UID"
     # Group by (ticket_number, user_id), prefer the "closed-" version (most complete)
