@@ -1,21 +1,23 @@
 {
   "closed-0065_1483169063248330895": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "",
     "campaign": "Unknown",
     "has_screenshot": false,
     "approving_admin": "",
-    "ticket_date": "2026-03-18T15:56:11.870000+00:00"
+    "ticket_date": "2026-03-18T15:56:11.870000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0064_722226788511645696": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "",
     "campaign": "Unknown",
     "has_screenshot": false,
     "approving_admin": "",
-    "ticket_date": "2026-03-17T22:51:01.461000+00:00"
+    "ticket_date": "2026-03-17T22:51:01.461000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0016_320281731934584834": {
     "status": "Not Approved",
@@ -108,13 +110,14 @@
     "ticket_date": "2026-03-19T11:26:11.762000+00:00"
   },
   "closed-0068_978363855992406016": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "",
     "campaign": "Winnerz",
     "has_screenshot": false,
     "approving_admin": "",
-    "ticket_date": "2026-03-20T07:48:36.883000+00:00"
+    "ticket_date": "2026-03-20T07:48:36.883000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0727_267060376359796736": {
     "status": "Not Approved",
@@ -135,14 +138,15 @@
     "ticket_date": "2026-03-14T15:15:18.769000+00:00"
   },
   "closed-0066_910515066846199868": {
-    "status": "Excluded (Oddify)",
-    "signal": "\"ok top. wie kamst du in die gruppe? über koenisch?\"",
+    "status": "Approved",
+    "signal": "approved",
     "user": "74finnnn",
     "campaign": "Winnerz",
     "has_screenshot": true,
     "approving_admin": "adonis39.",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-20T02:57:13.341000+00:00"
+    "ticket_date": "2026-03-20T02:57:13.341000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0729_933302930780586024": {
     "status": "Not Approved",
@@ -263,7 +267,7 @@
   },
   "closed-0804_1079538708514091048": {
     "status": "Approved",
-    "signal": "\"hab dich freigeschaltet bro 💪   viel glück\"",
+    "signal": "\"hab dich freigeschaltet bro \ud83d\udcaa   viel gl\u00fcck\"",
     "user": "tomluciani",
     "campaign": "Winnerz",
     "has_screenshot": true,
@@ -317,7 +321,7 @@
   },
   "closed-0807_692158647161323610": {
     "status": "Approved",
-    "signal": "\"passt bro, viel glück 🙏  hab dich freigeschaltet\"",
+    "signal": "\"passt bro, viel gl\u00fcck \ud83d\ude4f  hab dich freigeschaltet\"",
     "user": "tunnlp",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -407,7 +411,7 @@
   },
   "closed-0020_1067067197207347283": {
     "status": "Approved",
-    "signal": "\"topp, hab dich freigeschaltet💪\"",
+    "signal": "\"topp, hab dich freigeschaltet\ud83d\udcaa\"",
     "user": "cedi_dr",
     "campaign": "Winnerz",
     "has_screenshot": true,
@@ -433,13 +437,14 @@
     "ticket_date": "2026-03-20T21:45:43.983000+00:00"
   },
   "closed-0074_462209494919938049": {
-    "status": "Approved",
-    "signal": "manually checked via Discord Flag",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "53marcel",
     "campaign": "Winnerz",
     "has_screenshot": true,
     "approving_admin": "",
-    "ticket_date": "2026-03-20T18:41:11.696000+00:00"
+    "ticket_date": "2026-03-20T18:41:11.696000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0255_1335235051809407079": {
     "status": "Approved",
@@ -451,13 +456,14 @@
     "ticket_date": "2026-03-09T19:08:05.885000+00:00"
   },
   "closed-0059_1482142563438956657": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "",
     "campaign": "Betlabel",
     "has_screenshot": false,
     "approving_admin": "",
-    "ticket_date": "2026-03-14T16:26:34.026000+00:00"
+    "ticket_date": "2026-03-14T16:26:34.026000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0837_1256009732288811060": {
     "status": "Not Approved",
@@ -616,14 +622,15 @@
     "ticket_date": "2026-03-20T17:05:28.111000+00:00"
   },
   "closed-0072_381528046596784136": {
-    "status": "Excluded (Oddify)",
-    "signal": "Oddify! does not count for our registrations",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "basti.pl",
     "campaign": "Winnerz",
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-20T17:05:28.111000+00:00"
+    "ticket_date": "2026-03-20T17:05:28.111000+00:00",
+    "reviewed_by": "admin"
   },
   "einzahlung-promo-3_243919236269867009": {
     "status": "Excluded (Promo)",
@@ -726,7 +733,7 @@
   },
   "closed-0029_1386704133809242192": {
     "status": "Approved",
-    "signal": "\"bist freigeschaltet 💪\"",
+    "signal": "\"bist freigeschaltet \ud83d\udcaa\"",
     "user": "mehmettsv",
     "campaign": "Winnerz",
     "has_screenshot": true,
@@ -743,13 +750,14 @@
     "ticket_date": "2026-03-21T12:36:05.152000+00:00"
   },
   "closed-0073_1126223765546737724": {
-    "status": "Approved",
-    "signal": "manually checked via Discord Flag",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "dario091180",
     "campaign": "Winnerz",
     "has_screenshot": true,
     "approving_admin": "",
-    "ticket_date": "2026-03-20T17:53:44.880000+00:00"
+    "ticket_date": "2026-03-20T17:53:44.880000+00:00",
+    "reviewed_by": "admin"
   },
   "koenisch-0852_1295734076711374869": {
     "status": "Approved",
@@ -862,7 +870,7 @@
     "ticket_date": "2026-03-19T09:53:23.805000+00:00"
   },
   "closed-0074_455069530906165248": {
-    "status": "Excluded",
+    "status": "Excluded (No FTD)",
     "signal": "no_ftd",
     "user": "erion2356",
     "campaign": "Betlabel",
@@ -870,7 +878,8 @@
     "approving_admin": "",
     "ticket_date": "2026-03-09T17:45:16.707000+00:00",
     "telegram_sent_at": "2026-03-24T15:55:42.290421+00:00",
-    "campaign_source": "vision"
+    "campaign_source": "vision",
+    "reviewed_by": "admin"
   },
   "closed-0021_313357681739956224": {
     "status": "Not Approved",
@@ -1010,13 +1019,14 @@
   },
   "closed-0070_1308438494158393395": {
     "status": "Approved",
-    "signal": "manually checked via Discord Flag",
+    "signal": "approved",
     "user": "felixx0845",
     "campaign": "Winnerz",
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-20T12:39:28.565000+00:00"
+    "ticket_date": "2026-03-20T12:39:28.565000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0815_1453522737565012152": {
     "status": "Approved",
@@ -1224,7 +1234,7 @@
   },
   "koenisch-0858_1326899251053330508": {
     "status": "Approved",
-    "signal": "\"bist freigeschaltet, viel spaß\"",
+    "signal": "\"bist freigeschaltet, viel spa\u00df\"",
     "user": "thisismula300",
     "campaign": "Winnerz",
     "has_screenshot": true,
@@ -1278,7 +1288,7 @@
   },
   "koenisch-0856_509378064212426754": {
     "status": "Approved",
-    "signal": "\"bist freigeschaltet, viel spaß\"",
+    "signal": "\"bist freigeschaltet, viel spa\u00df\"",
     "user": "fsk16.",
     "campaign": "Winnerz",
     "has_screenshot": true,
@@ -1360,18 +1370,19 @@
     "ticket_date": "2026-03-20T18:22:17.125000+00:00"
   },
   "closed-0069_704488163761979473": {
-    "status": "Approved",
-    "signal": "manually checked via Discord Flag",
+    "status": "Excluded (Oddify)",
+    "signal": "oddify",
     "user": "k.gyf",
     "campaign": "Betlabel",
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-20T07:50:13.838000+00:00"
+    "ticket_date": "2026-03-20T07:50:13.838000+00:00",
+    "reviewed_by": "admin"
   },
   "einzahlung-promo-10_840109758417862677": {
     "status": "Excluded (Promo)",
-    "signal": "\"yes, perfekt bro, viel glück\"",
+    "signal": "\"yes, perfekt bro, viel gl\u00fcck\"",
     "user": "kongojohn_",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -1381,7 +1392,7 @@
   },
   "closed-0091_840109758417862677": {
     "status": "Approved",
-    "signal": "\"yes, perfekt bro, viel glück\"",
+    "signal": "\"yes, perfekt bro, viel gl\u00fcck\"",
     "user": "kongojohn_",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -1791,17 +1802,18 @@
     "ticket_date": "2026-03-10T08:12:50.872000+00:00"
   },
   "closed-0059_1480615484444639363": {
-    "status": "Approved",
-    "signal": "\"top, bist freigeschaltet\"",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "kale_010183",
     "campaign": "Betlabel",
     "has_screenshot": true,
     "approving_admin": "wettelitemod",
-    "ticket_date": "2026-03-09T17:39:07.955000+00:00"
+    "ticket_date": "2026-03-09T17:39:07.955000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0006_950842189259341845": {
     "status": "Approved",
-    "signal": "emoji in message: ✅",
+    "signal": "emoji in message: \u2705",
     "user": "7rippy",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -1940,12 +1952,13 @@
   },
   "support-0076_798115848438284328": {
     "status": "Approved",
-    "signal": "manually checked via Discord Flag",
+    "signal": "approved",
     "user": "miniuhl",
     "campaign": "Betlabel",
     "has_screenshot": true,
     "approving_admin": "",
-    "ticket_date": "2026-03-20T21:06:40.027000+00:00"
+    "ticket_date": "2026-03-20T21:06:40.027000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0007_426752971506712587": {
     "status": "Not Approved",
@@ -2354,7 +2367,7 @@
   },
   "closed-0117_1480613087819333644": {
     "status": "Approved",
-    "signal": "emoji in message: ✅",
+    "signal": "emoji in message: \u2705",
     "user": "poldi0503",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -2480,7 +2493,7 @@
   },
   "closed-0586_425625892945920002": {
     "status": "Excluded (Oddify)",
-    "signal": "\"okay wait, ich frage mal kurz nach  wie hieß der von dem der ref-link war?\"",
+    "signal": "\"okay wait, ich frage mal kurz nach  wie hie\u00df der von dem der ref-link war?\"",
     "user": "chapone",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -2515,13 +2528,14 @@
     "ticket_date": "2026-03-09T17:36:56.811000+00:00"
   },
   "closed-0061_1170804233143062601": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "",
     "campaign": "Betlabel",
     "has_screenshot": false,
     "approving_admin": "",
-    "ticket_date": "2026-03-09T17:39:35.374000+00:00"
+    "ticket_date": "2026-03-09T17:39:35.374000+00:00",
+    "reviewed_by": "admin"
   },
   "koenisch-0854_798115848438284328": {
     "status": "Approved",
@@ -2552,31 +2566,34 @@
     "ticket_date": "2026-03-21T21:05:53.920000+00:00"
   },
   "closed-0064_299329414959988736": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "",
     "campaign": "Betlabel",
     "has_screenshot": false,
     "approving_admin": "",
-    "ticket_date": "2026-03-09T17:39:55.071000+00:00"
+    "ticket_date": "2026-03-09T17:39:55.071000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0065_491009551420882947": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "",
     "campaign": "Betlabel",
     "has_screenshot": false,
     "approving_admin": "",
-    "ticket_date": "2026-03-09T17:40:20.184000+00:00"
+    "ticket_date": "2026-03-09T17:40:20.184000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0072_437678560958873602": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "",
     "campaign": "Betlabel",
     "has_screenshot": false,
     "approving_admin": "",
-    "ticket_date": "2026-03-09T17:44:12.505000+00:00"
+    "ticket_date": "2026-03-09T17:44:12.505000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0077_1326231590283640918": {
     "status": "Not Approved",
@@ -2588,31 +2605,34 @@
     "ticket_date": "2026-03-09T17:45:30.546000+00:00"
   },
   "closed-0066_1217121391103578279": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Approved",
+    "signal": "approved",
     "user": "",
-    "campaign": "Betlabel",
+    "campaign": "Winnerz",
     "has_screenshot": false,
     "approving_admin": "",
-    "ticket_date": "2026-03-09T17:41:13.372000+00:00"
+    "ticket_date": "2026-03-09T17:41:13.372000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0070_1343339411328471131": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Approved",
+    "signal": "approved",
     "user": "",
-    "campaign": "Betlabel",
+    "campaign": "Winnerz",
     "has_screenshot": false,
     "approving_admin": "",
-    "ticket_date": "2026-03-09T17:43:29.898000+00:00"
+    "ticket_date": "2026-03-09T17:43:29.898000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0076_762222663413792769": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Approved",
+    "signal": "approved",
     "user": "",
     "campaign": "Betlabel",
     "has_screenshot": false,
     "approving_admin": "",
-    "ticket_date": "2026-03-09T17:45:30.791000+00:00"
+    "ticket_date": "2026-03-09T17:45:30.791000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0081_875503006358048849": {
     "status": "Not Approved",
@@ -2633,13 +2653,14 @@
     "ticket_date": "2026-03-09T17:46:01.216000+00:00"
   },
   "closed-0073_831508049906630747": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "",
     "campaign": "Betlabel",
     "has_screenshot": false,
     "approving_admin": "",
-    "ticket_date": "2026-03-09T17:44:41.828000+00:00"
+    "ticket_date": "2026-03-09T17:44:41.828000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0082_509054732111970327": {
     "status": "Not Approved",
@@ -6130,7 +6151,7 @@
   },
   "closed-0713_1482146883689517237": {
     "status": "Approved",
-    "signal": "\"bist freigeschaltet bruder  viel glück 💪\"",
+    "signal": "\"bist freigeschaltet bruder  viel gl\u00fcck \ud83d\udcaa\"",
     "user": "obii_to_3",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -6274,7 +6295,7 @@
   },
   "closed-0670_1202736035482697748": {
     "status": "Approved",
-    "signal": "\"top, kannst mir kurz screenshot von transaktionshistorie zeigen, dass ich weiß, \"",
+    "signal": "\"top, kannst mir kurz screenshot von transaktionshistorie zeigen, dass ich wei\u00df, \"",
     "user": "giani123._21362",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -6318,14 +6339,15 @@
     "ticket_date": "2026-03-13T13:29:11.900000+00:00"
   },
   "closed-0062_1232996292456615958": {
-    "status": "Approved",
-    "signal": "manually checked via Discord Flag",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "seki738",
     "campaign": "Betlabel",
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-16T09:45:12.004000+00:00"
+    "ticket_date": "2026-03-16T09:45:12.004000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0711_1447788684748525569": {
     "status": "Approved",
@@ -6440,7 +6462,7 @@
   },
   "closed-0526_1300804195791933513": {
     "status": "Approved",
-    "signal": "emoji in message: 👍",
+    "signal": "emoji in message: \ud83d\udc4d",
     "user": "meerak_07",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -6458,7 +6480,7 @@
   },
   "closed-0025_505472193463844917": {
     "status": "Approved",
-    "signal": "\"hey, was geht bro   sorry für die umstände, dadurch dass die einzahlung so früh \"",
+    "signal": "\"hey, was geht bro   sorry f\u00fcr die umst\u00e4nde, dadurch dass die einzahlung so fr\u00fch \"",
     "user": "nic0_275",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -6584,12 +6606,13 @@
   },
   "closed-0075_795438072220090400": {
     "status": "Approved",
-    "signal": "manually checked via Discord Flag",
+    "signal": "approved",
     "user": "toni749",
     "campaign": "Winnerz",
     "has_screenshot": true,
     "approving_admin": "",
-    "ticket_date": "2026-03-20T19:17:27.141000+00:00"
+    "ticket_date": "2026-03-20T19:17:27.141000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0429_970800736772456519": {
     "status": "Not Approved",
@@ -6629,7 +6652,7 @@
   },
   "closed-0463_1342461137031266355": {
     "status": "Approved",
-    "signal": "\"<@1342461137031266355>   bro du verpasst ganzen spaß\"",
+    "signal": "\"<@1342461137031266355>   bro du verpasst ganzen spa\u00df\"",
     "user": "tobi035158",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -8167,13 +8190,14 @@
     "ticket_date": "2026-03-14T12:44:06.463000+00:00"
   },
   "closed-0061_982814606030422086": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "",
     "campaign": "Unknown",
     "has_screenshot": false,
     "approving_admin": "",
-    "ticket_date": "2026-03-16T09:02:17.107000+00:00"
+    "ticket_date": "2026-03-16T09:02:17.107000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0723_1424744153228513413": {
     "status": "Not Approved",
@@ -8269,7 +8293,7 @@
   },
   "dm-approved-jesusplayerrl": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "jesusplayerrl",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8279,7 +8303,7 @@
   },
   "dm-approved-lenny1511_": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "lenny1511_",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8289,7 +8313,7 @@
   },
   "dm-approved-uwekubikmeter_": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "uwekubikmeter_",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8299,7 +8323,7 @@
   },
   "dm-approved-.zzio": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": ".zzio",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8309,7 +8333,7 @@
   },
   "dm-approved-marlboro_gold.pl": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "marlboro_gold.pl",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8319,7 +8343,7 @@
   },
   "dm-approved-mayor1shi": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "mayor1shi",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8329,7 +8353,7 @@
   },
   "dm-approved-marlon.frn": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "marlon.frn",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8339,7 +8363,7 @@
   },
   "dm-approved-rick11__": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "rick11__",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8349,7 +8373,7 @@
   },
   "dm-approved-aragable": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "aragable",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8359,7 +8383,7 @@
   },
   "dm-approved-zertzen.": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "zertzen.",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8369,7 +8393,7 @@
   },
   "dm-approved-guccidontlxse": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "guccidontlxse",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8379,7 +8403,7 @@
   },
   "dm-approved-gregor5071": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "gregor5071",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8389,7 +8413,7 @@
   },
   "dm-approved-laurin1857": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "laurin1857",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8399,7 +8423,7 @@
   },
   "dm-approved-robrob.23_": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "robrob.23_",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8409,7 +8433,7 @@
   },
   "dm-approved-fluushix": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "fluushix",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8419,7 +8443,7 @@
   },
   "dm-approved-patronis": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "patronis",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8429,7 +8453,7 @@
   },
   "dm-approved-dragonfly1299": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "dragonfly1299",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8439,7 +8463,7 @@
   },
   "dm-approved-kinh231": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "kinh231",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8449,7 +8473,7 @@
   },
   "dm-approved-cano.8888": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "cano.8888",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8459,7 +8483,7 @@
   },
   "dm-approved-chakalaka12345": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "chakalaka12345",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8469,7 +8493,7 @@
   },
   "dm-approved-eno3006": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "eno3006",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8479,7 +8503,7 @@
   },
   "dm-approved-kampfbrot20": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "kampfbrot20",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8489,7 +8513,7 @@
   },
   "dm-approved-duschi_12.": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "duschi_12.",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8499,7 +8523,7 @@
   },
   "dm-approved-lapasion1267": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "lapasion1267",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8509,7 +8533,7 @@
   },
   "dm-approved-willywonka190424": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "willywonka190424",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8519,7 +8543,7 @@
   },
   "dm-approved-abdxllah77": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "abdxllah77",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8529,7 +8553,7 @@
   },
   "dm-approved-furkanabi66": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "furkanabi66",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8539,7 +8563,7 @@
   },
   "dm-approved-andy_81227": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "andy_81227",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8549,7 +8573,7 @@
   },
   "dm-approved-anton317.": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "anton317.",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8559,7 +8583,7 @@
   },
   "dm-approved-mister.elon.musk": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "mister.elon.musk",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8569,7 +8593,7 @@
   },
   "dm-approved-moruk33": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "moruk33",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8579,7 +8603,7 @@
   },
   "dm-approved-luhnaldo81_92407": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "luhnaldo81_92407",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8589,7 +8613,7 @@
   },
   "dm-approved-nadal0023": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "nadal0023",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8599,7 +8623,7 @@
   },
   "dm-approved-elcapitano19.": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "elcapitano19.",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8609,7 +8633,7 @@
   },
   "dm-approved-ruzzix12.": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "ruzzix12.",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8619,7 +8643,7 @@
   },
   "dm-approved-gc8297": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "gc8297",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8629,7 +8653,7 @@
   },
   "dm-approved-dakiii15": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "dakiii15",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8639,7 +8663,7 @@
   },
   "dm-approved-wadim0608": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "wadim0608",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8649,7 +8673,7 @@
   },
   "dm-approved-fkanalz": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "fkanalz",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8659,7 +8683,7 @@
   },
   "dm-approved-hejeieveuv": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "hejeieveuv",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8669,7 +8693,7 @@
   },
   "dm-approved-sonny508": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "sonny508",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8679,7 +8703,7 @@
   },
   "dm-approved-josefxxx": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "josefxxx",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8689,7 +8713,7 @@
   },
   "dm-approved-bojanmlvc": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "bojanmlvc",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8699,7 +8723,7 @@
   },
   "dm-approved-creed9817": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "creed9817",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8709,7 +8733,7 @@
   },
   "dm-approved-prince_231010": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "prince_231010",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8719,7 +8743,7 @@
   },
   "dm-approved-jjkkpro": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "jjkkpro",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8729,7 +8753,7 @@
   },
   "dm-approved-musti5663": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "musti5663",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8739,7 +8763,7 @@
   },
   "dm-approved-yvc8": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "yvc8",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8749,7 +8773,7 @@
   },
   "dm-approved-tugkiii": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "tugkiii",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8759,7 +8783,7 @@
   },
   "dm-approved-milchmichi.": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "milchmichi.",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8769,7 +8793,7 @@
   },
   "dm-approved-dplug21220": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "dplug21220",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8779,7 +8803,7 @@
   },
   "dm-approved-chapalala": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "chapalala",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8789,7 +8813,7 @@
   },
   "dm-approved-user2112.": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "user2112.",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8799,7 +8823,7 @@
   },
   "dm-approved-bisaw1087": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "bisaw1087",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8809,7 +8833,7 @@
   },
   "dm-approved-lukeskywalker1701": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "lukeskywalker1701",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8819,7 +8843,7 @@
   },
   "dm-approved-achilles_2711": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "achilles_2711",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8829,7 +8853,7 @@
   },
   "dm-approved-ich09659": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "ich09659",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8839,7 +8863,7 @@
   },
   "dm-approved-orkinho.": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "orkinho.",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8849,7 +8873,7 @@
   },
   "dm-approved-keerthi01126": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "keerthi01126",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8859,7 +8883,7 @@
   },
   "dm-approved-lixsprite": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "lixsprite",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8869,7 +8893,7 @@
   },
   "dm-approved-pilotluca.": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "pilotluca.",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8879,7 +8903,7 @@
   },
   "dm-approved-diyar00384": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "diyar00384",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8889,7 +8913,7 @@
   },
   "dm-approved-ares.1562": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "ares.1562",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8899,7 +8923,7 @@
   },
   "dm-approved-kdkdkdkd0073": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "kdkdkdkd0073",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8909,7 +8933,7 @@
   },
   "dm-approved-schmert_1905": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "schmert_1905",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8919,7 +8943,7 @@
   },
   "dm-approved-niqo777.": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "niqo777.",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8929,7 +8953,7 @@
   },
   "dm-approved-fainteqz": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "fainteqz",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8939,7 +8963,7 @@
   },
   "dm-approved-kirill006336": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "kirill006336",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8949,7 +8973,7 @@
   },
   "dm-approved-kurman12g": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "kurman12g",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8959,7 +8983,7 @@
   },
   "dm-approved-xanax6083": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "xanax6083",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8969,7 +8993,7 @@
   },
   "dm-approved-lukaiantonio": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "lukaiantonio",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8979,7 +9003,7 @@
   },
   "dm-approved-nilsooo8_13386": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "nilsooo8_13386",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8989,7 +9013,7 @@
   },
   "dm-approved-sanjivlo": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "sanjivlo",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -8999,7 +9023,7 @@
   },
   "dm-approved-ryzon704": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "ryzon704",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9009,7 +9033,7 @@
   },
   "dm-approved-m3rgim": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "m3rgim",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9019,7 +9043,7 @@
   },
   "dm-approved-999.luka": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "999.luka",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9029,7 +9053,7 @@
   },
   "dm-approved-sibbinulldreinull": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "sibbinulldreinull",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9039,7 +9063,7 @@
   },
   "dm-approved-tugra5418": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "tugra5418",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9049,7 +9073,7 @@
   },
   "dm-approved-soranasokan35": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "soranasokan35",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9059,7 +9083,7 @@
   },
   "dm-approved-yuqiistu": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "yuqiistu",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9069,7 +9093,7 @@
   },
   "dm-approved-nico.mhlr": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "nico.mhlr",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9079,7 +9103,7 @@
   },
   "dm-approved-abdiabi_": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "abdiabi_",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9089,7 +9113,7 @@
   },
   "dm-approved-sant1_scp": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "sant1_scp",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9099,7 +9123,7 @@
   },
   "dm-approved-ryan.reynolds.fanpage": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "ryan.reynolds.fanpage",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9109,7 +9133,7 @@
   },
   "dm-approved-el_padriinoo_78030": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "el_padriinoo_78030",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9119,7 +9143,7 @@
   },
   "dm-approved-r1cardo_02": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "r1cardo_02",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9129,7 +9153,7 @@
   },
   "dm-approved-nick.th01": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "nick.th01",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9139,7 +9163,7 @@
   },
   "dm-approved-amir_11.": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "amir_11.",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9149,7 +9173,7 @@
   },
   "dm-approved-kracher9899": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "kracher9899",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9159,7 +9183,7 @@
   },
   "dm-approved-minimolix8209": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "minimolix8209",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9169,7 +9193,7 @@
   },
   "dm-approved-andrej_bln": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "andrej_bln",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9179,7 +9203,7 @@
   },
   "dm-approved-meltex_cyb": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "meltex_cyb",
     "campaign": "Betlabel",
     "has_screenshot": false,
@@ -9189,7 +9213,7 @@
   },
   "dm-approved-koenisch9_73871": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "koenisch9_73871",
     "campaign": "Unknown",
     "has_screenshot": false,
@@ -9199,7 +9223,7 @@
   },
   "dm-approved-mohammed_skyknightgup_": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "mohammed_skyknightgup_",
     "campaign": "Unknown",
     "has_screenshot": false,
@@ -9209,7 +9233,7 @@
   },
   "dm-approved-esteban_gambadogs": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "esteban_gambadogs",
     "campaign": "Unknown",
     "has_screenshot": false,
@@ -9219,7 +9243,7 @@
   },
   "dm-approved-zonzo7": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "zonzo7",
     "campaign": "Unknown",
     "has_screenshot": false,
@@ -9229,7 +9253,7 @@
   },
   "dm-approved-rondamore": {
     "status": "Approved",
-    "signal": "Approved via DM — no ticket transcript",
+    "signal": "Approved via DM \u2014 no ticket transcript",
     "user": "rondamore",
     "campaign": "Unknown",
     "has_screenshot": false,
@@ -9238,14 +9262,15 @@
     "user_id": ""
   },
   "closed-0063_1483547204558786644": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "",
     "campaign": "Betlabel",
     "has_screenshot": false,
     "approving_admin": "",
     "campaign_source": "",
-    "ticket_date": "2026-03-17T19:26:57.275000+00:00"
+    "ticket_date": "2026-03-17T19:26:57.275000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0096_1485698991776600134": {
     "status": "Not Approved",
@@ -9308,15 +9333,16 @@
     "ticket_date": "2026-03-21T14:57:24.124000+00:00"
   },
   "closed-0072_1484598762876965037": {
-    "status": "To be checked",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "basti.pl",
     "campaign": "Winnerz",
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
     "ticket_date": "2026-03-20T17:05:28.111000+00:00",
-    "telegram_sent_at": "2026-03-25T08:09:34.159832+00:00"
+    "telegram_sent_at": "2026-03-25T08:09:34.159832+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0083_1484863114426974279": {
     "status": "To be checked",
@@ -9405,7 +9431,7 @@
   },
   "closed-0091_1485022843426312375": {
     "status": "Approved",
-    "signal": "\"yes, perfekt bro, viel glück\"",
+    "signal": "\"yes, perfekt bro, viel gl\u00fcck\"",
     "user": "kongojohn_",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -9526,15 +9552,16 @@
     "ticket_date": "2026-03-21T13:15:28.263000+00:00"
   },
   "closed-0076_1484659461934154032": {
-    "status": "To be checked",
-    "signal": "",
+    "status": "Approved",
+    "signal": "approved",
     "user": "miniuhl",
     "campaign": "Betlabel",
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
     "ticket_date": "2026-03-20T21:06:40.027000+00:00",
-    "telegram_sent_at": "2026-03-25T08:09:44.258395+00:00"
+    "telegram_sent_at": "2026-03-25T08:09:44.258395+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0077_1484673918362058802": {
     "status": "Approved",
@@ -9547,109 +9574,119 @@
     "ticket_date": "2026-03-20T22:04:06.854000+00:00"
   },
   "closed-0075_1484631978098823338": {
-    "status": "To be checked",
-    "signal": "",
+    "status": "Approved",
+    "signal": "approved",
     "user": "toni749",
     "campaign": "Winnerz",
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
     "ticket_date": "2026-03-20T19:17:27.141000+00:00",
-    "telegram_sent_at": "2026-03-25T08:09:43.452608+00:00"
+    "telegram_sent_at": "2026-03-25T08:09:43.452608+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0073_1484610900093698100": {
-    "status": "To be checked",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "dario091180",
     "campaign": "Winnerz",
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
     "ticket_date": "2026-03-20T17:53:44.880000+00:00",
-    "telegram_sent_at": "2026-03-25T08:09:39.878394+00:00"
+    "telegram_sent_at": "2026-03-25T08:09:39.878394+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0074_1484622853000138843": {
-    "status": "To be checked",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "53marcel",
     "campaign": "Winnerz",
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "",
     "ticket_date": "2026-03-20T18:41:11.696000+00:00",
-    "telegram_sent_at": "2026-03-25T08:09:48.930263+00:00"
+    "telegram_sent_at": "2026-03-25T08:09:48.930263+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0068_1484458626121728062": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "",
     "campaign": "Winnerz",
     "has_screenshot": false,
     "approving_admin": "",
     "campaign_source": "",
-    "ticket_date": "2026-03-20T07:48:36.883000+00:00"
+    "ticket_date": "2026-03-20T07:48:36.883000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0070_1484531823814901934": {
-    "status": "To be checked",
-    "signal": "",
+    "status": "Approved",
+    "signal": "approved",
     "user": "felixx0845",
     "campaign": "Winnerz",
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
     "ticket_date": "2026-03-20T12:39:28.565000+00:00",
-    "telegram_sent_at": "2026-03-25T08:09:43.857807+00:00"
+    "telegram_sent_at": "2026-03-25T08:09:43.857807+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0065_1483856554343006220": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "",
     "campaign": "Unknown",
     "has_screenshot": false,
     "approving_admin": "",
     "campaign_source": "",
-    "ticket_date": "2026-03-18T15:56:11.870000+00:00"
+    "ticket_date": "2026-03-18T15:56:11.870000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0064_1483598560929775786": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "",
     "campaign": "Unknown",
     "has_screenshot": false,
     "approving_admin": "",
     "campaign_source": "",
-    "ticket_date": "2026-03-17T22:51:01.461000+00:00"
+    "ticket_date": "2026-03-17T22:51:01.461000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0061_1483027614418599957": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "",
     "campaign": "Unknown",
     "has_screenshot": false,
     "approving_admin": "",
     "campaign_source": "",
-    "ticket_date": "2026-03-16T09:02:17.107000+00:00"
+    "ticket_date": "2026-03-16T09:02:17.107000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0059_1482414646265905192": {
-    "status": "Not Approved",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "",
     "campaign": "Betlabel",
     "has_screenshot": false,
     "approving_admin": "",
     "campaign_source": "",
-    "ticket_date": "2026-03-14T16:26:34.026000+00:00"
+    "ticket_date": "2026-03-14T16:26:34.026000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0069_1484459032059183125": {
-    "status": "To be checked",
-    "signal": "",
+    "status": "Excluded (Oddify)",
+    "signal": "oddify",
     "user": "k.gyf",
     "campaign": "Betlabel",
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
     "ticket_date": "2026-03-20T07:50:13.838000+00:00",
-    "telegram_sent_at": "2026-03-25T08:09:44.663616+00:00"
+    "telegram_sent_at": "2026-03-25T08:09:44.663616+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0081_1484856030952427613": {
     "status": "To be checked",
@@ -9663,24 +9700,26 @@
     "telegram_sent_at": "2026-03-25T08:09:48.543629+00:00"
   },
   "closed-0066_1484385294915473499": {
-    "status": "Excluded (Oddify)",
-    "signal": "Message content mentions Oddify",
+    "status": "Approved",
+    "signal": "approved",
     "user": "74finnnn",
     "campaign": "Winnerz",
     "has_screenshot": true,
     "approving_admin": "adonis39.",
     "campaign_source": "vision",
-    "ticket_date": "2026-03-20T02:57:13.341000+00:00"
+    "ticket_date": "2026-03-20T02:57:13.341000+00:00",
+    "reviewed_by": "admin"
   },
   "closed-0062_1483038413727862784": {
-    "status": "To be checked",
-    "signal": "",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "seki738",
     "campaign": "Betlabel",
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "vision",
     "ticket_date": "2026-03-16T09:45:12.004000+00:00",
-    "telegram_sent_at": "2026-03-25T08:09:45.068676+00:00"
+    "telegram_sent_at": "2026-03-25T08:09:45.068676+00:00",
+    "reviewed_by": "admin"
   }
 }
