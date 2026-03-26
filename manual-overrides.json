@@ -9785,10 +9785,10 @@
     "first_seen_at": "2026-03-25T15:54:51.966546+00:00"
   },
   "support-0093_1485293525997322471": {
-    "status": "To be checked",
-    "signal": "",
+    "status": "Approved",
+    "signal": "vision_approved",
     "user": "wave1871",
-    "campaign": "Betlabel",
+    "campaign": "Winrolla",
     "has_screenshot": true,
     "approving_admin": "",
     "campaign_source": "",
@@ -10135,8 +10135,8 @@
     "first_seen_at": "2026-03-26T08:40:52.691677+00:00"
   },
   "closed-0146_1486465064104890499": {
-    "status": "To be checked",
-    "signal": "",
+    "status": "Approved",
+    "signal": "vision_approved",
     "user": "nzfwa7uznfa",
     "campaign": "Winrolla",
     "has_screenshot": true,
@@ -10268,8 +10268,8 @@
     "first_seen_at": "2026-03-26T08:40:52.691711+00:00"
   },
   "closed-0115_1486411240338358451": {
-    "status": "To be checked",
-    "signal": "",
+    "status": "Approved",
+    "signal": "vision_approved",
     "user": "marek8027",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -10279,8 +10279,8 @@
     "first_seen_at": "2026-03-26T08:40:52.691714+00:00"
   },
   "discord-promo-1_1486411240338358451": {
-    "status": "To be checked",
-    "signal": "",
+    "status": "Excluded (Promo)",
+    "signal": "promo",
     "user": "marek8027",
     "campaign": "Betlabel",
     "has_screenshot": true,
