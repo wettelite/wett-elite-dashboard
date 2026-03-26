@@ -9797,7 +9797,7 @@
     "telegram_sent_at": "2026-03-25T15:54:55.044192+00:00"
   },
   "_state": {
-    "last_telegram_date": "2026-03-25"
+    "last_telegram_date": "2026-03-26"
   },
   "closed-0137_1486452344295264386": {
     "status": "Not Approved",
@@ -9841,7 +9841,8 @@
     "approving_admin": "",
     "campaign_source": "vision",
     "ticket_date": "2026-03-25T15:47:19.330000+00:00",
-    "first_seen_at": "2026-03-25T20:01:00.341645+00:00"
+    "first_seen_at": "2026-03-25T20:01:00.341645+00:00",
+    "telegram_sent_at": "2026-03-26T05:54:34.322589+00:00"
   },
   "closed-0117_1486413787425669274": {
     "status": "Approved",
@@ -9863,6 +9864,40 @@
     "approving_admin": "",
     "campaign_source": "",
     "ticket_date": "2026-03-25T17:42:13.828000+00:00",
-    "first_seen_at": "2026-03-25T20:01:00.341652+00:00"
+    "first_seen_at": "2026-03-25T20:01:00.341652+00:00",
+    "telegram_sent_at": "2026-03-26T05:54:34.728304+00:00"
+  },
+  "closed-0141_1486458001182294147": {
+    "status": "Not Approved",
+    "signal": "",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-25T20:13:25.235000+00:00",
+    "first_seen_at": "2026-03-26T05:54:30.433026+00:00"
+  },
+  "support-0167_1486494806602682498": {
+    "status": "Not Approved",
+    "signal": "",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-25T22:39:40.094000+00:00",
+    "first_seen_at": "2026-03-26T05:54:30.433041+00:00"
+  },
+  "support-0153_1486468346605207716": {
+    "status": "Not Approved",
+    "signal": "",
+    "user": "",
+    "campaign": "Winrolla",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-25T20:54:31.806000+00:00",
+    "first_seen_at": "2026-03-26T05:54:30.433046+00:00"
   }
 }
