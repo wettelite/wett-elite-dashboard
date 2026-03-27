@@ -11018,5 +11018,27 @@
     "ticket_date": "2026-03-25T16:49:30.621000+00:00",
     "first_seen_at": "2026-03-26T15:21:48.575196+00:00",
     "vision_reason": "Screenshot shows BetLabel transaction history with multiple deposits totaling over 1,280 EUR as stat"
+  },
+  "closed-0170_1486765212005564467": {
+    "status": "Approved",
+    "signal": "\"stark bro, hab dich freigeschaltet\"",
+    "user": "alex3567000",
+    "campaign": "Winrolla",
+    "has_screenshot": true,
+    "approving_admin": "wettelitemod",
+    "campaign_source": "",
+    "ticket_date": "2026-03-26T16:34:09.907000+00:00",
+    "first_seen_at": "2026-03-27T15:15:02.658501+00:00"
+  },
+  "closed-0171_1486769203905167472": {
+    "status": "Approved",
+    "signal": "\"stark bro, hab dich freigeschaltet\"",
+    "user": "nick01209",
+    "campaign": "Winrolla",
+    "has_screenshot": true,
+    "approving_admin": "wettelitemod",
+    "campaign_source": "",
+    "ticket_date": "2026-03-26T16:50:01.687000+00:00",
+    "first_seen_at": "2026-03-27T15:15:02.658560+00:00"
   }
 }
