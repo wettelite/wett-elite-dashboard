@@ -10620,10 +10620,10 @@
     "status": "Excluded (No FTD)",
     "signal": "no_ftd",
     "user": "sil_bra007",
-    "campaign": "Unknown",
+    "campaign": "Winrolla",
     "has_screenshot": false,
     "approving_admin": "claude-vision",
-    "campaign_source": "",
+    "campaign_source": "vision",
     "ticket_date": "2026-03-25T16:45:30.878000+00:00",
     "first_seen_at": "2026-03-26T15:21:48.575196+00:00",
     "vision_reason": "Incomplete screenshot showing only a transaction header for cryptocurrency payment of 104.49 EUR. Su"
@@ -11051,5 +11051,16 @@
     "campaign_source": "",
     "ticket_date": "2026-03-27T17:12:19.981000+00:00",
     "first_seen_at": "2026-03-28T05:18:52.264617+00:00"
+  },
+  "closed-0173_1487054011977830492": {
+    "status": "Not Approved",
+    "signal": "",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-27T11:41:45.272000+00:00",
+    "first_seen_at": "2026-03-28T19:49:32.266266+00:00"
   }
 }
