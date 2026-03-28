@@ -9798,7 +9798,7 @@
     "vision_reason": "Multiple deposit transactions visible with Mastercard payment method, amounts and timestamps shown, "
   },
   "_state": {
-    "last_telegram_date": "2026-03-27"
+    "last_telegram_date": "2026-03-28"
   },
   "closed-0137_1486452344295264386": {
     "status": "Not Approved",
@@ -11040,5 +11040,16 @@
     "campaign_source": "",
     "ticket_date": "2026-03-26T16:50:01.687000+00:00",
     "first_seen_at": "2026-03-27T15:15:02.658560+00:00"
+  },
+  "closed-0177_1487137205406269541": {
+    "status": "Excluded (Oddify)",
+    "signal": "Message content mentions Oddify",
+    "user": "loveejulien",
+    "campaign": "Winrolla",
+    "has_screenshot": true,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-27T17:12:19.981000+00:00",
+    "first_seen_at": "2026-03-28T05:18:52.264617+00:00"
   }
 }
