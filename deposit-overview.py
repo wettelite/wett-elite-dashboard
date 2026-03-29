@@ -558,35 +558,20 @@ def apply_exclusions_and_overrides(result: dict, messages: list[dict] | None,
         result["approval_signal"] = "Message content mentions Oddify"
         return
 
-    # 4. Check manual overrides
+    # 4. Check manual overrides — ALWAYS honour any saved status
     override = manual_overrides.get(result["ticket"])
     if override:
         saved_signal = (override.get("signal") or "").lower()
         saved_status = override.get("status", "")
 
-        # Honour ANY manually-set Excluded status (No FTD, Oddify, Promo, generic)
-        if saved_status and saved_status.startswith("Excluded"):
+        # If override has a definitive status, always apply it
+        if saved_status and saved_status != "To be checked":
             result["approval_status"] = saved_status
             result["approval_signal"] = override.get("signal") or saved_status
             if override.get("reviewed_by"):
                 result["approving_admin"] = override["reviewed_by"]
-            return
-
-        # Honour manual Excluded flags recorded via signal text (legacy)
-        if "oddify" in saved_signal:
-            result["approval_status"] = "Excluded (Oddify)"
-            result["approval_signal"] = override.get("signal", "Oddify — does not count")
-            return
-        if "promo" in saved_signal or "promotion" in saved_signal:
-            result["approval_status"] = "Excluded (Promo)"
-            result["approval_signal"] = override.get("signal", "Promotion deposit")
-            return
-
-        # If human manually approved a ticket our auto-detect missed → keep Approved
-        if saved_status == "Approved" and result["approval_status"] != "Approved":
-            result["approval_status"] = "Approved"
-            result["approval_signal"] = override.get("signal") or "Manually approved"
-            result["approving_admin"] = override.get("approving_admin") or "manual"
+            elif override.get("approving_admin"):
+                result["approving_admin"] = override["approving_admin"]
 
         # If human OR Vision saved a campaign → honour it
         if override.get("campaign") and override["campaign"] != "Unknown":
