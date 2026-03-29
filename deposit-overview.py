@@ -59,6 +59,8 @@ GDRIVE_TRANSCRIPTS_FOLDER_IDS = [GDRIVE_FOLDER_OLD, GDRIVE_FOLDER_NEW]
 OAUTH_CLIENT_FILE    = SCRIPT_DIR / "oauth-client.json"
 OAUTH_TOKEN_FILE     = SCRIPT_DIR / "oauth-token.json"
 ANTHROPIC_KEY_FILE   = SCRIPT_DIR / "anthropic-api-key.txt"
+# Fallback: check shared scripts folder
+_ANTHROPIC_KEY_FALLBACK = Path("/Users/francisco/Claude/scripts/anthropic-api-key.txt")
 
 # Both Drive (read) and Sheets (write) scopes
 SCOPES = [
@@ -383,24 +385,43 @@ def extract_all_user_images(messages: list[dict]) -> list[tuple[str, str]]:
                 images.append((m.group(2).strip(), media_type))
     return images
 
-def classify_brand_by_vision(anthropic_client, images: list[tuple[str, str]]) -> str:
-    """Ask Claude to identify the casino brand from ALL user deposit screenshots in a ticket.
-    Sends up to 4 images at once so even if the first is a bank page, later ones may show the brand.
+def _build_image_content(images: list[tuple[str, str]]) -> list[dict]:
+    """Build the list of image content blocks (up to 4 images)."""
+    content = []
+    for img_b64, media_type in images[:4]:
+        content.append({
+            "type": "image",
+            "source": {
+                "type": "base64",
+                "media_type": media_type,
+                "data": img_b64,
+            },
+        })
+    return content
+
+
+def _parse_amount(text: str) -> float | None:
+    """Extract a deposit amount from a Vision response line like 'AMOUNT: 50.00'."""
+    m = re.search(r'AMOUNT:\s*([\d]+(?:[.,][\d]+)?)', text, re.IGNORECASE)
+    if m:
+        try:
+            return float(m.group(1).replace(",", "."))
+        except ValueError:
+            pass
+    return None
+
+
+def classify_brand_and_amount_by_vision(
+    anthropic_client, images: list[tuple[str, str]]
+) -> tuple[str, float | None]:
+    """Ask Claude to identify the brand AND deposit amount from ticket screenshots.
+    Returns (brand, amount) where brand is one of the known brands or 'Unknown',
+    and amount is a float (€) or None if not visible.
     """
     if not images:
-        return "Unknown"
+        return "Unknown", None
     try:
-        # Build content with up to 4 images + one question
-        content = []
-        for img_b64, media_type in images[:4]:
-            content.append({
-                "type": "image",
-                "source": {
-                    "type": "base64",
-                    "media_type": media_type,
-                    "data": img_b64,
-                },
-            })
+        content = _build_image_content(images)
         content.append({
             "type": "text",
             "text": (
@@ -411,22 +432,69 @@ def classify_brand_by_vision(anthropic_client, images: list[tuple[str, str]]) ->
                 "- Winnerz (winnerz.com)\n\n"
                 "Look at ALL the images carefully — some may be bank/transaction history pages, "
                 "but at least one should show the casino interface or logo.\n\n"
-                "Reply with ONLY one word: Winrolla, Betlabel, Winnerz, or Unknown."
+                "Reply with EXACTLY two lines and nothing else:\n"
+                "Line 1: BRAND: [Winrolla|Betlabel|Winnerz|Unknown]\n"
+                "Line 2: AMOUNT: [deposit amount as a number using dot notation, e.g. 50.00 — "
+                "strip any currency symbol; use the deposit confirmation amount, not an account balance; "
+                "reply Unknown if the amount is not clearly visible]\n\n"
+                "Example response:\nBRAND: Winnerz\nAMOUNT: 25.00"
             ),
         })
 
         resp = anthropic_client.messages.create(
             model="claude-sonnet-4-5",
-            max_tokens=20,
+            max_tokens=60,
             messages=[{"role": "user", "content": content}],
         )
         answer = resp.content[0].text.strip()
-        for brand in ("Winrolla", "Betlabel", "Winnerz"):
-            if brand.lower() in answer.lower():
-                return brand
-        return "Unknown"
+
+        # Parse brand
+        brand = "Unknown"
+        for b in ("Winrolla", "Betlabel", "Winnerz"):
+            if b.lower() in answer.lower():
+                brand = b
+                break
+
+        # Parse amount
+        amount = _parse_amount(answer)
+        return brand, amount
     except Exception:
-        return "Unknown"
+        return "Unknown", None
+
+
+def extract_amount_by_vision(
+    anthropic_client, images: list[tuple[str, str]]
+) -> float | None:
+    """Ask Claude to extract only the deposit amount from ticket screenshots.
+    Used for tickets where the brand is already known.
+    Returns a float (€) or None if not visible.
+    """
+    if not images:
+        return None
+    try:
+        content = _build_image_content(images)
+        content.append({
+            "type": "text",
+            "text": (
+                "These screenshots are from a Discord ticket where a user submitted proof of a casino deposit. "
+                "Look at ALL the images carefully.\n\n"
+                "Reply with EXACTLY one line and nothing else:\n"
+                "AMOUNT: [deposit amount as a number using dot notation, e.g. 50.00 — "
+                "strip any currency symbol; use the deposit confirmation amount, not an account balance; "
+                "reply Unknown if the amount is not clearly visible]\n\n"
+                "Example: AMOUNT: 100.00"
+            ),
+        })
+
+        resp = anthropic_client.messages.create(
+            model="claude-sonnet-4-5",
+            max_tokens=30,
+            messages=[{"role": "user", "content": content}],
+        )
+        answer = resp.content[0].text.strip()
+        return _parse_amount(answer)
+    except Exception:
+        return None
 
 # ---------------------------------------------------------------------------
 # Manual overrides — load saved human corrections from previous runs
@@ -535,6 +603,11 @@ def apply_exclusions_and_overrides(result: dict, messages: list[dict] | None,
         if override.get("first_seen_at"):
             result["first_seen_at"] = override["first_seen_at"]
 
+        # Restore cached deposit amount (key presence check — None/null is a valid cached value)
+        if "deposit_amount" in override:
+            result["deposit_amount"] = override["deposit_amount"]
+            result["deposit_amount_source"] = override.get("deposit_amount_source", "")
+
 
 def analyze_transcript(html_bytes: bytes, filename: str,
                        manual_overrides: dict | None = None) -> dict:
@@ -543,16 +616,18 @@ def analyze_transcript(html_bytes: bytes, filename: str,
     ticket_name = filename.replace(".html", "")
 
     result = {
-        "ticket":          ticket_name,
-        "user_id":         extract_user_id(ticket_name),
-        "user":            "",
-        "campaign":        "Unknown",
-        "has_screenshot":  False,
-        "approval_status": "Not Approved",
-        "approval_signal": "",
-        "approving_admin": "",
-        "ticket_date":     "",
-        "parse_error":     False,
+        "ticket":                ticket_name,
+        "user_id":               extract_user_id(ticket_name),
+        "user":                  "",
+        "campaign":              "Unknown",
+        "has_screenshot":        False,
+        "approval_status":       "Not Approved",
+        "approval_signal":       "",
+        "approving_admin":       "",
+        "ticket_date":           "",
+        "parse_error":           False,
+        "deposit_amount":        None,   # float or None if not extractable
+        "deposit_amount_source": "",     # "vision" | "manual" | ""
     }
 
     if messages is None:
@@ -582,7 +657,7 @@ def analyze_transcript(html_bytes: bytes, filename: str,
 # ---------------------------------------------------------------------------
 SUMMARY_CAMPAIGNS = ["Winrolla", "Betlabel", "Winnerz", "Unknown"]
 
-EXCLUDED_STATUSES = {"Excluded (Oddify)", "Excluded (Promo)"}
+EXCLUDED_STATUSES = {"Excluded (Oddify)", "Excluded (Promo)", "Excluded (Internal)", "Excluded (No FTD)"}
 
 def count_unique_registrations(subset: list[dict]) -> int:
     """Count distinct users with at least one Approved ticket in this subset."""
@@ -595,39 +670,170 @@ def count_unique_registrations(subset: list[dict]) -> int:
             seen.add(key)
     return len(seen)
 
+def sum_amounts(subset: list[dict]) -> float | None:
+    """Sum deposit_amount for approved tickets with a known amount. Returns None if no data."""
+    vals = [
+        r["deposit_amount"] for r in subset
+        if r.get("deposit_amount") is not None and r["approval_status"] == "Approved"
+    ]
+    return round(sum(vals), 2) if vals else None
+
+
+def get_ftd_ticket_keys(results: list[dict]) -> set[str]:
+    """Return the set of ticket names that represent each user's FIRST approved deposit.
+    For users with multiple approved tickets, picks the earliest by ticket_date.
+    """
+    user_tickets: dict[str, list[dict]] = {}
+    for r in results:
+        if r["approval_status"] != "Approved":
+            continue
+        uid  = r.get("user_id", "").strip()
+        user = r.get("user", "").strip()
+        key  = uid if uid else (user if user else r["ticket"])
+        user_tickets.setdefault(key, []).append(r)
+
+    ftd_keys: set[str] = set()
+    for tickets in user_tickets.values():
+        earliest = min(tickets, key=lambda x: x.get("ticket_date") or "")
+        ftd_keys.add(earliest["ticket"])
+    return ftd_keys
+
+
+def group_by_day(results: list[dict], days: int = 7) -> list[dict]:
+    """Return one entry per calendar day (UTC) for the last N days, newest first.
+    Each entry has:
+      count          — all approved deposits
+      ftd_count      — first-time deposits (unique users, earliest ticket)
+      amount         — total volume (all approved, known amounts)
+      ftd_amount     — FTD-only volume (first ticket per user, known amounts)
+      amount_known   — tickets with a known amount (all)
+      ftd_amount_known — FTD tickets with a known amount
+      by_brand       — per-brand {count, ftd_count, amount, ftd_amount}
+    """
+    ftd_keys = get_ftd_ticket_keys(results)
+    now = datetime.datetime.now(datetime.timezone.utc)
+    day_data: dict[str, dict] = {}
+    for i in range(days):
+        d = (now - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
+        day_data[d] = {
+            "date": d,
+            "count": 0,
+            "ftd_count": 0,
+            "amount": 0.0,
+            "ftd_amount": 0.0,
+            "amount_known": 0,
+            "ftd_amount_known": 0,
+            "by_brand": {
+                b: {"count": 0, "ftd_count": 0, "amount": 0.0, "ftd_amount": 0.0}
+                for b in SUMMARY_CAMPAIGNS
+            },
+        }
+    VOLUME_STATUSES = {"Approved", "Excluded (Promo)"}
+    for r in results:
+        status = r["approval_status"]
+        is_approved = status == "Approved"
+        counts_for_volume = status in VOLUME_STATUSES
+        if not counts_for_volume:
+            continue
+        date_str = (r.get("ticket_date") or "")[:10]
+        if date_str not in day_data:
+            continue
+        is_ftd = r["ticket"] in ftd_keys
+        brand  = r.get("campaign", "Unknown")
+        entry  = day_data[date_str]
+
+        # FTD counts: Approved only
+        if is_approved:
+            entry["count"] += 1
+            if is_ftd:
+                entry["ftd_count"] += 1
+
+        bb = entry["by_brand"].get(brand)
+        if bb is not None and is_approved:
+            bb["count"] += 1
+            if is_ftd:
+                bb["ftd_count"] += 1
+
+        # Deposit amounts: Approved + Excluded (Promo) — real money deposited
+        amt = r.get("deposit_amount")
+        if amt is not None:
+            entry["amount"] += amt
+            entry["amount_known"] += 1
+            if bb is not None:
+                bb["amount"] += amt
+            if is_ftd:
+                entry["ftd_amount"] += amt
+                entry["ftd_amount_known"] += 1
+                if bb is not None:
+                    bb["ftd_amount"] += amt
+
+    for entry in day_data.values():
+        entry["amount"]     = round(entry["amount"], 2)
+        entry["ftd_amount"] = round(entry["ftd_amount"], 2)
+        for bb in entry["by_brand"].values():
+            bb["amount"]     = round(bb["amount"], 2)
+            bb["ftd_amount"] = round(bb["ftd_amount"], 2)
+
+    return sorted(day_data.values(), key=lambda x: x["date"], reverse=True)
+
+
 def build_summary(results: list[dict]) -> list[list]:
+    ftd_keys = get_ftd_ticket_keys(results)
     header = [
         "Campaign", "Total Tickets",
-        "✅ Unique Registrations", "Approved Tickets",
+        "✅ Unique Registrations (FTDs)", "All Approved Deposits",
         "To be checked",
         "Excl. Oddify", "Excl. Promo",
         "No Screenshot",
+        "FTD Volume (€)", "Total Volume (€)", "Avg Deposit (€)",
     ]
     rows = [header]
-    col_count = len(header)
-    totals = [0] * (col_count - 1)
+    totals = [0] * 8  # indices 0-7 for numeric cols before amounts
 
     for campaign in SUMMARY_CAMPAIGNS:
-        subset   = [r for r in results if r["campaign"] == campaign]
-        total    = len(subset)
-        approved = sum(1 for r in subset if r["approval_status"] == "Approved")
-        unique   = count_unique_registrations(subset)
-        to_check = sum(1 for r in subset if r["approval_status"] == "To be checked")
-        ex_odd   = sum(1 for r in subset if r["approval_status"] == "Excluded (Oddify)")
-        ex_promo = sum(1 for r in subset if r["approval_status"] == "Excluded (Promo)")
-        no_ss    = sum(1 for r in subset if r["approval_status"] == "Not Approved")
+        subset    = [r for r in results if r["campaign"] == campaign]
+        total     = len(subset)
+        approved  = sum(1 for r in subset if r["approval_status"] == "Approved")
+        unique    = count_unique_registrations(subset)
+        to_check  = sum(1 for r in subset if r["approval_status"] == "To be checked")
+        ex_odd    = sum(1 for r in subset if r["approval_status"] == "Excluded (Oddify)")
+        ex_promo  = sum(1 for r in subset if r["approval_status"] == "Excluded (Promo)")
+        no_ss     = sum(1 for r in subset if r["approval_status"] == "Not Approved")
 
-        rows.append([campaign, total, unique, approved, to_check, ex_odd, ex_promo, no_ss])
+        total_dep = sum_amounts(subset)
+        ftd_subset = [r for r in subset if r["ticket"] in ftd_keys]
+        ftd_dep   = sum_amounts(ftd_subset)
+
+        amounts_known = sum(
+            1 for r in subset
+            if r["approval_status"] == "Approved" and r.get("deposit_amount") is not None
+        )
+        avg_dep       = round(total_dep / amounts_known, 2) if total_dep and amounts_known else ""
+        total_dep_val = total_dep if total_dep is not None else ""
+        ftd_dep_val   = ftd_dep   if ftd_dep   is not None else ""
+
+        rows.append([campaign, total, unique, approved, to_check, ex_odd, ex_promo, no_ss,
+                     ftd_dep_val, total_dep_val, avg_dep])
         for i, v in enumerate([total, unique, approved, to_check, ex_odd, ex_promo, no_ss]):
             totals[i] += v
+        if ftd_dep   is not None:
+            totals[7] = round((totals[7] or 0) + ftd_dep, 2)
 
-    rows.append(["TOTAL"] + totals)
+    all_dep   = sum_amounts(results)
+    all_ftd   = sum_amounts([r for r in results if r["ticket"] in ftd_keys])
+    all_known = sum(
+        1 for r in results
+        if r["approval_status"] == "Approved" and r.get("deposit_amount") is not None
+    )
+    all_avg   = round(all_dep / all_known, 2) if all_dep and all_known else ""
+    rows.append(["TOTAL"] + totals[:7] + [totals[7] or "", all_dep or "", all_avg])
     return rows
 
 def build_details(results: list[dict]) -> list[list]:
-    header = ["Ticket", "User", "User ID", "Campaign", "Screenshot?", "Approval Status", "Approval Signal", "Approving Admin"]
+    header = ["Ticket", "User", "User ID", "Campaign", "Screenshot?", "Approval Status", "Approval Signal", "Approving Admin", "Deposit Amount (€)"]
     rows = [header]
     for r in sorted(results, key=lambda x: x["ticket"]):
+        amount = r.get("deposit_amount")
         rows.append([
             r["ticket"],
             r["user"],
@@ -637,6 +843,46 @@ def build_details(results: list[dict]) -> list[list]:
             r["approval_status"],
             r["approval_signal"],
             r["approving_admin"],
+            f"{amount:.2f}" if amount is not None else "",
+        ])
+    return rows
+
+
+def build_daily_volumes(results: list[dict], days: int = 14) -> list[list]:
+    """Build daily volumes sheet data for the last N days.
+    FTDs = unique first-time depositors. All Deps = every approved ticket.
+    FTD Volume = sum of deposit amounts for FTD tickets only.
+    Total Volume = sum of ALL approved deposit amounts (includes repeat depositors).
+    """
+    header = [
+        "Date",
+        "FTDs (unique)", "All Deposits",
+        "Betlabel", "Winnerz", "Winrolla", "Unknown",
+        "FTD Volume (€)", "Total Volume (€)",
+        "Betlabel (€)", "Winnerz (€)", "Winrolla (€)", "Unknown (€)",
+    ]
+    rows = [header]
+
+    def fa(a: float) -> str:
+        return f"{a:.2f}" if a > 0 else ""
+
+    empty = {"count": 0, "ftd_count": 0, "amount": 0.0, "ftd_amount": 0.0}
+    for entry in group_by_day(results, days=days):
+        bb = entry["by_brand"]
+        rows.append([
+            entry["date"],
+            entry["ftd_count"],
+            entry["count"],
+            bb.get("Betlabel", empty)["count"],
+            bb.get("Winnerz",  empty)["count"],
+            bb.get("Winrolla", empty)["count"],
+            bb.get("Unknown",  empty)["count"],
+            fa(entry["ftd_amount"]),
+            fa(entry["amount"]),
+            fa(bb.get("Betlabel", empty)["amount"]),
+            fa(bb.get("Winnerz",  empty)["amount"]),
+            fa(bb.get("Winrolla", empty)["amount"]),
+            fa(bb.get("Unknown",  empty)["amount"]),
         ])
     return rows
 
@@ -647,7 +893,7 @@ def build_user_overview(results: list[dict]) -> list[list]:
 
     status_rank = {
         "Approved": 0, "To be checked": 1,
-        "Excluded (Oddify)": 2, "Excluded (Promo)": 3, "Not Approved": 4,
+        "Excluded (Oddify)": 2, "Excluded (Promo)": 3, "Excluded (Internal)": 4, "Not Approved": 5,
     }
 
     for r in results:
@@ -679,9 +925,10 @@ def write_to_sheets(sheets_service, results: list[dict]) -> str:
     spreadsheet = sheets_service.spreadsheets().create(body={
         "properties": {"title": f"Wett Elite Deposit Overview — {time.strftime('%Y-%m-%d %H:%M')}"},
         "sheets": [
-            {"properties": {"title": "Summary",      "index": 0}},
-            {"properties": {"title": "User Overview", "index": 1}},
-            {"properties": {"title": "Details",       "index": 2}},
+            {"properties": {"title": "Summary",       "index": 0}},
+            {"properties": {"title": "User Overview",  "index": 1}},
+            {"properties": {"title": "Daily Volumes",  "index": 2}},
+            {"properties": {"title": "Details",        "index": 3}},
         ],
     }).execute()
 
@@ -691,6 +938,7 @@ def write_to_sheets(sheets_service, results: list[dict]) -> str:
     summary_data  = build_summary(results)
     details_data  = build_details(results)
     overview_data = build_user_overview(results)
+    daily_data    = build_daily_volumes(results)
 
     sheets_service.spreadsheets().values().batchUpdate(
         spreadsheetId=sheet_id,
@@ -699,6 +947,7 @@ def write_to_sheets(sheets_service, results: list[dict]) -> str:
             "data": [
                 {"range": "Summary!A1",       "values": summary_data},
                 {"range": "User Overview!A1", "values": overview_data},
+                {"range": "Daily Volumes!A1", "values": daily_data},
                 {"range": "Details!A1",       "values": details_data},
             ],
         },
@@ -706,7 +955,7 @@ def write_to_sheets(sheets_service, results: list[dict]) -> str:
 
     # Basic formatting: bold headers, freeze row 1
     fmt_requests = []
-    for tab_index, tab_title in enumerate(["Summary", "User Overview", "Details"]):
+    for tab_index, tab_title in enumerate(["Summary", "User Overview", "Daily Volumes", "Details"]):
         tab_info = next(
             s for s in spreadsheet["sheets"]
             if s["properties"]["title"] == tab_title
@@ -716,6 +965,8 @@ def write_to_sheets(sheets_service, results: list[dict]) -> str:
             col_count = len(summary_data[0])
         elif tab_title == "User Overview":
             col_count = len(overview_data[0])
+        elif tab_title == "Daily Volumes":
+            col_count = len(daily_data[0])
         else:
             col_count = len(details_data[0])
 
@@ -811,8 +1062,9 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
         "Approved":          ("#d1fae5", "#065f46"),
         "To be checked":     ("#fef3c7", "#92400e"),
         "Not Approved":      ("#fee2e2", "#991b1b"),
-        "Excluded (Oddify)": ("#e0e7ff", "#3730a3"),
-        "Excluded (Promo)":  ("#f3e8ff", "#6b21a8"),
+        "Excluded (Oddify)":    ("#e0e7ff", "#3730a3"),
+        "Excluded (Promo)":     ("#f3e8ff", "#6b21a8"),
+        "Excluded (Internal)":  ("#f1f5f9", "#475569"),
     }
     CAMP_COLOURS = {"Betlabel": "#3b82f6", "Winnerz": "#10b981", "Winrolla": "#f59e0b", "Unknown": "#6b7280"}
 
@@ -842,12 +1094,102 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
         c = r.get("campaign", "Unknown")
         new_per_brand[c] = new_per_brand.get(c, 0) + 1
 
+    # FTD keys for the full result set
+    ftd_keys_html = get_ftd_ticket_keys(results)
+
+    # 24h deposit volume — split FTD vs Total
+    new_ftd_approved = [r for r in new_approved if r["ticket"] in ftd_keys_html]
+    vol_24h_total    = sum_amounts(new_approved)
+    vol_24h_ftd      = sum_amounts(new_ftd_approved)
+    vol_24h_known    = sum(1 for r in new_approved if r.get("deposit_amount") is not None)
+    vol_24h_ftd_str  = f"€{vol_24h_ftd:.0f}"   if vol_24h_ftd   is not None else "—"
+    vol_24h_total_str= f"€{vol_24h_total:.0f}"  if vol_24h_total is not None else "—"
+
+    # 7-day deposit volumes — use group_by_day which now carries ftd_amount
+    daily_rows = group_by_day(results, days=7)
+    # Aggregate 7-day totals per brand from daily_rows entries
+    empty_bb = {"count": 0, "ftd_count": 0, "amount": 0.0, "ftd_amount": 0.0}
+    vol_brands: dict[str, dict] = {b: {"total": 0.0, "ftd": 0.0, "ftd_count": 0, "approved": 0, "known": 0} for b in SUMMARY_CAMPAIGNS}
+    overall_7d_ftd   = 0.0
+    overall_7d_total = 0.0
+    overall_7d_ftd_count   = 0
+    overall_7d_approved    = 0
+    overall_7d_known       = 0
+    for entry in daily_rows:
+        overall_7d_ftd       += entry["ftd_amount"]
+        overall_7d_total     += entry["amount"]
+        overall_7d_ftd_count += entry["ftd_count"]
+        overall_7d_approved  += entry["count"]
+        overall_7d_known     += entry["amount_known"]
+        for brand in SUMMARY_CAMPAIGNS:
+            bb = entry["by_brand"].get(brand, empty_bb)
+            vol_brands[brand]["total"]     += bb["amount"]
+            vol_brands[brand]["ftd"]       += bb["ftd_amount"]
+            vol_brands[brand]["ftd_count"] += bb["ftd_count"]
+            vol_brands[brand]["approved"]  += bb["count"]
+            vol_brands[brand]["known"]     += (1 if bb["amount"] > 0 else 0)
+    overall_7d_ftd   = round(overall_7d_ftd,   2)
+    overall_7d_total = round(overall_7d_total,  2)
+
     # Pre-build 24h brand pills (avoids escaped-quote issues inside f-string)
     h24_brands_html = "".join(
         f'<div class="h24-brand"><span style="color:{CAMP_COLOURS.get(b, "#6b7280")}">{b}</span>'
         f' <strong>{n}</strong></div>'
         for b, n in sorted(new_per_brand.items())
     )
+    h24_volume_html = (
+        f'<div class="h24-vol">'
+        f'💰 FTD: <strong>{vol_24h_ftd_str}</strong>'
+        f'<span class="h24-vol-sep"> · </span>'
+        f'Total: <strong style="color:#94a3b8">{vol_24h_total_str}</strong>'
+        f'<span class="h24-vol-sub"> ({vol_24h_known}/{new_total} with amount)</span>'
+        f'</div>'
+        if new_total > 0 else ""
+    )
+
+    # Volume brand cards for 7-day section
+    def _fmt_amt(v: float) -> str:
+        return f"€{v:.0f}" if v > 0 else "—"
+
+    vol_brand_cards_html = ""
+    for brand in SUMMARY_CAMPAIGNS:
+        colour = CAMP_COLOURS.get(brand, "#6b7280")
+        vb = vol_brands[brand]
+        vol_brand_cards_html += (
+            f'<div class="vol-card" style="border-top:3px solid {colour}">'
+            f'<div class="vol-card-label" style="color:{colour}">{brand}</div>'
+            f'<div class="vol-card-amount">{_fmt_amt(vb["ftd"])}</div>'
+            f'<div class="vol-card-detail">Total: {_fmt_amt(vb["total"])}</div>'
+            f'<div class="vol-card-sub">{vb["ftd_count"]} FTDs · {vb["approved"]} all deposits</div>'
+            f'</div>'
+        )
+
+    # Daily table rows
+    daily_table_rows_html = ""
+    for entry in daily_rows:
+        bb  = entry["by_brand"]
+        eb  = empty_bb
+        bet = _fmt_amt(bb.get("Betlabel", eb)["amount"])
+        win = _fmt_amt(bb.get("Winnerz",  eb)["amount"])
+        rol = _fmt_amt(bb.get("Winrolla", eb)["amount"])
+        unk = _fmt_amt(bb.get("Unknown",  eb)["amount"])
+        ftd_vol = _fmt_amt(entry["ftd_amount"])
+        all_vol = _fmt_amt(entry["amount"])
+        daily_table_rows_html += (
+            f'<tr>'
+            f'<td class="mono">{entry["date"]}</td>'
+            f'<td style="text-align:center">{entry["ftd_count"]}</td>'
+            f'<td style="text-align:center;color:#64748b">{entry["count"]}</td>'
+            f'<td style="text-align:right;color:#34d399;font-weight:700">{ftd_vol}</td>'
+            f'<td style="text-align:right;color:#94a3b8">{all_vol}</td>'
+            f'<td style="text-align:right">{bet}</td>'
+            f'<td style="text-align:right">{win}</td>'
+            f'<td style="text-align:right">{rol}</td>'
+            f'<td style="text-align:right;color:#6b7280">{unk}</td>'
+            f'</tr>'
+        )
+    overall_7d_ftd_str   = _fmt_amt(overall_7d_ftd)
+    overall_7d_total_str = _fmt_amt(overall_7d_total)
     h24_review_html = (
         f'<div class="h24-warn">⚠️ {len(new_to_check)} new ticket(s) need review</div>'
         if new_to_check else
@@ -870,6 +1212,12 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
         cc     = CAMP_COLOURS.get(camp, "#6b7280")
         ss     = "✅" if r.get("has_screenshot") else "—"
         admin  = r.get("approving_admin", "") or "—"
+        amt    = r.get("deposit_amount")
+        amt_html = (
+            f'<span style="color:#34d399;font-weight:700">€{amt:.2f}</span>'
+            if amt is not None else
+            '<span style="color:#334155">—</span>'
+        )
         rows_html += f"""
         <tr>
           <td class="mono">{r['ticket']}</td>
@@ -878,18 +1226,23 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
           <td style="text-align:center">{ss}</td>
           <td><span class="badge" style="background:{bg};color:{fg}">{status}</span></td>
           <td>{admin}</td>
+          <td style="text-align:right">{amt_html}</td>
         </tr>"""
 
     # Summary cards HTML
     cards_html = ""
     for c in campaigns_data:
         colour = CAMP_COLOURS.get(c["name"], "#6b7280")
+        vb = vol_brands.get(c["name"], {})
+        all_time_dep = sum_amounts([r for r in results if r["campaign"] == c["name"]])
+        dep_str = f"€{all_time_dep:.0f}" if all_time_dep is not None else ""
         cards_html += f"""
         <div class="card" style="border-top:4px solid {colour}">
           <div class="card-label">{c['name']}</div>
           <div class="card-number" style="color:{colour}">{c['unique']}</div>
           <div class="card-sub">unique registrations</div>
           <div class="card-detail">{c['approved']} approved tickets</div>
+          {f'<div class="card-detail" style="color:#34d399">{dep_str} total deposits</div>' if dep_str else ""}
           {f'<div class="card-warn">⚠️ {c["to_check"]} to review</div>' if c["to_check"] else ""}
         </div>"""
 
@@ -943,6 +1296,22 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
   .h24-brand strong {{ color: #f1f5f9; }}
   .h24-warn {{ font-size: 0.85rem; color: #f59e0b; margin-left: auto; }}
   .h24-ok {{ font-size: 0.85rem; color: #34d399; margin-left: auto; }}
+  .h24-vol {{ font-size: 0.88rem; color: #94a3b8; }}
+  .h24-vol strong {{ color: #34d399; font-size: 1.05rem; }}
+  .h24-vol-sep {{ color: #334155; }}
+  .h24-vol-sub {{ font-size: 0.78rem; color: #64748b; }}
+  .vol-card-detail {{ font-size: 0.78rem; color: #64748b; margin-top: 2px; }}
+  .vol-section {{ background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px 24px; margin-bottom: 28px; }}
+  .vol-brand-row {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 20px; }}
+  .vol-card {{ background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; }}
+  .vol-card-label {{ font-size: 0.75rem; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; margin-bottom: 6px; }}
+  .vol-card-amount {{ font-size: 1.6rem; font-weight: 800; color: #34d399; line-height: 1; }}
+  .vol-card-sub {{ font-size: 0.72rem; color: #64748b; margin-top: 4px; }}
+  .vol-table {{ width: 100%; border-collapse: collapse; font-size: 0.82rem; }}
+  .vol-table th {{ background: #0f172a; color: #64748b; text-transform: uppercase; letter-spacing: .04em; font-size: 0.7rem; padding: 8px 12px; text-align: left; border-bottom: 1px solid #334155; }}
+  .vol-table td {{ padding: 7px 12px; border-bottom: 1px solid #1e293b; }}
+  .vol-table tr:hover td {{ background: #263548; }}
+  .vol-coverage {{ font-size: 0.75rem; color: #64748b; margin-top: 10px; }}
   #gate {{ display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0f172a; }}
   .gate-box {{ background:#1e293b;border:1px solid #334155;border-radius:16px;padding:40px;text-align:center;width:320px; }}
   .gate-box h2 {{ color:#f1f5f9;margin-bottom:8px;font-size:1.3rem; }}
@@ -992,7 +1361,45 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
     <div class="h24-brands">
       {h24_brands_html}
     </div>
+    {h24_volume_html}
     {h24_review_html}
+  </div>
+
+  <div class="section-title">Deposit Volumes — Last 7 Days</div>
+  <div class="vol-section">
+    <div class="vol-brand-row">
+      {vol_brand_cards_html}
+    </div>
+    <div class="table-wrap" style="border:none;border-radius:0;overflow:visible">
+      <table class="vol-table">
+        <thead>
+          <tr>
+            <th rowspan="2">Date</th>
+            <th style="text-align:center">FTDs</th>
+            <th style="text-align:center;color:#64748b">All</th>
+            <th style="text-align:right;color:#34d399">FTD Vol</th>
+            <th style="text-align:right;color:#94a3b8">Total Vol</th>
+            <th style="text-align:right">Betlabel</th>
+            <th style="text-align:right">Winnerz</th>
+            <th style="text-align:right">Winrolla</th>
+            <th style="text-align:right;color:#6b7280">Unknown</th>
+          </tr>
+          <tr style="font-size:0.65rem;color:#64748b">
+            <th style="text-align:center">unique</th>
+            <th style="text-align:center">deposits</th>
+            <th style="text-align:right">1st dep only</th>
+            <th style="text-align:right">all deps</th>
+            <th colspan="4" style="text-align:center">total volume per brand</th>
+          </tr>
+        </thead>
+        <tbody>{daily_table_rows_html}</tbody>
+      </table>
+    </div>
+    <div class="vol-coverage">
+      7-day FTD volume: <strong style="color:#34d399">{overall_7d_ftd_str}</strong>
+      &nbsp;·&nbsp; Total volume (all deposits): <strong>{overall_7d_total_str}</strong>
+      &nbsp;·&nbsp; {overall_7d_known} of {overall_7d_approved} deposits have a confirmed amount
+    </div>
   </div>
 
   <div class="section-title">All-Time Totals</div>
@@ -1011,7 +1418,7 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
           <option value="">All Statuses</option>
           <option>Approved</option><option>To be checked</option>
           <option>Not Approved</option><option>Excluded (Oddify)</option>
-          <option>Excluded (Promo)</option>
+          <option>Excluded (Promo)</option><option>Excluded (Internal)</option>
         </select>
         <input type="search" id="searchBox" placeholder="Search user / ticket…" oninput="filterTable()">
       </div>
@@ -1022,6 +1429,7 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
         <th>Ticket</th><th>User</th><th>Campaign</th>
         <th style="text-align:center">Screenshot</th>
         <th>Status</th><th>Approving Admin</th>
+        <th style="text-align:right">Amount (€)</th>
       </tr></thead>
       <tbody>{rows_html}</tbody>
     </table>
@@ -1144,30 +1552,90 @@ def main():
     lock    = threading.Lock()
     total   = len(html_files)
 
+    # Statuses that are fully decided — no need to re-download the transcript
+    # Uses startswith("Excluded") to catch all variants (Oddify, Promo, Internal, No FTD, etc.)
+    def _is_final(status: str) -> bool:
+        return status in ("Approved", "Not Approved") or status.startswith("Excluded")
+
+    def result_from_cache(ticket_name: str, override: dict) -> dict:
+        """Reconstruct a result dict from a cached override entry — no Drive download."""
+        return {
+            "ticket":                ticket_name,
+            "user_id":               extract_user_id(ticket_name),
+            "user":                  override.get("user", ""),
+            "campaign":              override.get("campaign", "Unknown"),
+            "has_screenshot":        override.get("has_screenshot", False),
+            "approval_status":       override.get("status", "Not Approved"),
+            "approval_signal":       override.get("signal", ""),
+            "approving_admin":       override.get("approving_admin", ""),
+            "ticket_date":           override.get("ticket_date", ""),
+            "parse_error":           False,
+            "deposit_amount":        override.get("deposit_amount"),
+            "deposit_amount_source": override.get("deposit_amount_source", ""),
+            "first_seen_at":         override.get("first_seen_at", ""),
+            "campaign_source":       override.get("campaign_source", ""),
+        }
+
     def process_file(f):
         fname = f["name"]
+        ticket_name = fname.replace(".html", "")
+        override = manual_overrides.get(ticket_name, {})
+
+        # --- Fast path: ticket fully processed and amount either extracted or confirmed no Vision needed ---
+        # Only skip if amount source is set (Vision ran) OR ticket is non-Approved (no amount needed)
+        _amount_settled = (
+            bool(override.get("deposit_amount_source"))       # Vision ran → settled
+            or override.get("status") not in ("Approved",)    # Not approved → no amount needed
+        )
+        if (
+            override.get("first_seen_at")
+            and _is_final(override.get("status", ""))
+            and "deposit_amount" in override
+            and _amount_settled
+        ):
+            return result_from_cache(ticket_name, override), None, fname, None
+
+        # --- Slow path: new ticket or still pending review — download & analyse ---
         try:
             html_bytes = drive_download_threadsafe(token, f["id"])
         except Exception as e:
             return None, None, fname, str(e)
         result = analyze_transcript(html_bytes, fname, manual_overrides=manual_overrides)
-        # For Unknown tickets with screenshots, stash ALL images for vision pass
-        # Skip if campaign was already resolved by a previous Vision run (saved in overrides)
+        # Stash images for the Vision pass if needed:
+        #   mode "brand_and_amount" — Unknown campaign, no cached Vision brand
+        #   mode "amount_only"      — brand known, Approved, no cached deposit_amount
         img_data = None
-        override = manual_overrides.get(result["ticket"], {})
+        # "deposit_amount" key present AND source is set means Vision actually ran.
+        # Key present with empty source means it was set by migration (not Vision) — re-queue.
+        already_has_amount = (
+            "deposit_amount" in override
+            and bool(override.get("deposit_amount_source"))
+        )
         already_vision_classified = (
             override.get("campaign_source") == "vision"
             and override.get("campaign", "Unknown") != "Unknown"
         )
-        if result["campaign"] == "Unknown" and result["has_screenshot"] and not already_vision_classified:
+        needs_brand = (
+            result["campaign"] == "Unknown"
+            and result["has_screenshot"]
+            and not already_vision_classified
+        )
+        needs_amount = (
+            result["approval_status"] == "Approved"
+            and result["has_screenshot"]
+            and not already_has_amount
+            and not needs_brand
+        )
+        if needs_brand or needs_amount:
             messages = parse_messages(html_bytes)
             if messages:
                 imgs = extract_all_user_images(messages)
                 if imgs:
-                    img_data = imgs  # list of (b64, media_type)
+                    mode = "brand_and_amount" if needs_brand else "amount_only"
+                    img_data = (imgs, mode)
         return result, img_data, fname, None
 
-    vision_queue: list[tuple[dict, list]] = []  # (result, images_list)
+    vision_queue: list[tuple[dict, list, str]] = []  # (result, images_list, mode)
 
     log(f"Downloading and analysing with 10 parallel workers...")
     with ThreadPoolExecutor(max_workers=10) as pool:
@@ -1191,7 +1659,8 @@ def main():
             if result["parse_error"]:
                 errors += 1
             if img_data:
-                vision_queue.append((result, img_data))
+                imgs, mode = img_data
+                vision_queue.append((result, imgs, mode))
 
     # ---------------------------------------------------------------------------
     # Claude Vision pass — classify Unknown tickets by screenshot
@@ -1200,27 +1669,49 @@ def main():
         api_key = None
         if ANTHROPIC_KEY_FILE.exists():
             api_key = ANTHROPIC_KEY_FILE.read_text().strip()
+        if not api_key and _ANTHROPIC_KEY_FALLBACK.exists():
+            api_key = _ANTHROPIC_KEY_FALLBACK.read_text().strip()
         if not api_key:
             api_key = os.environ.get("ANTHROPIC_API_KEY")
 
         if api_key:
             anthropic_client = anthropic_sdk.Anthropic(api_key=api_key)
-            log(f"\nRunning Claude Vision on {len(vision_queue)} Unknown tickets (all images, sonnet)...")
+            brand_jobs   = sum(1 for _, _, m in vision_queue if m == "brand_and_amount")
+            amount_jobs  = sum(1 for _, _, m in vision_queue if m == "amount_only")
+            log(f"\nRunning Claude Vision on {len(vision_queue)} tickets "
+                f"({brand_jobs} brand+amount, {amount_jobs} amount-only)...")
             reclassified = 0
-            for i, (result, images) in enumerate(vision_queue, 1):
-                brand = classify_brand_by_vision(anthropic_client, images)
-                if brand != "Unknown":
-                    result["campaign"] = brand
-                    result["campaign_source"] = "vision"
-                    reclassified += 1
-                    # Save Vision result immediately so future runs skip this ticket
-                    t = result["ticket"]
-                    if t in manual_overrides:
-                        manual_overrides[t]["campaign"] = brand
-                        manual_overrides[t]["campaign_source"] = "vision"
+            amounts_found = 0
+            for i, (result, images, mode) in enumerate(vision_queue, 1):
+                t = result["ticket"]
+                if mode == "brand_and_amount":
+                    brand, amount = classify_brand_and_amount_by_vision(anthropic_client, images)
+                    if brand != "Unknown":
+                        result["campaign"] = brand
+                        result["campaign_source"] = "vision"
+                        reclassified += 1
+                    result["deposit_amount"] = amount
+                    result["deposit_amount_source"] = "vision"
+                else:  # amount_only
+                    amount = extract_amount_by_vision(anthropic_client, images)
+                    result["deposit_amount"] = amount
+                    result["deposit_amount_source"] = "vision"
+
+                if result.get("deposit_amount") is not None:
+                    amounts_found += 1
+
+                # Cache immediately so future runs skip this ticket
+                manual_overrides.setdefault(t, {})
+                if mode == "brand_and_amount":
+                    manual_overrides[t]["campaign"] = result["campaign"]
+                    manual_overrides[t]["campaign_source"] = "vision"
+                manual_overrides[t]["deposit_amount"] = result["deposit_amount"]
+                manual_overrides[t]["deposit_amount_source"] = "vision"
+
                 if i % 10 == 0 or i == len(vision_queue):
-                    log(f"  [{i}/{len(vision_queue)}] vision done (reclassified {reclassified} so far)...")
-            log(f"Vision pass complete: {reclassified}/{len(vision_queue)} reclassified")
+                    log(f"  [{i}/{len(vision_queue)}] vision done "
+                        f"(reclassified {reclassified}, amounts found {amounts_found})...")
+            log(f"Vision pass complete: {reclassified} reclassified, {amounts_found} amounts extracted")
         else:
             log("⚠️  No Anthropic API key found — skipping vision classification")
 
@@ -1255,6 +1746,8 @@ def main():
                 "campaign_source": r.get("campaign_source", ""),
                 "ticket_date": r.get("ticket_date", ""),
                 "first_seen_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                "deposit_amount": r.get("deposit_amount"),
+                "deposit_amount_source": r.get("deposit_amount_source", ""),
             }
         elif r.get("ticket_date") and not updated_overrides[t].get("ticket_date"):
             updated_overrides[t]["ticket_date"] = r["ticket_date"]
@@ -1262,6 +1755,14 @@ def main():
             # Always update campaign_source for vision-classified tickets
             updated_overrides[t]["campaign"] = r["campaign"]
             updated_overrides[t]["campaign_source"] = "vision"
+
+        # Persist deposit_amount if newly extracted (never overwrite an existing value)
+        if (
+            r.get("deposit_amount_source") == "vision"
+            and "deposit_amount" not in updated_overrides.get(t, {})
+        ):
+            updated_overrides[t]["deposit_amount"] = r.get("deposit_amount")
+            updated_overrides[t]["deposit_amount_source"] = "vision"
     save_manual_overrides(updated_overrides)
     log(f"Saved {len(updated_overrides)} entries to manual-overrides.json")
 
@@ -1324,10 +1825,14 @@ def main():
         u_bet   = count_unique_registrations([r for r in results if r["campaign"] == "Betlabel"])
         u_win   = count_unique_registrations([r for r in results if r["campaign"] == "Winnerz"])
         u_rol   = count_unique_registrations([r for r in results if r["campaign"] == "Winrolla"])
-        new_24h = sum(1 for r in results if r["approval_status"] == "Approved" and is_new(r))
-        new_bet = sum(1 for r in results if r["approval_status"] == "Approved" and is_new(r) and r["campaign"] == "Betlabel")
-        new_win = sum(1 for r in results if r["approval_status"] == "Approved" and is_new(r) and r["campaign"] == "Winnerz")
-        new_rol = sum(1 for r in results if r["approval_status"] == "Approved" and is_new(r) and r["campaign"] == "Winrolla")
+        new_24h_list = [r for r in results if r["approval_status"] == "Approved" and is_new(r)]
+        new_24h = len(new_24h_list)
+        new_bet = sum(1 for r in new_24h_list if r["campaign"] == "Betlabel")
+        new_win = sum(1 for r in new_24h_list if r["campaign"] == "Winnerz")
+        new_rol = sum(1 for r in new_24h_list if r["campaign"] == "Winrolla")
+        vol_24h_tg      = sum_amounts(new_24h_list)
+        vol_24h_known_tg = sum(1 for r in new_24h_list if r.get("deposit_amount") is not None)
+        vol_24h_tg_str  = f"€{vol_24h_tg:.0f}" if vol_24h_tg is not None else "—"
 
         dashboard_url = "https://wettelite.github.io/wett-elite-dashboard/dashboard.html"
 
@@ -1337,7 +1842,8 @@ def main():
             f"📅 <b>Last 24 Hours:</b> +{new_24h} new deposits\n"
             f"  • Betlabel: +{new_bet}\n"
             f"  • Winnerz:  +{new_win}\n"
-            f"  • Winrolla: +{new_rol}\n\n"
+            f"  • Winrolla: +{new_rol}\n"
+            f"💰 Volume: {vol_24h_tg_str} ({vol_24h_known_tg} of {new_24h} with amount)\n\n"
             f"📊 <b>All-Time Unique Registrations:</b> {u_reg}\n"
             f"  • Betlabel: {u_bet}\n"
             f"  • Winnerz:  {u_win}\n"
