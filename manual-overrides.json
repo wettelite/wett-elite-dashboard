@@ -13844,5 +13844,58 @@
     "first_seen_at": "2026-03-27T15:09:33.416249+00:00",
     "deposit_amount": 50.0,
     "deposit_amount_source": "vision"
+  },
+  "closed-0175_1487107665992745072": {
+    "campaign": "Winnerz",
+    "campaign_source": "vision",
+    "deposit_amount": 53.08,
+    "deposit_amount_source": "vision",
+    "ticket_date": "2026-03-27T15:14:57.554000+00:00"
+  },
+  "closed-0139_1486453977393401927": {
+    "campaign": "Unknown",
+    "campaign_source": "vision",
+    "deposit_amount": 104.49,
+    "deposit_amount_source": "vision",
+    "ticket_date": "2026-03-25T19:57:25.752000+00:00"
+  },
+  "closed-0173_1487054011977830492": {
+    "status": "Not Approved",
+    "signal": "",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-27T11:41:45.272000+00:00",
+    "first_seen_at": "2026-03-29T07:15:50.236723+00:00",
+    "deposit_amount": null,
+    "deposit_amount_source": ""
+  },
+  "closed-0177_1487137205406269541": {
+    "status": "Excluded (Oddify)",
+    "signal": "Message content mentions Oddify",
+    "user": "loveejulien",
+    "campaign": "Winrolla",
+    "has_screenshot": true,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-27T17:12:19.981000+00:00",
+    "first_seen_at": "2026-03-29T07:15:50.236744+00:00",
+    "deposit_amount": null,
+    "deposit_amount_source": ""
+  },
+  "closed-0176_1487112903864750181": {
+    "status": "Not Approved",
+    "signal": "",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-27T15:35:46.027000+00:00",
+    "first_seen_at": "2026-03-29T07:15:50.236748+00:00",
+    "deposit_amount": null,
+    "deposit_amount_source": ""
   }
 }
