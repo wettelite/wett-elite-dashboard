@@ -9798,7 +9798,7 @@
     "vision_reason": "Multiple deposit transactions visible with Mastercard payment method, amounts and timestamps shown, "
   },
   "_state": {
-    "last_telegram_date": "2026-03-28"
+    "last_telegram_date": "2026-03-29"
   },
   "closed-0137_1486452344295264386": {
     "status": "Not Approved",
@@ -11062,5 +11062,39 @@
     "campaign_source": "",
     "ticket_date": "2026-03-27T11:41:45.272000+00:00",
     "first_seen_at": "2026-03-28T19:49:32.266266+00:00"
+  },
+  "closed-0139_1486453977393401927": {
+    "status": "To be checked",
+    "signal": "",
+    "user": "milow02",
+    "campaign": "Unknown",
+    "has_screenshot": true,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-25T19:57:25.752000+00:00",
+    "first_seen_at": "2026-03-29T05:57:44.786459+00:00",
+    "telegram_sent_at": "2026-03-29T05:57:47.744133+00:00"
+  },
+  "closed-0176_1487112903864750181": {
+    "status": "Not Approved",
+    "signal": "",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-27T15:35:46.027000+00:00",
+    "first_seen_at": "2026-03-29T05:57:44.786473+00:00"
+  },
+  "closed-0175_1487107665992745072": {
+    "status": "Excluded (Oddify)",
+    "signal": "Message content mentions Oddify",
+    "user": "maikeltschordan",
+    "campaign": "Winnerz",
+    "has_screenshot": true,
+    "approving_admin": "wettelitemod",
+    "campaign_source": "vision",
+    "ticket_date": "2026-03-27T15:14:57.554000+00:00",
+    "first_seen_at": "2026-03-29T05:57:44.786477+00:00"
   }
 }
