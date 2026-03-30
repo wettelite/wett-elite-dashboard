@@ -413,13 +413,15 @@ def _parse_amount(text: str) -> float | None:
 
 def classify_brand_and_amount_by_vision(
     anthropic_client, images: list[tuple[str, str]]
-) -> tuple[str, float | None]:
-    """Ask Claude to identify the brand AND deposit amount from ticket screenshots.
-    Returns (brand, amount) where brand is one of the known brands or 'Unknown',
-    and amount is a float (€) or None if not visible.
+) -> tuple[str, float | None, str]:
+    """Ask Claude to identify the brand, deposit amount, AND verdict from ticket screenshots.
+    Returns (brand, amount, verdict) where:
+      brand is one of the known brands or 'Unknown',
+      amount is a float (€) or None if not visible,
+      verdict is 'Approved', 'No FTD', or 'Promo'.
     """
     if not images:
-        return "Unknown", None
+        return "Unknown", None, "No FTD"
     try:
         content = _build_image_content(images)
         content.append({
@@ -432,21 +434,32 @@ def classify_brand_and_amount_by_vision(
                 "- Winnerz (winnerz.com)\n\n"
                 "Look at ALL the images carefully — some may be bank/transaction history pages, "
                 "but at least one should show the casino interface or logo.\n\n"
-                "Reply with EXACTLY two lines and nothing else:\n"
-                "Line 1: BRAND: [Winrolla|Betlabel|Winnerz|Unknown]\n"
-                "Line 2: AMOUNT: [deposit amount as a number using dot notation, e.g. 50.00 — "
+                "Reply with EXACTLY three lines and nothing else:\n"
+                "Line 1: VERDICT: [Approved|No FTD|Promo]\n"
+                "  - Approved = clear deposit screenshot visible showing a successful transaction\n"
+                "  - No FTD = no deposit proof shown, or screenshot doesn't show a completed deposit\n"
+                "  - Promo = this is a promotional/bonus/Verlosung deposit, not a first-time deposit\n"
+                "Line 2: BRAND: [Winrolla|Betlabel|Winnerz|Unknown]\n"
+                "Line 3: AMOUNT: [deposit amount as a number using dot notation, e.g. 50.00 — "
                 "strip any currency symbol; use the deposit confirmation amount, not an account balance; "
                 "reply Unknown if the amount is not clearly visible]\n\n"
-                "Example response:\nBRAND: Winnerz\nAMOUNT: 25.00"
+                "Example response:\nVERDICT: Approved\nBRAND: Winnerz\nAMOUNT: 25.00"
             ),
         })
 
         resp = anthropic_client.messages.create(
             model="claude-sonnet-4-5",
-            max_tokens=60,
+            max_tokens=80,
             messages=[{"role": "user", "content": content}],
         )
         answer = resp.content[0].text.strip()
+
+        # Parse verdict
+        verdict = "No FTD"
+        if re.search(r'VERDICT:\s*Approved', answer, re.IGNORECASE):
+            verdict = "Approved"
+        elif re.search(r'VERDICT:\s*Promo', answer, re.IGNORECASE):
+            verdict = "Promo"
 
         # Parse brand
         brand = "Unknown"
@@ -457,9 +470,9 @@ def classify_brand_and_amount_by_vision(
 
         # Parse amount
         amount = _parse_amount(answer)
-        return brand, amount
+        return brand, amount, verdict
     except Exception:
-        return "Unknown", None
+        return "Unknown", None, "No FTD"
 
 
 def extract_amount_by_vision(
@@ -541,10 +554,20 @@ def apply_exclusions_and_overrides(result: dict, messages: list[dict] | None,
     ticket_lower = result["ticket"].lower()
 
     # 1. Promo tickets (existing registered users depositing for a promotion)
-    if "einzahlung-promo" in ticket_lower:
+    PROMO_NAME_KEYWORDS = ["einzahlung-promo", "discord-promo", "weekend-promo"]
+    if any(kw in ticket_lower for kw in PROMO_NAME_KEYWORDS):
         result["approval_status"] = "Excluded (Promo)"
         result["approval_signal"] = "Ticket name indicates promo deposit (already registered)"
         return
+
+    # 1b. Promo by message content
+    PROMO_TEXT_KEYWORDS = ["verlosung", "gewinnspiel", "promotion deposit", "promo einzahlung"]
+    if messages:
+        all_text = " ".join((m.get("content") or "") for m in messages).lower()
+        if any(kw in all_text for kw in PROMO_TEXT_KEYWORDS):
+            result["approval_status"] = "Excluded (Promo)"
+            result["approval_signal"] = "Message content indicates promo deposit"
+            return
 
     # 2. Oddify by ticket name
     if ticket_lower.startswith("oddify"):
@@ -841,9 +864,9 @@ def build_daily_volumes(results: list[dict], days: int = 14) -> list[list]:
     """
     header = [
         "Date",
-        "FTDs (unique)", "All Deposits",
+        "New FTDs (unique)",
         "Betlabel", "Winnerz", "Winrolla", "Unknown",
-        "FTD Volume (€)", "Total Volume (€)",
+        "FTD Volume (€)", "Promo Volume (€)", "Total Volume (€)",
         "Betlabel (€)", "Winnerz (€)", "Winrolla (€)", "Unknown (€)",
     ]
     rows = [header]
@@ -854,15 +877,16 @@ def build_daily_volumes(results: list[dict], days: int = 14) -> list[list]:
     empty = {"count": 0, "ftd_count": 0, "amount": 0.0, "ftd_amount": 0.0}
     for entry in group_by_day(results, days=days):
         bb = entry["by_brand"]
+        promo_vol = round(entry["amount"] - entry["ftd_amount"], 2)
         rows.append([
             entry["date"],
             entry["ftd_count"],
-            entry["count"],
             bb.get("Betlabel", empty)["count"],
             bb.get("Winnerz",  empty)["count"],
             bb.get("Winrolla", empty)["count"],
             bb.get("Unknown",  empty)["count"],
             fa(entry["ftd_amount"]),
+            fa(promo_vol),
             fa(entry["amount"]),
             fa(bb.get("Betlabel", empty)["amount"]),
             fa(bb.get("Winnerz",  empty)["amount"]),
@@ -1158,15 +1182,16 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
         win = _fmt_amt(bb.get("Winnerz",  eb)["amount"])
         rol = _fmt_amt(bb.get("Winrolla", eb)["amount"])
         unk = _fmt_amt(bb.get("Unknown",  eb)["amount"])
-        ftd_vol = _fmt_amt(entry["ftd_amount"])
-        all_vol = _fmt_amt(entry["amount"])
+        ftd_vol   = _fmt_amt(entry["ftd_amount"])
+        promo_vol = _fmt_amt(round(entry["amount"] - entry["ftd_amount"], 2))
+        all_vol   = _fmt_amt(entry["amount"])
         daily_table_rows_html += (
             f'<tr>'
             f'<td class="mono">{entry["date"]}</td>'
             f'<td style="text-align:center">{entry["ftd_count"]}</td>'
-            f'<td style="text-align:center;color:#64748b">{entry["count"]}</td>'
             f'<td style="text-align:right;color:#34d399;font-weight:700">{ftd_vol}</td>'
-            f'<td style="text-align:right;color:#94a3b8">{all_vol}</td>'
+            f'<td style="text-align:right;color:#a78bfa">{promo_vol}</td>'
+            f'<td style="text-align:right;color:#e2e8f0;font-weight:800">{all_vol}</td>'
             f'<td style="text-align:right">{bet}</td>'
             f'<td style="text-align:right">{win}</td>'
             f'<td style="text-align:right">{rol}</td>'
@@ -1360,21 +1385,21 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
         <thead>
           <tr>
             <th rowspan="2">Date</th>
-            <th style="text-align:center">FTDs</th>
-            <th style="text-align:center;color:#64748b">All</th>
-            <th style="text-align:right;color:#34d399">FTD Vol</th>
-            <th style="text-align:right;color:#94a3b8">Total Vol</th>
+            <th style="text-align:center">New FTDs</th>
+            <th style="text-align:right;color:#34d399">FTD Volume (€)</th>
+            <th style="text-align:right;color:#94a3b8">+ Promo Vol (€)</th>
+            <th style="text-align:right;color:#e2e8f0;font-weight:800">= Total Vol (€)</th>
             <th style="text-align:right">Betlabel</th>
             <th style="text-align:right">Winnerz</th>
             <th style="text-align:right">Winrolla</th>
             <th style="text-align:right;color:#6b7280">Unknown</th>
           </tr>
           <tr style="font-size:0.65rem;color:#64748b">
-            <th style="text-align:center">unique</th>
-            <th style="text-align:center">deposits</th>
-            <th style="text-align:right">1st dep only</th>
-            <th style="text-align:right">all deps</th>
-            <th colspan="4" style="text-align:center">total volume per brand</th>
+            <th style="text-align:center">unique first depositors</th>
+            <th style="text-align:right">from new users only</th>
+            <th style="text-align:right">promo participants</th>
+            <th style="text-align:right">FTD + Promo combined</th>
+            <th colspan="4" style="text-align:center">total volume per brand (FTD + Promo)</th>
           </tr>
         </thead>
         <tbody>{daily_table_rows_html}</tbody>
@@ -1382,8 +1407,8 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
     </div>
     <div class="vol-coverage">
       7-day FTD volume: <strong style="color:#34d399">{overall_7d_ftd_str}</strong>
-      &nbsp;·&nbsp; Total volume (all deposits): <strong>{overall_7d_total_str}</strong>
-      &nbsp;·&nbsp; {overall_7d_known} of {overall_7d_approved} deposits have a confirmed amount
+      &nbsp;·&nbsp; Total volume incl. promo: <strong>{overall_7d_total_str}</strong>
+      &nbsp;·&nbsp; <span style="color:#94a3b8">{overall_7d_approved} FTDs · {overall_7d_known} deposits have a confirmed amount</span>
     </div>
   </div>
 
@@ -1600,10 +1625,12 @@ def main():
             override.get("campaign_source") == "vision"
             and override.get("campaign", "Unknown") != "Unknown"
         )
+        # Vision needed if: Unknown brand, OR ticket is unresolved (To be checked / Not Approved)
         needs_brand = (
-            result["campaign"] == "Unknown"
-            and result["has_screenshot"]
+            result["has_screenshot"]
             and not already_vision_classified
+            and (result["campaign"] == "Unknown"
+                 or result["approval_status"] in ("To be checked", "Not Approved"))
         )
         needs_amount = (
             result["approval_status"] == "Approved"
@@ -1667,16 +1694,33 @@ def main():
                 f"({brand_jobs} brand+amount, {amount_jobs} amount-only)...")
             reclassified = 0
             amounts_found = 0
+            auto_approved = 0
+            auto_excluded = 0
             for i, (result, images, mode) in enumerate(vision_queue, 1):
                 t = result["ticket"]
                 if mode == "brand_and_amount":
-                    brand, amount = classify_brand_and_amount_by_vision(anthropic_client, images)
+                    brand, amount, verdict = classify_brand_and_amount_by_vision(anthropic_client, images)
                     if brand != "Unknown":
                         result["campaign"] = brand
                         result["campaign_source"] = "vision"
                         reclassified += 1
                     result["deposit_amount"] = amount
                     result["deposit_amount_source"] = "vision"
+
+                    # Auto-approve/exclude based on Vision verdict
+                    if verdict == "Approved" and brand != "Unknown":
+                        result["approval_status"] = "Approved"
+                        result["approval_signal"] = "vision_auto_approved"
+                        result["approving_admin"] = "vision"
+                        auto_approved += 1
+                    elif verdict == "Promo":
+                        result["approval_status"] = "Excluded (Promo)"
+                        result["approval_signal"] = "vision_promo"
+                        auto_excluded += 1
+                    elif verdict == "No FTD":
+                        result["approval_status"] = "Excluded (No FTD)"
+                        result["approval_signal"] = "vision_no_ftd"
+                        auto_excluded += 1
                 else:  # amount_only
                     amount = extract_amount_by_vision(anthropic_client, images)
                     result["deposit_amount"] = amount
@@ -1690,13 +1734,16 @@ def main():
                 if mode == "brand_and_amount":
                     manual_overrides[t]["campaign"] = result["campaign"]
                     manual_overrides[t]["campaign_source"] = "vision"
+                    manual_overrides[t]["status"] = result["approval_status"]
+                    manual_overrides[t]["signal"] = result["approval_signal"]
                 manual_overrides[t]["deposit_amount"] = result["deposit_amount"]
                 manual_overrides[t]["deposit_amount_source"] = "vision"
 
                 if i % 10 == 0 or i == len(vision_queue):
                     log(f"  [{i}/{len(vision_queue)}] vision done "
                         f"(reclassified {reclassified}, amounts found {amounts_found})...")
-            log(f"Vision pass complete: {reclassified} reclassified, {amounts_found} amounts extracted")
+            log(f"Vision pass complete: {reclassified} reclassified, {auto_approved} auto-approved, "
+                f"{auto_excluded} auto-excluded, {amounts_found} amounts extracted")
         else:
             log("⚠️  No Anthropic API key found — skipping vision classification")
 
