@@ -545,49 +545,22 @@ def apply_exclusions_and_overrides(result: dict, messages: list[dict] | None,
                                    manual_overrides: dict):
     """
     Mutate result in-place applying business rules in priority order:
-      1. einzahlung-promo ticket name → Excluded (Promo)
-      2. oddify- ticket name OR message content → Excluded (Oddify)
-      3. Manual override says Excluded → honour it
-      4. Manual override says Approved → upgrade to Approved
+      1. Manual override with definitive status → ALWAYS wins (admin decision is final)
+      2. einzahlung-promo ticket name → Excluded (Promo)
+      3. oddify- ticket name OR message content → Excluded (Oddify)
+      4. Promo text in message content → Excluded (Promo)
       5. Otherwise keep auto-detected status
+    Admin overrides take priority so a manually approved ticket is never
+    re-excluded by auto-detection on subsequent runs.
     """
     ticket_lower = result["ticket"].lower()
 
-    # 1. Promo tickets (existing registered users depositing for a promotion)
-    PROMO_NAME_KEYWORDS = ["einzahlung-promo", "discord-promo", "weekend-promo"]
-    if any(kw in ticket_lower for kw in PROMO_NAME_KEYWORDS):
-        result["approval_status"] = "Excluded (Promo)"
-        result["approval_signal"] = "Ticket name indicates promo deposit (already registered)"
-        return
-
-    # 1b. Promo by message content
-    PROMO_TEXT_KEYWORDS = ["verlosung", "gewinnspiel", "promotion deposit", "promo einzahlung"]
-    if messages:
-        all_text = " ".join((m.get("content") or "") for m in messages).lower()
-        if any(kw in all_text for kw in PROMO_TEXT_KEYWORDS):
-            result["approval_status"] = "Excluded (Promo)"
-            result["approval_signal"] = "Message content indicates promo deposit"
-            return
-
-    # 2. Oddify by ticket name
-    if ticket_lower.startswith("oddify"):
-        result["approval_status"] = "Excluded (Oddify)"
-        result["approval_signal"] = "Ticket name indicates Oddify source"
-        return
-
-    # 3. Oddify by message content (for tickets where admin noted it or user mentioned it)
-    if messages and detect_oddify(messages):
-        result["approval_status"] = "Excluded (Oddify)"
-        result["approval_signal"] = "Message content mentions Oddify"
-        return
-
-    # 4. Check manual overrides — ALWAYS honour any saved status
+    # 1. Manual overrides — ALWAYS checked first so admin decisions are never overridden
     override = manual_overrides.get(result["ticket"])
     if override:
-        saved_signal = (override.get("signal") or "").lower()
         saved_status = override.get("status", "")
 
-        # If override has a definitive status, always apply it
+        # If override has a definitive status, apply it and skip all auto-detection
         if saved_status and saved_status != "To be checked":
             result["approval_status"] = saved_status
             result["approval_signal"] = override.get("signal") or saved_status
@@ -595,6 +568,7 @@ def apply_exclusions_and_overrides(result: dict, messages: list[dict] | None,
                 result["approving_admin"] = override["reviewed_by"]
             elif override.get("approving_admin"):
                 result["approving_admin"] = override["approving_admin"]
+            # Fall through to apply campaign/date/amount from override below
 
         # If human OR Vision saved a campaign → honour it
         if override.get("campaign") and override["campaign"] != "Unknown":
@@ -615,6 +589,38 @@ def apply_exclusions_and_overrides(result: dict, messages: list[dict] | None,
         if "deposit_amount" in override:
             result["deposit_amount"] = override["deposit_amount"]
             result["deposit_amount_source"] = override.get("deposit_amount_source", "")
+
+        # If we applied a definitive status, we're done — skip auto-detection
+        if saved_status and saved_status != "To be checked":
+            return
+
+    # 2. Promo tickets by ticket name (no override saved yet)
+    PROMO_NAME_KEYWORDS = ["einzahlung-promo", "discord-promo", "weekend-promo"]
+    if any(kw in ticket_lower for kw in PROMO_NAME_KEYWORDS):
+        result["approval_status"] = "Excluded (Promo)"
+        result["approval_signal"] = "Ticket name indicates promo deposit (already registered)"
+        return
+
+    # 3. Oddify by ticket name
+    if ticket_lower.startswith("oddify"):
+        result["approval_status"] = "Excluded (Oddify)"
+        result["approval_signal"] = "Ticket name indicates Oddify source"
+        return
+
+    # 4. Oddify by message content
+    if messages and detect_oddify(messages):
+        result["approval_status"] = "Excluded (Oddify)"
+        result["approval_signal"] = "Message content mentions Oddify"
+        return
+
+    # 5. Promo by message content
+    PROMO_TEXT_KEYWORDS = ["verlosung", "gewinnspiel", "promotion deposit", "promo einzahlung"]
+    if messages:
+        all_text = " ".join((m.get("content") or "") for m in messages).lower()
+        if any(kw in all_text for kw in PROMO_TEXT_KEYWORDS):
+            result["approval_status"] = "Excluded (Promo)"
+            result["approval_signal"] = "Message content indicates promo deposit"
+            return
 
 
 def analyze_transcript(html_bytes: bytes, filename: str,
