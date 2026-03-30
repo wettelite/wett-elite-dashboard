@@ -1763,6 +1763,22 @@ def main():
                 "campaign_source": v.get("campaign_source", "manual"),
             })
 
+    # Inject orphaned override entries: tickets in overrides with a definitive status
+    # but not matched from any Drive file (e.g. manually reviewed tickets whose Drive
+    # filename has since changed, or entries added via API with slightly different keys).
+    result_keys = {r["ticket"] for r in results}
+    orphan_count = 0
+    for key, v in manual_overrides.items():
+        if key in result_keys or key.startswith("dm-approved-"):
+            continue
+        status = v.get("status", "")
+        if status in ("Approved", "Excluded (Promo)") and v.get("ticket_date"):
+            log(f"  ⚠️  Orphaned override injected into results: {key} (status={status})")
+            results.append(result_from_cache(key, v))
+            orphan_count += 1
+    if orphan_count:
+        log(f"Injected {orphan_count} orphaned override entries into results")
+
     # After analysis, save updated overrides (adds any new tickets to the file)
     updated_overrides = dict(manual_overrides)
     for r in results:
