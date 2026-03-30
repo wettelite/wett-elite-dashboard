@@ -13912,5 +13912,18 @@
     "deposit_amount": 75.0,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-28T17:54:40.485000+00:00"
+  },
+  "oddify-0107_1488159374336856164": {
+    "status": "Excluded (Oddify)",
+    "signal": "Ticket name indicates Oddify source",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-30T12:54:04.051000+00:00",
+    "first_seen_at": "2026-03-30T15:56:35.427537+00:00",
+    "deposit_amount": null,
+    "deposit_amount_source": ""
   }
 }
