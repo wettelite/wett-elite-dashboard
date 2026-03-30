@@ -13907,8 +13907,8 @@
   "closed-0095_1487510241007374517": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "status": "Excluded (Oddify)",
-    "signal": "Message content mentions Oddify",
+    "status": "Excluded (Promo)",
+    "signal": "vision_promo",
     "deposit_amount": 75.0,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-28T17:54:40.485000+00:00"
@@ -14917,6 +14917,19 @@
     "has_screenshot": false,
     "first_seen_at": "2026-03-30T16:08:05.377933+00:00",
     "ticket_date": "2026-03-30",
+    "deposit_amount": null,
+    "deposit_amount_source": ""
+  },
+  "koenisch-1096_1488252669821976656": {
+    "status": "Not Approved",
+    "signal": "",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-30T19:04:47.524000+00:00",
+    "first_seen_at": "2026-03-30T20:05:05.798780+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
   }
