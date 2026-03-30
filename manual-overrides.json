@@ -194,7 +194,7 @@
     "reviewed_by": "admin",
     "first_seen_at": "2026-03-20T02:57:13.341000+00:00",
     "deposit_amount": null,
-    "deposit_amount_source": ""
+    "deposit_amount_source": "vision"
   },
   "closed-0729_933302930780586024": {
     "status": "Not Approved",
@@ -12920,7 +12920,7 @@
     "reviewed_by": "admin",
     "first_seen_at": "2026-03-20T02:57:13.341000+00:00",
     "deposit_amount": null,
-    "deposit_amount_source": ""
+    "deposit_amount_source": "vision"
   },
   "closed-0062_1483038413727862784": {
     "status": "Excluded (No FTD)",
