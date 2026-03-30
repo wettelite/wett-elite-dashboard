@@ -13903,5 +13903,14 @@
     "first_seen_at": "2026-03-29T07:15:50.236748+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
+  },
+  "closed-0095_1487510241007374517": {
+    "campaign": "Unknown",
+    "campaign_source": "vision",
+    "status": "Excluded (Oddify)",
+    "signal": "Message content mentions Oddify",
+    "deposit_amount": 75.0,
+    "deposit_amount_source": "vision",
+    "ticket_date": "2026-03-28T17:54:40.485000+00:00"
   }
 }
