@@ -13862,8 +13862,8 @@
     "deposit_amount": 104.49,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T19:57:25.752000+00:00",
-    "status": "Not Approved",
-    "signal": "auto_fixed"
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd"
   },
   "closed-0173_1487054011977830492": {
     "status": "Excluded (No FTD)",
