@@ -63,7 +63,7 @@
   },
   "closed-0028_798496652507873330": {
     "status": "Approved",
-    "signal": "\"hi leon, top, verifiziere dich\"",
+    "signal": "admin confirmed: top, verifiziere dich",
     "user": "leon705",
     "campaign": "Winnerz",
     "has_screenshot": true,
@@ -8192,8 +8192,8 @@
     "first_seen_at": "2026-03-14T17:07:49.978000+00:00"
   },
   "closed-0202_283604731211939841": {
-    "status": "Approved",
-    "signal": "\"bro du verpasst alles <@283604731211939841>\"",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "gian3108.",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -8713,8 +8713,8 @@
     "deposit_amount_source": ""
   },
   "closed-0307_1462440845012766790": {
-    "status": "Approved",
-    "signal": "\"hey bruder, schick mir bitte einen screenshot von der transaktionshistorie, wenn\"",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "canooooooo0103",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -8858,8 +8858,8 @@
     "deposit_amount_source": ""
   },
   "closed-0032_719219726357758013": {
-    "status": "Approved",
-    "signal": "\"dann schalte ich dich direkt frei\"",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd - conditional approval, user never provided proof",
     "user": "finsey",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -8882,8 +8882,8 @@
     "deposit_amount_source": ""
   },
   "closed-0463_1342461137031266355": {
-    "status": "Approved",
-    "signal": "\"<@1342461137031266355>   bro du verpasst ganzen spaß\"",
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd",
     "user": "tobi035158",
     "campaign": "Betlabel",
     "has_screenshot": true,
@@ -13907,9 +13907,9 @@
   "closed-0095_1487510241007374517": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "status": "Excluded (No FTD)",
-    "signal": "vision_no_ftd",
-    "deposit_amount": null,
+    "status": "Excluded (Oddify)",
+    "signal": "Message content mentions Oddify",
+    "deposit_amount": 75.0,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-28T17:54:40.485000+00:00"
   },
@@ -14920,30 +14920,148 @@
     "deposit_amount": null,
     "deposit_amount_source": ""
   },
-  "koenisch-1096_1488252669821976656": {
-    "status": "Not Approved",
-    "signal": "",
-    "user": "",
-    "campaign": "Unknown",
-    "has_screenshot": false,
-    "approving_admin": "",
-    "campaign_source": "",
-    "ticket_date": "2026-03-30T19:04:47.524000+00:00",
-    "first_seen_at": "2026-03-31T01:39:17.848992+00:00",
-    "deposit_amount": null,
-    "deposit_amount_source": ""
+  "dm-approved-hardaddy": {
+    "status": "Approved",
+    "signal": "DM approved",
+    "campaign": "Winrolla",
+    "campaign_source": "dm-approved",
+    "username": "hardaddy",
+    "user": "hardaddy",
+    "approving_admin": "manual-review"
   },
-  "koenisch-1094_1488229426964467763": {
-    "status": "Not Approved",
-    "signal": "",
-    "user": "",
-    "campaign": "Unknown",
-    "has_screenshot": false,
-    "approving_admin": "",
-    "campaign_source": "",
-    "ticket_date": "2026-03-30T17:32:25.828000+00:00",
-    "first_seen_at": "2026-03-31T01:39:17.849002+00:00",
-    "deposit_amount": null,
-    "deposit_amount_source": ""
+  "dm-approved-ismail": {
+    "status": "Approved",
+    "signal": "DM approved",
+    "campaign": "Winrolla",
+    "campaign_source": "dm-approved",
+    "username": "ismail",
+    "user": "ismail",
+    "approving_admin": "manual-review"
+  },
+  "dm-approved-sitzaufmklo": {
+    "status": "Approved",
+    "signal": "DM approved",
+    "campaign": "Winrolla",
+    "campaign_source": "dm-approved",
+    "username": "sitzaufmklo",
+    "user": "sitzaufmklo",
+    "approving_admin": "manual-review"
+  },
+  "dm-approved-helios": {
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd - Internal/Fake User",
+    "campaign": "",
+    "campaign_source": "manual",
+    "username": "helios",
+    "user": "helios",
+    "approving_admin": "manual-review"
+  },
+  "dm-approved-jonnosins": {
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd - Internal/Fake User",
+    "campaign": "",
+    "campaign_source": "manual",
+    "username": "jonnosins",
+    "user": "jonnosins",
+    "approving_admin": "manual-review"
+  },
+  "dm-approved-luitree": {
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd - Internal/Fake User",
+    "campaign": "",
+    "campaign_source": "manual",
+    "username": "luitree",
+    "user": "luitree",
+    "approving_admin": "manual-review"
+  },
+  "dm-approved-jeremiah": {
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd - Internal/Fake User",
+    "campaign": "",
+    "campaign_source": "manual",
+    "username": "jeremiah",
+    "user": "jeremiah",
+    "approving_admin": "manual-review"
+  },
+  "dm-approved-yaxu": {
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd - Internal/Fake User",
+    "campaign": "",
+    "campaign_source": "manual",
+    "username": "yaxu",
+    "user": "yaxu",
+    "approving_admin": "manual-review"
+  },
+  "dm-approved-zonzo": {
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd - Internal/Fake User",
+    "campaign": "",
+    "campaign_source": "manual",
+    "username": "zonzo",
+    "user": "zonzo",
+    "approving_admin": "manual-review"
+  },
+  "dm-approved-mylifemyrules": {
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd - Internal/Fake User",
+    "campaign": "",
+    "campaign_source": "manual",
+    "username": "mylifemyrules",
+    "user": "mylifemyrules",
+    "approving_admin": "manual-review"
+  },
+  "dm-approved-adidasmetaverse": {
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd - Internal/Fake User",
+    "campaign": "",
+    "campaign_source": "manual",
+    "username": "adidasmetaverse",
+    "user": "adidasmetaverse",
+    "approving_admin": "manual-review"
+  },
+  "dm-approved-woodenspoon": {
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd - Internal/Fake User",
+    "campaign": "",
+    "campaign_source": "manual",
+    "username": "woodenspoon",
+    "user": "woodenspoon",
+    "approving_admin": "manual-review"
+  },
+  "dm-approved-liutree": {
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd - Internal/Fake User",
+    "campaign": "",
+    "campaign_source": "manual",
+    "username": "liutree",
+    "user": "liutree",
+    "approving_admin": "manual-review"
+  },
+  "dm-approved-jeremiah_score": {
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd - Internal/Fake User",
+    "campaign": "",
+    "campaign_source": "manual",
+    "username": "jeremiah_score",
+    "user": "jeremiah_score",
+    "approving_admin": "manual-review"
+  },
+  "dm-approved-theoneronin": {
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd - Internal/Fake User",
+    "campaign": "",
+    "campaign_source": "manual",
+    "username": "theoneronin",
+    "user": "theoneronin",
+    "approving_admin": "manual-review"
+  },
+  "dm-approved-ningen2433": {
+    "status": "Excluded (No FTD)",
+    "signal": "no_ftd - Internal/Fake User",
+    "campaign": "",
+    "campaign_source": "manual",
+    "username": "ningen2433",
+    "user": "ningen2433",
+    "approving_admin": "manual-review"
   }
 }
