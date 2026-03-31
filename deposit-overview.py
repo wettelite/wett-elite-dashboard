@@ -642,6 +642,7 @@ def analyze_transcript(html_bytes: bytes, filename: str,
         "parse_error":           False,
         "deposit_amount":        None,   # float or None if not extractable
         "deposit_amount_source": "",     # "vision" | "manual" | ""
+        "drive_file_id":         "",     # Google Drive file ID for linking
     }
 
     if messages is None:
@@ -672,6 +673,170 @@ def analyze_transcript(html_bytes: bytes, filename: str,
 SUMMARY_CAMPAIGNS = ["Winrolla", "Betlabel", "Winnerz", "Unknown"]
 
 EXCLUDED_STATUSES = {"Excluded (Oddify)", "Excluded (Promo)", "Excluded (Internal)", "Excluded (No FTD)"}
+
+# Discord cached member data (roles)
+DISCORD_MEMBERS_FILE = SCRIPT_DIR / "discord-ftd-members.json"
+
+# Role ID → display name mapping
+DISCORD_ROLE_NAMES = {
+    "1480118877722513499": "Koenisch Elite",
+    "1485926360907124816": "WR",
+    "1485926449255940147": "Winnerz",
+    "1485926628273164348": "BL",
+}
+
+
+def load_discord_roles() -> dict[str, list[str]]:
+    """Load cached Discord member data → {user_id: [role_name, ...]}."""
+    if not DISCORD_MEMBERS_FILE.exists():
+        return {}
+    try:
+        members = json.loads(DISCORD_MEMBERS_FILE.read_text())
+        result = {}
+        for m in members:
+            uid = m.get("user", {}).get("id", "")
+            if not uid:
+                continue
+            role_names = []
+            for rid in m.get("roles", []):
+                name = DISCORD_ROLE_NAMES.get(str(rid))
+                if name:
+                    role_names.append(name)
+            result[uid] = role_names
+        return result
+    except Exception:
+        return {}
+
+
+def build_user_lookup_data(results: list[dict], discord_roles: dict[str, list[str]]) -> list[dict]:
+    """Build per-user aggregated data for the User Lookup feature."""
+    ftd_keys = get_ftd_ticket_keys(results)
+
+    status_rank = {
+        "Approved": 0, "To be checked": 1,
+        "Not Approved": 2, "Excluded (Oddify)": 3,
+        "Excluded (Promo)": 4, "Excluded (Internal)": 5,
+        "Excluded (No FTD)": 6,
+    }
+
+    user_map: dict[str, dict] = {}
+
+    for r in results:
+        uid = r.get("user_id", "").strip()
+        user = r.get("user", "").strip()
+        key = uid if uid else (user if user else r["ticket"])
+
+        if key not in user_map:
+            user_map[key] = {
+                "user_id": uid,
+                "username": user,
+                "brand": "",
+                "ftd_approved": False,
+                "status": "Not Approved",
+                "status_detail": "",
+                "ftd_amount": None,
+                "total_deposits": 0.0,
+                "deposit_count": 0,
+                "promo_count": 0,
+                "approval_signal": "",
+                "approving_admin": "",
+                "first_deposit_date": "",
+                "tickets": [],
+                "discord_roles": [],
+                "_best_rank": 99,
+            }
+
+        entry = user_map[key]
+
+        # Update username if we have a better one
+        if user and not entry["username"]:
+            entry["username"] = user
+        # Update user_id if we have one
+        if uid and not entry["user_id"]:
+            entry["user_id"] = uid
+
+        # Determine status for this ticket
+        t_status = r.get("approval_status", "Not Approved")
+        rank = status_rank.get(t_status, 99)
+
+        ticket_info = {
+            "ticket": r["ticket"],
+            "campaign": r.get("campaign", "Unknown"),
+            "status": t_status,
+            "date": r.get("ticket_date", ""),
+            "amount": r.get("deposit_amount"),
+            "signal": r.get("approval_signal", ""),
+            "admin": r.get("approving_admin", ""),
+            "drive_file_id": r.get("drive_file_id", ""),
+        }
+        entry["tickets"].append(ticket_info)
+
+        # Track promo tickets
+        if t_status == "Excluded (Promo)":
+            entry["promo_count"] += 1
+
+        # Track approved deposits
+        if t_status == "Approved":
+            entry["ftd_approved"] = True
+            entry["deposit_count"] += 1
+            amt = r.get("deposit_amount")
+            if amt is not None:
+                entry["total_deposits"] += amt
+
+            # Track first (earliest) approved ticket for FTD info
+            is_ftd = r["ticket"] in ftd_keys
+            if is_ftd:
+                entry["ftd_amount"] = amt
+                entry["first_deposit_date"] = r.get("ticket_date", "")
+                entry["brand"] = r.get("campaign", "Unknown")
+                entry["approval_signal"] = r.get("approval_signal", "")
+                entry["approving_admin"] = r.get("approving_admin", "")
+
+        # Track best status
+        if rank < entry["_best_rank"]:
+            entry["_best_rank"] = rank
+            entry["status"] = t_status
+
+    # Second pass: compute derived fields + Discord roles
+    user_list = []
+    for key, entry in user_map.items():
+        # Clean up
+        del entry["_best_rank"]
+        entry["total_deposits"] = round(entry["total_deposits"], 2) if entry["total_deposits"] else None
+
+        # Status detail for excluded entries
+        status = entry["status"]
+        if "Internal" in status or "No FTD" in status:
+            sig = entry.get("approval_signal", "")
+            if "fake" in sig.lower() or "internal" in sig.lower():
+                entry["status_detail"] = "Internal / Fake"
+            elif "no_ftd" in sig.lower():
+                entry["status_detail"] = "No FTD"
+            else:
+                entry["status_detail"] = status.replace("Excluded (", "").replace(")", "")
+
+        # Brand fallback: use campaign from best ticket if not set from FTD
+        if not entry["brand"] and entry["tickets"]:
+            for t in entry["tickets"]:
+                if t["campaign"] != "Unknown":
+                    entry["brand"] = t["campaign"]
+                    break
+            if not entry["brand"]:
+                entry["brand"] = "Unknown"
+
+        # Discord roles
+        uid = entry["user_id"]
+        if uid and uid in discord_roles:
+            entry["discord_roles"] = discord_roles[uid]
+
+        # Sort tickets by date
+        entry["tickets"].sort(key=lambda t: t.get("date") or "")
+
+        user_list.append(entry)
+
+    # Sort by username
+    user_list.sort(key=lambda u: (u["username"] or "").lower())
+    return user_list
 
 def count_unique_registrations(subset: list[dict]) -> int:
     """Count distinct users with at least one Approved ticket in this subset."""
@@ -1068,7 +1233,7 @@ def send_telegram(text: str) -> None:
 # ---------------------------------------------------------------------------
 # HTML Dashboard
 # ---------------------------------------------------------------------------
-def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
+def generate_html_dashboard(results: list[dict], output_path: Path, user_lookup: list[dict] | None = None) -> None:
     now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     cutoff_24h = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=24)).isoformat()
 
@@ -1337,6 +1502,46 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
   .gate-box button {{ width:100%;background:#6366f1;color:#fff;border:none;border-radius:8px;padding:10px;font-size:1rem;font-weight:600;cursor:pointer; }}
   .gate-box button:hover {{ background:#4f46e5; }}
   .gate-error {{ color:#f87171;font-size:0.82rem;margin-top:8px;display:none; }}
+  /* Tab navigation */
+  .tab-bar {{ display:flex;gap:0;background:#1e293b;border-bottom:1px solid #334155;padding:0 32px; }}
+  .tab-btn {{ padding:12px 24px;font-size:0.9rem;font-weight:600;color:#64748b;cursor:pointer;border:none;background:none;border-bottom:3px solid transparent;transition:all 0.2s; }}
+  .tab-btn:hover {{ color:#94a3b8; }}
+  .tab-btn.active {{ color:#6366f1;border-bottom-color:#6366f1; }}
+  .tab-content {{ display:none; }}
+  .tab-content.active {{ display:block; }}
+  /* User Lookup */
+  .ul-search-bar {{ display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px; }}
+  .ul-search-bar input {{ flex:1;min-width:200px;background:#0f172a;border:1px solid #334155;border-radius:8px;color:#e2e8f0;padding:10px 16px;font-size:0.9rem;outline:none; }}
+  .ul-search-bar input:focus {{ border-color:#6366f1; }}
+  .ul-search-bar select {{ background:#0f172a;border:1px solid #334155;border-radius:8px;color:#e2e8f0;padding:10px 14px;font-size:0.85rem;outline:none; }}
+  .ul-count {{ font-size:0.82rem;color:#64748b; }}
+  .ul-table {{ width:100%;border-collapse:collapse;font-size:0.85rem; }}
+  .ul-table th {{ background:#0f172a;color:#64748b;text-transform:uppercase;letter-spacing:.04em;font-size:0.72rem;padding:10px 14px;text-align:left;border-bottom:1px solid #334155;position:sticky;top:0;cursor:pointer; }}
+  .ul-table th:hover {{ color:#94a3b8; }}
+  .ul-table td {{ padding:9px 14px;border-bottom:1px solid #1e293b;vertical-align:middle; }}
+  .ul-table tr:hover td {{ background:#263548; }}
+  .ul-table tr {{ cursor:pointer; }}
+  .ul-detail {{ background:#1e293b;border:1px solid #334155;border-radius:12px;padding:24px 28px;margin-bottom:20px;display:none; }}
+  .ul-detail.open {{ display:block; }}
+  .ul-detail-header {{ display:flex;align-items:center;justify-content:space-between;margin-bottom:16px; }}
+  .ul-detail-header h3 {{ font-size:1.2rem;font-weight:700;color:#f1f5f9; }}
+  .ul-detail-close {{ cursor:pointer;color:#64748b;font-size:1.2rem;padding:4px 8px;border-radius:4px; }}
+  .ul-detail-close:hover {{ color:#f1f5f9;background:#334155; }}
+  .ul-detail-grid {{ display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:16px;margin-bottom:20px; }}
+  .ul-detail-field {{ }}
+  .ul-detail-field .lbl {{ font-size:0.72rem;text-transform:uppercase;letter-spacing:.06em;color:#64748b;margin-bottom:4px; }}
+  .ul-detail-field .val {{ font-size:0.95rem;color:#e2e8f0;font-weight:600; }}
+  .ul-detail-field .val.green {{ color:#34d399; }}
+  .ul-detail-field .val.red {{ color:#f87171; }}
+  .ul-detail-field .val.yellow {{ color:#fbbf24; }}
+  .ul-tickets-table {{ width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:12px; }}
+  .ul-tickets-table th {{ background:#0f172a;color:#64748b;text-transform:uppercase;letter-spacing:.04em;font-size:0.7rem;padding:8px 12px;text-align:left;border-bottom:1px solid #334155; }}
+  .ul-tickets-table td {{ padding:7px 12px;border-bottom:1px solid #1e293b; }}
+  .ul-tickets-table tr:hover td {{ background:#263548; }}
+  .ul-tickets-table a {{ color:#818cf8;text-decoration:none; }}
+  .ul-tickets-table a:hover {{ text-decoration:underline; }}
+  .role-badge {{ display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.72rem;font-weight:600;margin-right:4px;background:#334155;color:#94a3b8; }}
+  .role-badge.ke {{ background:#6366f120;color:#818cf8;border:1px solid #6366f140; }}
 </style>
 </head>
 <body>
@@ -1354,7 +1559,12 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
   <h1>🎰 Wett Elite — Deposit Dashboard</h1>
   <div class="updated">Last updated: {now}</div>
 </div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+  <button class="tab-btn" onclick="switchTab('userlookup')">User Lookup</button>
+</div>
 <div class="main">
+<div id="tab-overview" class="tab-content active">
 
   <div class="total-banner">
     <div>
@@ -1451,6 +1661,43 @@ def generate_html_dashboard(results: list[dict], output_path: Path) -> None:
     </table>
     </div>
   </div>
+</div><!-- end tab-overview -->
+
+<div id="tab-userlookup" class="tab-content">
+  <div class="ul-search-bar">
+    <input type="search" id="ulSearch" placeholder="Search by username, user ID, or ticket..." oninput="filterUsers()">
+    <select id="ulBrand" onchange="filterUsers()">
+      <option value="">All Brands</option>
+      <option>Betlabel</option><option>Winnerz</option><option>Winrolla</option><option>Unknown</option>
+    </select>
+    <select id="ulStatus" onchange="filterUsers()">
+      <option value="">All Statuses</option>
+      <option value="Approved">Approved</option>
+      <option value="To be checked">To be checked</option>
+      <option value="Not Approved">Not Approved</option>
+      <option value="Excluded">Excluded</option>
+    </select>
+    <span class="ul-count" id="ulCount"></span>
+  </div>
+  <div id="ulDetail" class="ul-detail"></div>
+  <div class="table-wrap">
+    <div class="tbl-container" style="max-height:700px">
+      <table class="ul-table" id="ulTable">
+        <thead><tr>
+          <th onclick="sortUsers('username')">Username</th>
+          <th onclick="sortUsers('brand')">Brand</th>
+          <th onclick="sortUsers('status')">Status</th>
+          <th onclick="sortUsers('discord_roles')" style="min-width:120px">Discord Roles</th>
+          <th onclick="sortUsers('ftd_amount')" style="text-align:right">FTD Amount</th>
+          <th onclick="sortUsers('total_deposits')" style="text-align:right">Total Deposits</th>
+          <th onclick="sortUsers('deposit_count')" style="text-align:center">Deposits</th>
+          <th onclick="sortUsers('promo_count')" style="text-align:center">Promos</th>
+        </tr></thead>
+        <tbody id="ulBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div><!-- end tab-userlookup -->
 
 </div>
 </div>
@@ -1487,6 +1734,146 @@ function filterTable() {{
     const searchMatch = !search || text.includes(search);
     row.style.display = (campMatch && statusMatch && searchMatch) ? '' : 'none';
   }});
+}}
+
+// === Tab switching ===
+function switchTab(tab) {{
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.target.classList.add('active');
+  if (tab === 'userlookup' && !usersRendered) {{ renderUserTable(userData); usersRendered = true; }}
+}}
+
+// === User Lookup ===
+const userData = {json.dumps(user_lookup or [], ensure_ascii=False)};
+let usersRendered = false;
+let currentSort = {{ col: 'username', asc: true }};
+const campColours = {{"Betlabel":"#3b82f6","Winnerz":"#10b981","Winrolla":"#f59e0b","Unknown":"#6b7280"}};
+const statusStyles = {{
+  "Approved": ["#d1fae5","#065f46"],
+  "To be checked": ["#fef3c7","#92400e"],
+  "Not Approved": ["#fee2e2","#991b1b"],
+}};
+
+function getStatusStyle(s) {{
+  if (s.startsWith("Excluded")) return ["#f1f5f9","#475569"];
+  return statusStyles[s] || ["#f9fafb","#111"];
+}}
+
+function renderUserTable(users) {{
+  const body = document.getElementById('ulBody');
+  body.innerHTML = '';
+  users.forEach((u, i) => {{
+    const [bg, fg] = getStatusStyle(u.status);
+    const cc = campColours[u.brand] || '#6b7280';
+    const roles = (u.discord_roles || []).map(r =>
+      '<span class="role-badge' + (r === 'Koenisch Elite' ? ' ke' : '') + '">' + r + '</span>'
+    ).join('');
+    const amt = u.ftd_amount != null ? '<span style="color:#34d399;font-weight:700">€' + u.ftd_amount.toFixed(2) + '</span>' : '<span style="color:#334155">—</span>';
+    const total = u.total_deposits != null && u.total_deposits > 0 ? '<span style="color:#34d399">€' + u.total_deposits.toFixed(2) + '</span>' : '<span style="color:#334155">—</span>';
+    const statusLabel = u.status_detail ? u.status + ' (' + u.status_detail + ')' : u.status;
+    body.innerHTML += '<tr onclick="showUserDetail(' + i + ')">' +
+      '<td style="font-weight:600">' + (u.username || u.user_id || '—') + '</td>' +
+      '<td><span class="badge" style="background:' + cc + '20;color:' + cc + ';border:1px solid ' + cc + '40">' + u.brand + '</span></td>' +
+      '<td><span class="badge" style="background:' + bg + ';color:' + fg + '">' + statusLabel + '</span></td>' +
+      '<td>' + (roles || '<span style="color:#334155">—</span>') + '</td>' +
+      '<td style="text-align:right">' + amt + '</td>' +
+      '<td style="text-align:right">' + total + '</td>' +
+      '<td style="text-align:center">' + u.deposit_count + '</td>' +
+      '<td style="text-align:center">' + (u.promo_count || '—') + '</td>' +
+      '</tr>';
+  }});
+  document.getElementById('ulCount').textContent = users.length + ' users';
+}}
+
+function filterUsers() {{
+  const search = document.getElementById('ulSearch').value.toLowerCase();
+  const brand = document.getElementById('ulBrand').value;
+  const status = document.getElementById('ulStatus').value;
+  const filtered = userData.filter(u => {{
+    const matchSearch = !search ||
+      (u.username || '').toLowerCase().includes(search) ||
+      (u.user_id || '').includes(search) ||
+      (u.tickets || []).some(t => t.ticket.toLowerCase().includes(search));
+    const matchBrand = !brand || u.brand === brand;
+    const matchStatus = !status || (status === 'Excluded' ? u.status.startsWith('Excluded') : u.status === status);
+    return matchSearch && matchBrand && matchStatus;
+  }});
+  renderUserTable(filtered);
+}}
+
+function sortUsers(col) {{
+  if (currentSort.col === col) currentSort.asc = !currentSort.asc;
+  else {{ currentSort.col = col; currentSort.asc = true; }}
+  userData.sort((a, b) => {{
+    let va = a[col], vb = b[col];
+    if (col === 'discord_roles') {{ va = (va||[]).join(','); vb = (vb||[]).join(','); }}
+    if (va == null) va = col === 'ftd_amount' || col === 'total_deposits' ? -1 : '';
+    if (vb == null) vb = col === 'ftd_amount' || col === 'total_deposits' ? -1 : '';
+    if (typeof va === 'string') {{ va = va.toLowerCase(); vb = (vb||'').toLowerCase(); }}
+    if (va < vb) return currentSort.asc ? -1 : 1;
+    if (va > vb) return currentSort.asc ? 1 : -1;
+    return 0;
+  }});
+  filterUsers();
+}}
+
+function showUserDetail(idx) {{
+  const u = userData[idx] || userData.find((x,i) => i === idx);
+  if (!u) return;
+  const panel = document.getElementById('ulDetail');
+  const [bg, fg] = getStatusStyle(u.status);
+  const cc = campColours[u.brand] || '#6b7280';
+  const roles = (u.discord_roles || []).map(r =>
+    '<span class="role-badge' + (r === 'Koenisch Elite' ? ' ke' : '') + '">' + r + '</span>'
+  ).join('') || '<span style="color:#64748b">No roles data</span>';
+
+  let ticketsHtml = '';
+  (u.tickets || []).forEach(t => {{
+    const [tbg, tfg] = getStatusStyle(t.status);
+    const tcc = campColours[t.campaign] || '#6b7280';
+    const link = t.drive_file_id
+      ? '<a href="https://drive.google.com/file/d/' + t.drive_file_id + '/view" target="_blank">' + t.ticket + '</a>'
+      : t.ticket;
+    const tAmt = t.amount != null ? '€' + t.amount.toFixed(2) : '—';
+    ticketsHtml += '<tr>' +
+      '<td>' + link + '</td>' +
+      '<td><span class="badge" style="background:' + tcc + '20;color:' + tcc + '">' + t.campaign + '</span></td>' +
+      '<td><span class="badge" style="background:' + tbg + ';color:' + tfg + '">' + t.status + '</span></td>' +
+      '<td>' + (t.date ? t.date.substring(0, 10) : '—') + '</td>' +
+      '<td style="text-align:right">' + tAmt + '</td>' +
+      '<td style="font-size:0.78rem;color:#94a3b8;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (t.signal||'').replace(/"/g,'&quot;') + '">' + (t.signal || '—') + '</td>' +
+      '<td>' + (t.admin || '—') + '</td>' +
+      '</tr>';
+  }});
+
+  panel.innerHTML =
+    '<div class="ul-detail-header">' +
+      '<h3>' + (u.username || u.user_id || '—') + '</h3>' +
+      '<span class="ul-detail-close" onclick="document.getElementById(\'ulDetail\').classList.remove(\'open\')">✕</span>' +
+    '</div>' +
+    '<div class="ul-detail-grid">' +
+      '<div class="ul-detail-field"><div class="lbl">Status</div><div class="val"><span class="badge" style="background:' + bg + ';color:' + fg + '">' + u.status + '</span>' +
+        (u.status_detail ? ' <span style="color:#64748b;font-size:0.8rem">(' + u.status_detail + ')</span>' : '') + '</div></div>' +
+      '<div class="ul-detail-field"><div class="lbl">Brand</div><div class="val" style="color:' + cc + '">' + u.brand + '</div></div>' +
+      '<div class="ul-detail-field"><div class="lbl">FTD Amount</div><div class="val' + (u.ftd_amount != null ? ' green' : '') + '">' + (u.ftd_amount != null ? '€' + u.ftd_amount.toFixed(2) : '—') + '</div></div>' +
+      '<div class="ul-detail-field"><div class="lbl">Total Deposits</div><div class="val' + (u.total_deposits ? ' green' : '') + '">' + (u.total_deposits ? '€' + u.total_deposits.toFixed(2) : '—') + '</div></div>' +
+      '<div class="ul-detail-field"><div class="lbl">Deposit Count</div><div class="val">' + u.deposit_count + '</div></div>' +
+      '<div class="ul-detail-field"><div class="lbl">Promo Participations</div><div class="val">' + (u.promo_count || 0) + '</div></div>' +
+      '<div class="ul-detail-field"><div class="lbl">First Deposit Date</div><div class="val">' + (u.first_deposit_date ? u.first_deposit_date.substring(0, 10) : '—') + '</div></div>' +
+      '<div class="ul-detail-field"><div class="lbl">User ID</div><div class="val mono" style="font-size:0.82rem">' + (u.user_id || '—') + '</div></div>' +
+      '<div class="ul-detail-field"><div class="lbl">Discord Roles</div><div class="val">' + roles + '</div></div>' +
+      '<div class="ul-detail-field"><div class="lbl">Approval Signal</div><div class="val" style="font-size:0.82rem;color:#94a3b8;max-width:400px;word-break:break-word">' + (u.approval_signal || '—') + '</div></div>' +
+      '<div class="ul-detail-field"><div class="lbl">Approving Admin</div><div class="val">' + (u.approving_admin || '—') + '</div></div>' +
+    '</div>' +
+    '<div class="section-title" style="margin-top:8px">Tickets (' + (u.tickets||[]).length + ')</div>' +
+    '<table class="ul-tickets-table"><thead><tr>' +
+      '<th>Ticket</th><th>Brand</th><th>Status</th><th>Date</th><th style="text-align:right">Amount</th><th>Approval Signal</th><th>Admin</th>' +
+    '</tr></thead><tbody>' + ticketsHtml + '</tbody></table>';
+
+  panel.classList.add('open');
+  panel.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
 }}
 </script>
 </body>
@@ -1590,6 +1977,7 @@ def main():
             "deposit_amount_source": override.get("deposit_amount_source", ""),
             "first_seen_at":         override.get("first_seen_at", ""),
             "campaign_source":       override.get("campaign_source", ""),
+            "drive_file_id":         override.get("drive_file_id", ""),
         }
 
     def process_file(f):
@@ -1609,7 +1997,9 @@ def main():
             and "deposit_amount" in override
             and _amount_settled
         ):
-            return result_from_cache(ticket_name, override), None, fname, None
+            cached = result_from_cache(ticket_name, override)
+            cached["drive_file_id"] = override.get("drive_file_id") or f["id"]
+            return cached, None, fname, None
 
         # --- Slow path: new ticket or still pending review — download & analyse ---
         try:
@@ -1617,6 +2007,7 @@ def main():
         except Exception as e:
             return None, None, fname, str(e)
         result = analyze_transcript(html_bytes, fname, manual_overrides=manual_overrides)
+        result["drive_file_id"] = f["id"]  # Capture Drive file ID for linking
         # Stash images for the Vision pass if needed:
         #   mode "brand_and_amount" — Unknown campaign, no cached Vision brand
         #   mode "amount_only"      — brand known, Approved, no cached deposit_amount
@@ -1802,6 +2193,7 @@ def main():
                 "first_seen_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
                 "deposit_amount": r.get("deposit_amount"),
                 "deposit_amount_source": r.get("deposit_amount_source", ""),
+                "drive_file_id": r.get("drive_file_id", ""),
             }
         elif r.get("ticket_date") and not updated_overrides[t].get("ticket_date"):
             updated_overrides[t]["ticket_date"] = r["ticket_date"]
@@ -1809,6 +2201,10 @@ def main():
             # Always update campaign_source for vision-classified tickets
             updated_overrides[t]["campaign"] = r["campaign"]
             updated_overrides[t]["campaign_source"] = "vision"
+
+        # Persist drive_file_id if available
+        if r.get("drive_file_id") and not updated_overrides.get(t, {}).get("drive_file_id"):
+            updated_overrides.setdefault(t, {})["drive_file_id"] = r["drive_file_id"]
 
         # Persist deposit_amount if newly extracted (never overwrite an existing value)
         if (
@@ -1842,9 +2238,15 @@ def main():
     log(f"  {'TOTAL':12s}  {total:5d}  {unique:9d}  {approved:8d}  {to_check:7d}  {ex_odd:6d}  {ex_promo:5d}")
     log(f"  Parse errors: {errors}")
 
+    # Build user lookup data
+    discord_roles = load_discord_roles()
+    log(f"Loaded Discord roles for {len(discord_roles)} members")
+    user_lookup = build_user_lookup_data(results, discord_roles)
+    log(f"Built user lookup data: {len(user_lookup)} unique users")
+
     # Generate HTML dashboard
     html_path = SCRIPT_DIR / "dashboard.html"
-    generate_html_dashboard(results, html_path)
+    generate_html_dashboard(results, html_path, user_lookup=user_lookup)
 
     # Write to Google Sheets
     sheet_url = write_to_sheets(sheets_svc, results)
