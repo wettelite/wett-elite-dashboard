@@ -15126,12 +15126,13 @@
     "deposit_amount": 53.08,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-27T15:14:57.554000+00:00",
-    "status": "Approved",
-    "signal": "vision",
+    "status": "Excluded (Oddify)",
+    "signal": "human_review_oddify",
     "user": "maikeltschordan",
     "drive_file_id": "1fWXJEUmbEVezlagCJbiNkwhbMTuw5gwQ",
     "has_screenshot": true,
-    "first_seen_at": "2026-03-31T08:35:39.956428+00:00"
+    "first_seen_at": "2026-03-31T08:35:39.956428+00:00",
+    "reviewed_by": "francisco"
   },
   "closed-0139_1486453977393401927": {
     "campaign": "Unknown",
@@ -15192,8 +15193,8 @@
   "closed-0095_1487510241007374517": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "status": "Excluded (No FTD)",
-    "signal": "vision_no_ftd",
+    "status": "Excluded (Oddify)",
+    "signal": "human_review_oddify",
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-28T17:54:40.485000+00:00",
@@ -15201,7 +15202,8 @@
     "drive_file_id": "10QitCvAoyMzf63imdNlxos-c-VUEjqrV",
     "vision_amount_retries": 4,
     "has_screenshot": true,
-    "first_seen_at": "2026-03-31T08:35:39.956408+00:00"
+    "first_seen_at": "2026-03-31T08:35:39.956408+00:00",
+    "reviewed_by": "francisco"
   },
   "oddify-0107_1488159374336856164": {
     "status": "Excluded (Oddify)",
@@ -16253,5 +16255,102 @@
     "deposit_amount": null,
     "deposit_amount_source": "",
     "drive_file_id": "1iTIeyQ7BQM0c0pVuV2dWidAJMBEXiFTj"
+  },
+  "koenisch-1124_1488518214488031434": {
+    "campaign": "Betlabel",
+    "campaign_source": "vision",
+    "status": "Excluded (Promo)",
+    "signal": "vision_promo",
+    "deposit_amount": 50.0,
+    "deposit_amount_source": "vision",
+    "user": "jonas.2510",
+    "ticket_date": "2026-03-31T12:39:58.182000+00:00",
+    "has_screenshot": true,
+    "first_seen_at": "2026-03-31T15:13:18.681478+00:00",
+    "drive_file_id": "1DD7kENgG4gGwihBNiT6Ld-_tR6_B9sJm"
+  },
+  "oddify-0117_1488528155345162241": {
+    "status": "Excluded (Oddify)",
+    "signal": "Ticket name indicates Oddify source",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-31T13:19:28.305000+00:00",
+    "first_seen_at": "2026-03-31T15:13:18.681503+00:00",
+    "deposit_amount": null,
+    "deposit_amount_source": "",
+    "drive_file_id": "19EEHxhMvNZRd0xJkrfOcLlTFiuxiBJJC"
+  },
+  "koenisch-1131_1488524702606430229": {
+    "status": "Excluded (Promo)",
+    "signal": "Message content indicates promo deposit",
+    "user": "lksrh",
+    "campaign": "Winrolla",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-31T13:05:45.048000+00:00",
+    "first_seen_at": "2026-03-31T15:13:18.681790+00:00",
+    "deposit_amount": null,
+    "deposit_amount_source": "",
+    "drive_file_id": "1p-1ZL8YHexT81tG7-A1tO9Yz1mMCRdRX"
+  },
+  "koenisch-1126_1488523186894278746": {
+    "status": "Not Approved",
+    "signal": "",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-31T12:59:43.737000+00:00",
+    "first_seen_at": "2026-03-31T15:13:18.681799+00:00",
+    "deposit_amount": null,
+    "deposit_amount_source": "",
+    "drive_file_id": "1l1CSJyDoEcGstNAqBZv1nAl3SiDa2QJO"
+  },
+  "koenisch-1103_1488513756555251845": {
+    "status": "Not Approved",
+    "signal": "",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-31T12:22:17.827000+00:00",
+    "first_seen_at": "2026-03-31T15:13:18.681814+00:00",
+    "deposit_amount": null,
+    "deposit_amount_source": "",
+    "drive_file_id": "1LEUtZoVs8UjFuXQfMIOQAp-EnczgRbmW"
+  },
+  "koenisch-1104_1488513779888034004": {
+    "status": "Not Approved",
+    "signal": "",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-31T12:22:21.069000+00:00",
+    "first_seen_at": "2026-03-31T15:13:18.681820+00:00",
+    "deposit_amount": null,
+    "deposit_amount_source": "",
+    "drive_file_id": "1ryIqPhTSJUZRx-nZC8jOYRsuykmbsnlq"
+  },
+  "oddify-0114_1488480814785106021": {
+    "status": "Excluded (Oddify)",
+    "signal": "Ticket name indicates Oddify source",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-31T10:11:21.689000+00:00",
+    "first_seen_at": "2026-03-31T15:13:18.681825+00:00",
+    "deposit_amount": null,
+    "deposit_amount_source": "",
+    "drive_file_id": "1rXm-6H5UQJeqaHPZMlq8FujTGunnEbzy"
   }
 }

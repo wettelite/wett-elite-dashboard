@@ -639,11 +639,14 @@ def apply_exclusions_and_overrides(result: dict, messages: list[dict] | None,
             result["deposit_amount"] = override["deposit_amount"]
             result["deposit_amount_source"] = override.get("deposit_amount_source", "")
 
-        # If we applied a definitive status, we're done — skip auto-detection
-        if saved_status and saved_status != "To be checked":
+        # If we applied a definitive status from a HUMAN admin, skip auto-detection.
+        # Vision auto-approvals can still be overridden by Oddify/Promo detection.
+        _is_human_decision = saved_status and saved_status != "To be checked" and \
+            override.get("signal", "") not in ("vision_auto_approved", "vision_promo", "vision_no_ftd")
+        if _is_human_decision:
             return
 
-    # 2. Promo tickets by ticket name (no override saved yet)
+    # 2. Promo tickets by ticket name
     PROMO_NAME_KEYWORDS = ["einzahlung-promo", "discord-promo", "weekend-promo"]
     if any(kw in ticket_lower for kw in PROMO_NAME_KEYWORDS):
         result["approval_status"] = "Excluded (Promo)"
