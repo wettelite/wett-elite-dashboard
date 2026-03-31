@@ -45,7 +45,10 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Fetch latest remote — direct API commits (overrides) may have landed during the run
+          git fetch origin main
+          # Merge remote into local, keeping our freshly-generated files on conflict
+          git merge -X ours origin/main --no-edit || true
           git add dashboard.html manual-overrides.json
           git diff --staged --quiet || git commit -m "auto: update dashboard $(date -u +'%Y-%m-%d %H:%M UTC')"
-          git pull --rebase origin main
           git push
