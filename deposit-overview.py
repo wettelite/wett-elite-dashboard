@@ -1742,13 +1742,20 @@ function switchTab(tab) {{
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
   event.target.classList.add('active');
-  if (tab === 'userlookup' && !usersRendered) {{ renderUserTable(userData); usersRendered = true; }}
+  if (tab === 'userlookup' && !usersRendered) {{
+    usersRendered = true;
+    document.getElementById('ulSearch').focus();
+    applyFilters();
+  }}
 }}
 
 // === User Lookup ===
 const userData = __USER_LOOKUP_DATA__;
 let usersRendered = false;
+let filteredUsers = [];
 let currentSort = {{ col: 'username', asc: true }};
+const PAGE_SIZE = 100;
+let currentPage = 0;
 const campColours = {{"Betlabel":"#3b82f6","Winnerz":"#10b981","Winrolla":"#f59e0b","Unknown":"#6b7280"}};
 const statusStyles = {{
   "Approved": ["#d1fae5","#065f46"],
@@ -1761,37 +1768,53 @@ function getStatusStyle(s) {{
   return statusStyles[s] || ["#f9fafb","#111"];
 }}
 
-function renderUserTable(users) {{
-  const body = document.getElementById('ulBody');
-  body.innerHTML = '';
-  users.forEach((u, i) => {{
-    const [bg, fg] = getStatusStyle(u.status);
-    const cc = campColours[u.brand] || '#6b7280';
-    const roles = (u.discord_roles || []).map(r =>
-      '<span class="role-badge' + (r === 'Koenisch Elite' ? ' ke' : '') + '">' + r + '</span>'
-    ).join('');
-    const amt = u.ftd_amount != null ? '<span style="color:#34d399;font-weight:700">€' + u.ftd_amount.toFixed(2) + '</span>' : '<span style="color:#334155">—</span>';
-    const total = u.total_deposits != null && u.total_deposits > 0 ? '<span style="color:#34d399">€' + u.total_deposits.toFixed(2) + '</span>' : '<span style="color:#334155">—</span>';
-    const statusLabel = u.status_detail ? u.status + ' (' + u.status_detail + ')' : u.status;
-    body.innerHTML += '<tr onclick="showUserDetail(' + i + ')">' +
-      '<td style="font-weight:600">' + (u.username || u.user_id || '—') + '</td>' +
-      '<td><span class="badge" style="background:' + cc + '20;color:' + cc + ';border:1px solid ' + cc + '40">' + u.brand + '</span></td>' +
-      '<td><span class="badge" style="background:' + bg + ';color:' + fg + '">' + statusLabel + '</span></td>' +
-      '<td>' + (roles || '<span style="color:#334155">—</span>') + '</td>' +
-      '<td style="text-align:right">' + amt + '</td>' +
-      '<td style="text-align:right">' + total + '</td>' +
-      '<td style="text-align:center">' + u.deposit_count + '</td>' +
-      '<td style="text-align:center">' + (u.promo_count || '—') + '</td>' +
-      '</tr>';
-  }});
-  document.getElementById('ulCount').textContent = users.length + ' users';
+function buildUserRow(u, dataIdx) {{
+  const [bg, fg] = getStatusStyle(u.status);
+  const cc = campColours[u.brand] || '#6b7280';
+  const roles = (u.discord_roles || []).map(r =>
+    '<span class="role-badge' + (r === 'Koenisch Elite' ? ' ke' : '') + '">' + r + '</span>'
+  ).join('');
+  const amt = u.ftd_amount != null ? '<span style="color:#34d399;font-weight:700">\u20ac' + u.ftd_amount.toFixed(2) + '</span>' : '<span style="color:#334155">\u2014</span>';
+  const total = u.total_deposits != null && u.total_deposits > 0 ? '<span style="color:#34d399">\u20ac' + u.total_deposits.toFixed(2) + '</span>' : '<span style="color:#334155">\u2014</span>';
+  const statusLabel = u.status_detail ? u.status + ' (' + u.status_detail + ')' : u.status;
+  return '<tr data-idx="' + dataIdx + '" onclick="showUserDetail(' + dataIdx + ')">' +
+    '<td style="font-weight:600">' + (u.username || u.user_id || '\u2014') + '</td>' +
+    '<td><span class="badge" style="background:' + cc + '20;color:' + cc + ';border:1px solid ' + cc + '40">' + u.brand + '</span></td>' +
+    '<td><span class="badge" style="background:' + bg + ';color:' + fg + '">' + statusLabel + '</span></td>' +
+    '<td>' + (roles || '<span style="color:#334155">\u2014</span>') + '</td>' +
+    '<td style="text-align:right">' + amt + '</td>' +
+    '<td style="text-align:right">' + total + '</td>' +
+    '<td style="text-align:center">' + u.deposit_count + '</td>' +
+    '<td style="text-align:center">' + (u.promo_count || '\u2014') + '</td>' +
+    '</tr>';
 }}
 
-function filterUsers() {{
+function renderUserTable(users) {{
+  const body = document.getElementById('ulBody');
+  const end = Math.min((currentPage + 1) * PAGE_SIZE, users.length);
+  const rows = [];
+  for (let i = 0; i < end; i++) {{
+    rows.push(buildUserRow(users[i], i));
+  }}
+  body.innerHTML = rows.join('');
+  const countEl = document.getElementById('ulCount');
+  if (users.length > end) {{
+    countEl.innerHTML = 'Showing ' + end + ' of ' + users.length + ' users &nbsp;<button onclick="loadMore()" style="background:#6366f1;color:#fff;border:none;border-radius:6px;padding:4px 12px;font-size:0.8rem;cursor:pointer">Load more</button>';
+  }} else {{
+    countEl.textContent = users.length + ' users';
+  }}
+}}
+
+function loadMore() {{
+  currentPage++;
+  renderUserTable(filteredUsers);
+}}
+
+function applyFilters() {{
   const search = document.getElementById('ulSearch').value.toLowerCase();
   const brand = document.getElementById('ulBrand').value;
   const status = document.getElementById('ulStatus').value;
-  const filtered = userData.filter(u => {{
+  filteredUsers = userData.filter(u => {{
     const matchSearch = !search ||
       (u.username || '').toLowerCase().includes(search) ||
       (u.user_id || '').includes(search) ||
@@ -1800,7 +1823,15 @@ function filterUsers() {{
     const matchStatus = !status || (status === 'Excluded' ? u.status.startsWith('Excluded') : u.status === status);
     return matchSearch && matchBrand && matchStatus;
   }});
-  renderUserTable(filtered);
+  currentPage = 0;
+  renderUserTable(filteredUsers);
+}}
+
+// Debounced filter — waits 200ms after last keystroke
+let _filterTimer = null;
+function filterUsers() {{
+  clearTimeout(_filterTimer);
+  _filterTimer = setTimeout(applyFilters, 200);
 }}
 
 function sortUsers(col) {{
@@ -1820,7 +1851,7 @@ function sortUsers(col) {{
 }}
 
 function showUserDetail(idx) {{
-  const u = userData[idx] || userData.find((x,i) => i === idx);
+  const u = filteredUsers[idx];
   if (!u) return;
   const panel = document.getElementById('ulDetail');
   const [bg, fg] = getStatusStyle(u.status);
