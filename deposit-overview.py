@@ -723,6 +723,22 @@ def analyze_transcript(html_bytes: bytes, filename: str,
     result["approval_signal"] = signal
     result["approving_admin"] = admin
 
+    # Build compact transcript text for dashboard modal
+    chat_lines = []
+    for msg in messages:
+        author, _ = get_author(msg)
+        content = (msg.get("content") or "").strip()
+        has_attach = bool(msg.get("attachments")) or bool(msg.get("embeds"))
+        if not content and not has_attach:
+            continue
+        line = {"a": author or "?", "t": content}
+        if has_attach:
+            line["img"] = True
+        if is_admin(msg):
+            line["admin"] = True
+        chat_lines.append(line)
+    result["chat"] = chat_lines
+
     # Apply exclusion rules and manual overrides (mutates result in-place)
     if manual_overrides is not None:
         apply_exclusions_and_overrides(result, messages, manual_overrides)
@@ -860,6 +876,7 @@ def build_user_lookup_data(results: list[dict], discord_roles: dict[str, list[st
             "signal": r.get("approval_signal", ""),
             "admin": r.get("approving_admin", ""),
             "drive_file_id": r.get("drive_file_id", ""),
+            "chat": r.get("chat", []),
         }
         entry["tickets"].append(ticket_info)
 
@@ -1513,9 +1530,14 @@ def generate_html_dashboard(results: list[dict], output_path: Path, user_lookup:
             if amt is not None else
             '<span style="color:#334155">—</span>'
         )
+        _has_chat = bool(r.get("chat"))
+        ticket_cell = (
+            f'<a href="#" onclick="showChatByTicket(\'{r["ticket"]}\');return false" style="color:#60a5fa;text-decoration:underline;cursor:pointer">{r["ticket"]}</a>'
+            if _has_chat else r["ticket"]
+        )
         rows_html += f"""
         <tr>
-          <td class="mono">{r['ticket']}</td>
+          <td class="mono">{ticket_cell}</td>
           <td>{r.get('user','')}</td>
           <td><span class="badge" style="background:{cc}20;color:{cc};border:1px solid {cc}40">{camp}</span></td>
           <td style="text-align:center">{ss}</td>
@@ -1979,8 +2001,8 @@ function showUserDetail(idx) {{
   (u.tickets || []).forEach(t => {{
     const [tbg, tfg] = getStatusStyle(t.status);
     const tcc = campColours[t.campaign] || '#6b7280';
-    const link = t.drive_file_id
-      ? '<a href="https://drive.google.com/file/d/' + t.drive_file_id + '/preview" target="_blank" style="color:#60a5fa;text-decoration:underline">' + t.ticket + '</a>'
+    const link = t.chat && t.chat.length
+      ? '<a href="#" onclick="showChat(\'' + t.ticket.replace(/'/g,"\\'") + '\');return false" style="color:#60a5fa;text-decoration:underline;cursor:pointer">' + t.ticket + '</a>'
       : t.ticket;
     const tAmt = t.amount != null ? '€' + t.amount.toFixed(2) : '—';
     ticketsHtml += '<tr>' +
@@ -2028,6 +2050,53 @@ function showUserDetail(idx) {{
     # Inject user lookup JSON data (can't go in f-string — curly braces conflict)
     user_json = json.dumps(user_lookup or [], ensure_ascii=False)
     html = html.replace("__USER_LOOKUP_DATA__", user_json)
+
+    # Build chat lookup: ticket_name → chat messages (for modal viewer)
+    chat_lookup = {}
+    for r in results:
+        chat = r.get("chat", [])
+        if chat:
+            chat_lookup[r["ticket"]] = chat
+    # Also collect from user_lookup ticket entries
+    if user_lookup:
+        for u in user_lookup:
+            for t in u.get("tickets", []):
+                if t.get("chat") and t["ticket"] not in chat_lookup:
+                    chat_lookup[t["ticket"]] = t["chat"]
+    chat_json = json.dumps(chat_lookup, ensure_ascii=False)
+    html = html.replace("</body>", f"""
+<div id="chatModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);overflow-y:auto" onclick="if(event.target===this)this.style.display='none'">
+  <div style="max-width:700px;margin:40px auto;background:#1e293b;border-radius:12px;border:1px solid #334155;overflow:hidden">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #334155">
+      <h3 id="chatTitle" style="margin:0;color:#e2e8f0;font-size:1.1em"></h3>
+      <button onclick="document.getElementById('chatModal').style.display='none'" style="background:none;border:none;color:#94a3b8;font-size:1.5em;cursor:pointer">&times;</button>
+    </div>
+    <div id="chatBody" style="padding:16px 20px;max-height:70vh;overflow-y:auto"></div>
+  </div>
+</div>
+<script>
+var _chatData = {chat_json};
+function showChat(ticket) {{
+  var msgs = _chatData[ticket];
+  if (!msgs) return;
+  document.getElementById('chatTitle').textContent = ticket;
+  var h = '';
+  msgs.forEach(function(m) {{
+    var isAdmin = m.admin;
+    var bg = isAdmin ? '#1e3a5f' : '#0f172a';
+    var nc = isAdmin ? '#f59e0b' : '#60a5fa';
+    h += '<div style="padding:8px 12px;margin:4px 0;border-radius:8px;background:' + bg + '">';
+    h += '<span style="color:' + nc + ';font-weight:600;font-size:0.85em">' + (m.a||'?') + '</span>';
+    if (m.img) h += ' <span style="color:#94a3b8;font-size:0.75em">📎 attachment</span>';
+    if (m.t) h += '<div style="color:#cbd5e1;margin-top:4px;white-space:pre-wrap;word-break:break-word">' + m.t.replace(/</g,'&lt;') + '</div>';
+    h += '</div>';
+  }});
+  document.getElementById('chatBody').innerHTML = h;
+  document.getElementById('chatModal').style.display = 'block';
+}}
+function showChatByTicket(ticket) {{ showChat(ticket); }}
+</script>
+</body>""")
 
     output_path.write_text(html, encoding="utf-8")
     log(f"✅ Dashboard written to {output_path}")
@@ -2128,6 +2197,7 @@ def main():
             "first_seen_at":         override.get("first_seen_at", ""),
             "campaign_source":       override.get("campaign_source", ""),
             "drive_file_id":         override.get("drive_file_id", ""),
+            "chat":                  override.get("chat", []),
         }
 
     def process_file(f):
@@ -2419,9 +2489,13 @@ def main():
                 "deposit_amount": r.get("deposit_amount"),
                 "deposit_amount_source": r.get("deposit_amount_source", ""),
                 "drive_file_id": r.get("drive_file_id", ""),
+                "chat": r.get("chat", []),
             }
         else:
             ov_entry = updated_overrides[t]
+            # Save chat text if not already stored
+            if r.get("chat") and not ov_entry.get("chat"):
+                ov_entry["chat"] = r["chat"]
             # Backfill any missing fields from fresh analysis
             if r.get("user") and not ov_entry.get("user"):
                 ov_entry["user"] = r["user"]
@@ -2490,6 +2564,8 @@ def main():
     log(f"Loaded Discord roles for {len(discord_roles)} members")
     user_lookup = build_user_lookup_data(results, discord_roles, discord_profiles)
     log(f"Built user lookup data: {len(user_lookup)} unique users")
+
+    # No extra work needed — transcript text is collected during analysis
 
     # Generate HTML dashboard
     html_path = SCRIPT_DIR / "dashboard.html"
