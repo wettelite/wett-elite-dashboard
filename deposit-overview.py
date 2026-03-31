@@ -844,8 +844,12 @@ def build_user_lookup_data(results: list[dict], discord_roles: dict[str, list[st
 
         user_list.append(entry)
 
-    # Sort by username
-    user_list.sort(key=lambda u: (u["username"] or "").lower())
+    # Sort: approved first, then by username (entries without username go last)
+    def _sort_key(u):
+        has_name = 0 if u["username"] else 1
+        is_approved = 0 if u["ftd_approved"] else 1
+        return (has_name, is_approved, (u["username"] or u["user_id"] or "").lower())
+    user_list.sort(key=_sort_key)
     return user_list
 
 def count_unique_registrations(subset: list[dict]) -> int:
