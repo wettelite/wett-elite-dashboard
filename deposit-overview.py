@@ -1560,8 +1560,8 @@ def generate_html_dashboard(results: list[dict], output_path: Path, user_lookup:
   <div class="updated">Last updated: {now}</div>
 </div>
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
-  <button class="tab-btn" onclick="switchTab('userlookup')">User Lookup</button>
+  <button class="tab-btn active" onclick="switchTab('overview', this)">Overview</button>
+  <button class="tab-btn" onclick="switchTab('userlookup', this)">User Lookup</button>
 </div>
 <div class="main">
 <div id="tab-overview" class="tab-content active">
@@ -1737,11 +1737,11 @@ function filterTable() {{
 }}
 
 // === Tab switching ===
-function switchTab(tab) {{
+function switchTab(tab, btn) {{
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
-  event.target.classList.add('active');
+  if (btn) btn.classList.add('active');
   if (tab === 'userlookup' && !usersRendered) {{
     usersRendered = true;
     document.getElementById('ulSearch').focus();
