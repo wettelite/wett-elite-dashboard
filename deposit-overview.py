@@ -2317,15 +2317,29 @@ def main():
                 "drive_file_id": r.get("drive_file_id", ""),
             }
         else:
-            # Backfill user field if missing
-            if r.get("user") and not updated_overrides[t].get("user"):
-                updated_overrides[t]["user"] = r["user"]
-            if r.get("ticket_date") and not updated_overrides[t].get("ticket_date"):
-                updated_overrides[t]["ticket_date"] = r["ticket_date"]
+            ov_entry = updated_overrides[t]
+            # Backfill any missing fields from fresh analysis
+            if r.get("user") and not ov_entry.get("user"):
+                ov_entry["user"] = r["user"]
+            if r.get("ticket_date") and not ov_entry.get("ticket_date"):
+                ov_entry["ticket_date"] = r["ticket_date"]
             if r.get("campaign_source") == "vision":
-                # Always update campaign_source for vision-classified tickets
-                updated_overrides[t]["campaign"] = r["campaign"]
-                updated_overrides[t]["campaign_source"] = "vision"
+                ov_entry["campaign"] = r["campaign"]
+                ov_entry["campaign_source"] = "vision"
+            # Backfill status/signal/campaign if not yet saved
+            if not ov_entry.get("status"):
+                ov_entry["status"] = r["approval_status"]
+                ov_entry["signal"] = r["approval_signal"]
+                ov_entry["approving_admin"] = r.get("approving_admin", "")
+            if not ov_entry.get("campaign") or ov_entry.get("campaign") == "Unknown":
+                if r.get("campaign") and r["campaign"] != "Unknown":
+                    ov_entry["campaign"] = r["campaign"]
+            if "has_screenshot" not in ov_entry:
+                ov_entry["has_screenshot"] = r.get("has_screenshot", False)
+            if not ov_entry.get("first_seen_at"):
+                ov_entry["first_seen_at"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
+            if not ov_entry.get("drive_file_id") and r.get("drive_file_id"):
+                ov_entry["drive_file_id"] = r["drive_file_id"]
 
         # Persist drive_file_id if available
         if r.get("drive_file_id") and not updated_overrides.get(t, {}).get("drive_file_id"):
