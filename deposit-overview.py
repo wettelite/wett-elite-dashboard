@@ -1746,7 +1746,7 @@ function switchTab(tab) {{
 }}
 
 // === User Lookup ===
-const userData = {json.dumps(user_lookup or [], ensure_ascii=False)};
+const userData = __USER_LOOKUP_DATA__;
 let usersRendered = false;
 let currentSort = {{ col: 'username', asc: true }};
 const campColours = {{"Betlabel":"#3b82f6","Winnerz":"#10b981","Winrolla":"#f59e0b","Unknown":"#6b7280"}};
@@ -1878,6 +1878,10 @@ function showUserDetail(idx) {{
 </script>
 </body>
 </html>"""
+
+    # Inject user lookup JSON data (can't go in f-string — curly braces conflict)
+    user_json = json.dumps(user_lookup or [], ensure_ascii=False)
+    html = html.replace("__USER_LOOKUP_DATA__", user_json)
 
     output_path.write_text(html, encoding="utf-8")
     log(f"✅ Dashboard written to {output_path}")
