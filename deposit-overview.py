@@ -656,6 +656,16 @@ def analyze_transcript(html_bytes: bytes, filename: str,
     result["has_screenshot"] = has_screenshot
     result["user"] = user
 
+    # Fallback: if no screenshot sender, use the first non-admin message author
+    if not user:
+        for msg in messages:
+            if not is_admin(msg):
+                uname, _ = get_author(msg)
+                # Skip bot / system usernames
+                if uname and uname.lower() not in ("ticket tool", "tickettool", "ticket-tool"):
+                    result["user"] = uname
+                    break
+
     status, signal, admin = detect_approval(messages, has_screenshot)
     result["approval_status"] = status
     result["approval_signal"] = signal
@@ -2230,12 +2240,16 @@ def main():
                 "deposit_amount_source": r.get("deposit_amount_source", ""),
                 "drive_file_id": r.get("drive_file_id", ""),
             }
-        elif r.get("ticket_date") and not updated_overrides[t].get("ticket_date"):
-            updated_overrides[t]["ticket_date"] = r["ticket_date"]
-        elif r.get("campaign_source") == "vision":
-            # Always update campaign_source for vision-classified tickets
-            updated_overrides[t]["campaign"] = r["campaign"]
-            updated_overrides[t]["campaign_source"] = "vision"
+        else:
+            # Backfill user field if missing
+            if r.get("user") and not updated_overrides[t].get("user"):
+                updated_overrides[t]["user"] = r["user"]
+            if r.get("ticket_date") and not updated_overrides[t].get("ticket_date"):
+                updated_overrides[t]["ticket_date"] = r["ticket_date"]
+            if r.get("campaign_source") == "vision":
+                # Always update campaign_source for vision-classified tickets
+                updated_overrides[t]["campaign"] = r["campaign"]
+                updated_overrides[t]["campaign_source"] = "vision"
 
         # Persist drive_file_id if available
         if r.get("drive_file_id") and not updated_overrides.get(t, {}).get("drive_file_id"):
