@@ -696,15 +696,22 @@ DISCORD_ROLE_NAMES = {
 }
 
 
-def load_discord_roles() -> dict[str, list[str]]:
-    """Load cached Discord member data → {user_id: [role_name, ...]}."""
+def load_discord_members() -> tuple[dict[str, list[str]], dict[str, dict]]:
+    """Load cached Discord member data.
+
+    Returns:
+        roles:   {user_id: [role_name, ...]}
+        profiles: {user_id: {"username": ..., "display_name": ...}}
+    """
     if not DISCORD_MEMBERS_FILE.exists():
-        return {}
+        return {}, {}
     try:
         members = json.loads(DISCORD_MEMBERS_FILE.read_text())
-        result = {}
+        roles = {}
+        profiles = {}
         for m in members:
-            uid = m.get("user", {}).get("id", "")
+            u = m.get("user", {})
+            uid = u.get("id", "")
             if not uid:
                 continue
             role_names = []
@@ -712,15 +719,24 @@ def load_discord_roles() -> dict[str, list[str]]:
                 name = DISCORD_ROLE_NAMES.get(str(rid))
                 if name:
                     role_names.append(name)
-            result[uid] = role_names
-        return result
+            roles[uid] = role_names
+            profiles[uid] = {
+                "username": u.get("username", ""),
+                "display_name": u.get("global_name") or m.get("nick") or "",
+            }
+        return roles, profiles
     except Exception:
-        return {}
+        return {}, {}
 
 
-def build_user_lookup_data(results: list[dict], discord_roles: dict[str, list[str]]) -> list[dict]:
-    """Build per-user aggregated data for the User Lookup feature."""
+def build_user_lookup_data(results: list[dict], discord_roles: dict[str, list[str]],
+                           discord_profiles: dict[str, dict] | None = None) -> list[dict]:
+    """Build per-user aggregated data for the User Lookup feature.
+
+    Deduplicates users: same user_id → merged. If no user_id, same username → merged.
+    """
     ftd_keys = get_ftd_ticket_keys(results)
+    discord_profiles = discord_profiles or {}
 
     status_rank = {
         "Approved": 0, "To be checked": 1,
@@ -730,11 +746,20 @@ def build_user_lookup_data(results: list[dict], discord_roles: dict[str, list[st
     }
 
     user_map: dict[str, dict] = {}
+    # Secondary index: username (lowered) → key, for dedup when user_id differs
+    username_to_key: dict[str, str] = {}
 
     for r in results:
         uid = r.get("user_id", "").strip()
         user = r.get("user", "").strip()
+        # Primary key: user_id, fallback to username, last resort ticket name
         key = uid if uid else (user if user else r["ticket"])
+
+        # Dedup: if we have a username match already under a different key, merge
+        if user and key not in user_map:
+            existing_key = username_to_key.get(user.lower())
+            if existing_key and existing_key in user_map:
+                key = existing_key
 
         if key not in user_map:
             user_map[key] = {
@@ -752,6 +777,7 @@ def build_user_lookup_data(results: list[dict], discord_roles: dict[str, list[st
                 "approving_admin": "",
                 "first_deposit_date": "",
                 "tickets": [],
+                "display_name": "",
                 "discord_roles": [],
                 "_best_rank": 99,
             }
@@ -764,6 +790,10 @@ def build_user_lookup_data(results: list[dict], discord_roles: dict[str, list[st
         # Update user_id if we have one
         if uid and not entry["user_id"]:
             entry["user_id"] = uid
+
+        # Track username → key for dedup
+        if user:
+            username_to_key.setdefault(user.lower(), key)
 
         # Determine status for this ticket
         t_status = r.get("approval_status", "Not Approved")
@@ -834,21 +864,31 @@ def build_user_lookup_data(results: list[dict], discord_roles: dict[str, list[st
             if not entry["brand"]:
                 entry["brand"] = "Unknown"
 
-        # Discord roles
+        # Discord roles + display name
         uid = entry["user_id"]
         if uid and uid in discord_roles:
             entry["discord_roles"] = discord_roles[uid]
+        if uid and uid in discord_profiles:
+            prof = discord_profiles[uid]
+            dn = prof.get("display_name", "")
+            if dn and dn.lower() != entry["username"].lower():
+                entry["display_name"] = dn
+            # Also pick up Discord username if we only had a ticket-derived one
+            disc_uname = prof.get("username", "")
+            if disc_uname and not entry["username"]:
+                entry["username"] = disc_uname
 
         # Sort tickets by date
         entry["tickets"].sort(key=lambda t: t.get("date") or "")
 
         user_list.append(entry)
 
-    # Sort: approved first, then by username (entries without username go last)
+    # Sort: approved first, then by display_name/username (entries without name go last)
     def _sort_key(u):
-        has_name = 0 if u["username"] else 1
+        primary = u["display_name"] or u["username"]
+        has_name = 0 if primary else 1
         is_approved = 0 if u["ftd_approved"] else 1
-        return (has_name, is_approved, (u["username"] or u["user_id"] or "").lower())
+        return (has_name, is_approved, (primary or u["user_id"] or "").lower())
     user_list.sort(key=_sort_key)
     return user_list
 
@@ -1792,7 +1832,7 @@ function buildUserRow(u, dataIdx) {{
   const total = u.total_deposits != null && u.total_deposits > 0 ? '<span style="color:#34d399">\u20ac' + u.total_deposits.toFixed(2) + '</span>' : '<span style="color:#334155">\u2014</span>';
   const statusLabel = u.status_detail ? u.status + ' (' + u.status_detail + ')' : u.status;
   return '<tr data-idx="' + dataIdx + '" onclick="showUserDetail(' + dataIdx + ')">' +
-    '<td style="font-weight:600">' + (u.username || u.user_id || '\u2014') + '</td>' +
+    '<td style="font-weight:600">' + (u.display_name || u.username || u.user_id || '\u2014') + (u.display_name && u.username && u.display_name !== u.username ? '<br><span style="font-size:0.75em;color:#64748b;font-weight:400">@' + u.username + '</span>' : '') + '</td>' +
     '<td><span class="badge" style="background:' + cc + '20;color:' + cc + ';border:1px solid ' + cc + '40">' + u.brand + '</span></td>' +
     '<td><span class="badge" style="background:' + bg + ';color:' + fg + '">' + statusLabel + '</span></td>' +
     '<td>' + (roles || '<span style="color:#334155">\u2014</span>') + '</td>' +
@@ -1830,6 +1870,7 @@ function applyFilters() {{
   const status = document.getElementById('ulStatus').value;
   filteredUsers = userData.filter(u => {{
     const matchSearch = !search ||
+      (u.display_name || '').toLowerCase().includes(search) ||
       (u.username || '').toLowerCase().includes(search) ||
       (u.user_id || '').includes(search) ||
       (u.tickets || []).some(t => t.ticket.toLowerCase().includes(search));
@@ -1895,7 +1936,7 @@ function showUserDetail(idx) {{
 
   panel.innerHTML =
     '<div class="ul-detail-header">' +
-      '<h3>' + (u.username || u.user_id || '—') + '</h3>' +
+      '<h3>' + (u.display_name || u.username || u.user_id || '—') + (u.display_name && u.username && u.display_name !== u.username ? ' <span style="font-size:0.7em;color:#64748b;font-weight:400">@' + u.username + '</span>' : '') + '</h3>' +
       '<span class="ul-detail-close" onclick="document.getElementById(&quot;ulDetail&quot;).classList.remove(&quot;open&quot;)">✕</span>' +
     '</div>' +
     '<div class="ul-detail-grid">' +
@@ -2292,9 +2333,9 @@ def main():
     log(f"  Parse errors: {errors}")
 
     # Build user lookup data
-    discord_roles = load_discord_roles()
+    discord_roles, discord_profiles = load_discord_members()
     log(f"Loaded Discord roles for {len(discord_roles)} members")
-    user_lookup = build_user_lookup_data(results, discord_roles)
+    user_lookup = build_user_lookup_data(results, discord_roles, discord_profiles)
     log(f"Built user lookup data: {len(user_lookup)} unique users")
 
     # Generate HTML dashboard
