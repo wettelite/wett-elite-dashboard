@@ -211,7 +211,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "drive_file_id": "1xUhpfGKPjvl_qY1l7trpRO4dp1lKtsoE",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0729_933302930780586024": {
     "status": "Not Approved",
@@ -814,7 +815,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T11:39:08.522000+00:00",
     "drive_file_id": "1-F9sAU0iLPT9qDsC0iMx_6TF-6blW6mf",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "koenisch-0874_453899041781055490": {
     "status": "Not Approved",
@@ -979,7 +981,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T21:11:36.338000+00:00",
     "drive_file_id": "1RaB_ZaezePYCoDt20mtghio7YHiy0s6v",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0034_668213987757916170": {
     "status": "Approved",
@@ -1006,7 +1009,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T21:11:36.338000+00:00",
     "drive_file_id": "112vWIcGiVPkrCz0GSRSx2i_duJfWEVdc",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "einzahlung-promo-4_1311057311829327872": {
     "status": "Excluded (Promo)",
@@ -1063,7 +1067,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T16:25:12.885000+00:00",
     "drive_file_id": "1l7U2qynpf7f3EC3nfIR_MUpeMWMYOcVK",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0029_1386704133809242192": {
     "status": "Approved",
@@ -1144,7 +1149,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-14T22:47:59.388000+00:00",
     "drive_file_id": "1G9j68vWMiRtpGtpd6k9oYKNSkFLPlgbv",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "koenisch-0925_1364677083564871742": {
     "status": "Not Approved",
@@ -1302,11 +1308,12 @@
     "has_screenshot": true,
     "approving_admin": "wettelitemod",
     "ticket_date": "2026-03-21T12:09:06.627000+00:00",
-    "deposit_amount": null,
-    "deposit_amount_source": "vision",
+    "deposit_amount": 50.0,
+    "deposit_amount_source": "text",
     "first_seen_at": "2026-03-21T12:09:06.627000+00:00",
     "drive_file_id": "1I_xe3FEV8Sp3PS_lkD7kZp_sXrEZzBPS",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0024_1324096174927384668": {
     "status": "Not Approved",
@@ -1373,7 +1380,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-22T13:25:29.502000+00:00",
     "drive_file_id": "1w7e8PclQIZgIovoWxhkkVS2FOSnTj3vE",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0026_1110949015861874798": {
     "status": "Approved",
@@ -1400,7 +1408,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T04:22:14.834000+00:00",
     "drive_file_id": "1jF22gSP6SuljSa7sxOnYT0iKn9IcSXGJ",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0784_1133091584683020369": {
     "status": "Approved",
@@ -1454,7 +1463,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T20:07:56.665000+00:00",
     "drive_file_id": "18dAe2XvP8rB9me-QXndt_XAaq18m_xC9",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0033_777936849858461756": {
     "status": "Approved",
@@ -1481,7 +1491,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T16:54:22.276000+00:00",
     "drive_file_id": "1izHdp3k91ZDPCE6Zq2JMnTl_7cGBgXTE",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0070_1308438494158393395": {
     "status": "Approved",
@@ -1563,7 +1574,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T17:42:49.851000+00:00",
     "drive_file_id": "1PyqtZemtOwn37_GbzWZMY7YVP4Y3BMJL",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0830_1480618335572852909": {
     "status": "Approved",
@@ -1590,7 +1602,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T17:50:59.044000+00:00",
     "drive_file_id": "1WaFGbVXh3s2xYYjp2cUbBhRDyAgv2UoC",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0800_1308438494158393395": {
     "status": "Approved",
@@ -1631,7 +1644,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T17:00:24.404000+00:00",
     "drive_file_id": "1YmCMfr_VNTg7r7Bstl3uHR7RUPKQdVOT",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0902_1409161492850413578": {
     "status": "Approved",
@@ -1645,7 +1659,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-21T10:13:02.799000+00:00",
     "drive_file_id": "1Ks2NExhEU8VMl5jSdUJvEwZRdPI1QwkC",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0041_588839050413080576": {
     "status": "Excluded (Oddify)",
@@ -2532,7 +2547,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T20:57:03.153000+00:00",
     "drive_file_id": "18vy9L_alKo2KLoLCQTE9mh4D0WO1Euza",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0410_1284445012536328212": {
     "status": "Approved",
@@ -2546,7 +2562,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T21:09:44.192000+00:00",
     "drive_file_id": "1abA3ntQINl7o8JR4FFPkO90p9CqeWPo7",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0295_1374886047779127388": {
     "status": "Approved",
@@ -2560,7 +2577,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T19:47:00.318000+00:00",
     "drive_file_id": "1ko09T6o-Zhq2zEHK3w_EVyW2U846YRqw",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0264_632897025276379137": {
     "status": "Approved",
@@ -2574,7 +2592,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T19:15:08.637000+00:00",
     "drive_file_id": "1GWv9XGpP3wjzosmrZygsIqNsooU_2wIo",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0333_924296166848471041": {
     "status": "Approved",
@@ -2655,7 +2674,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T17:49:13.471000+00:00",
     "drive_file_id": "1RwNDw_GWNonbgKUYBBR7XOkw_MY4ByjT",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0047_536974714850115584": {
     "status": "Approved",
@@ -2670,7 +2690,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-11T12:23:01.702000+00:00",
     "drive_file_id": "1DHXiOxDTMeZoP2XEhP-MwfC02fpPFc9p",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0229_1368271491308982343": {
     "status": "Approved",
@@ -2749,7 +2770,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T21:12:42.577000+00:00",
     "drive_file_id": "1msnMmPVy5W92DQiw__qtqKqhWCkSUGLI",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0067_243919236269867009": {
     "status": "Approved",
@@ -2785,11 +2807,12 @@
     "has_screenshot": true,
     "approving_admin": "wettelitemod",
     "ticket_date": "2026-03-10T10:16:21.959000+00:00",
-    "deposit_amount": null,
-    "deposit_amount_source": "vision",
+    "deposit_amount": 50.0,
+    "deposit_amount_source": "text",
     "first_seen_at": "2026-03-10T10:16:21.959000+00:00",
     "drive_file_id": "1LfUqX0sNjjAx1WQStWlYXbuetK7P5yZW",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0511_807649540143841300": {
     "status": "Approved",
@@ -2882,7 +2905,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-10T07:50:20.411000+00:00",
     "drive_file_id": "1MLqeJx-cNMw3_FEExbwytLWBS7Xwf5m0",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0103_1418615601919950999": {
     "status": "Approved",
@@ -2896,7 +2920,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T17:55:19.928000+00:00",
     "drive_file_id": "1uOF7FeAruZR7NaW8h-slV1-UwFigGjAq",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0098_695063799731978248": {
     "status": "Approved",
@@ -3560,7 +3585,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T19:52:32.857000+00:00",
     "drive_file_id": "1mJfwDwUICUuO3RAkHVI9CJgPWR9RnyvN",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0574_723485329272733767": {
     "status": "Approved",
@@ -3665,7 +3691,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T20:11:10.378000+00:00",
     "drive_file_id": "1ltaThUhTWL7DhUWT55gJ0CRfUYn6ugSU",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0057_371199476573929472": {
     "status": "Not Approved",
@@ -3719,7 +3746,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-17T18:54:59.869000+00:00",
     "drive_file_id": "1dnq1J_g_etxwiiHeMea4zRxLtqGBBTbJ",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "einzahlung-promo-09_567377646569259009": {
     "status": "Excluded (Promo)",
@@ -7225,7 +7253,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T21:10:50.831000+00:00",
     "drive_file_id": "1otjoF74LW1KxHCLoyeAwglnYPH-3ib-i",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0445_1474675032260219112": {
     "status": "Approved",
@@ -8721,11 +8750,12 @@
     "has_screenshot": true,
     "approving_admin": "wettelitemod",
     "ticket_date": "2026-03-12T22:05:19.291000+00:00",
-    "deposit_amount": null,
-    "deposit_amount_source": "vision",
+    "deposit_amount": 50.0,
+    "deposit_amount_source": "text",
     "first_seen_at": "2026-03-12T22:05:19.291000+00:00",
     "drive_file_id": "17KkuvZQ0VJ78DJ1Bw-alYqlbU3jg-45d",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "koenisch-0850_256093930620190722": {
     "status": "Approved",
@@ -8973,7 +9003,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-13T22:19:03.534000+00:00",
     "drive_file_id": "16KLSw1iw1RQKgXR32LYY_CTlybgfEjYj",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0008_1482457643883958418": {
     "status": "Excluded (Oddify)",
@@ -9000,7 +9031,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-10T15:19:05.909000+00:00",
     "drive_file_id": "1panJnk5pO4pRTNkrxN3EwUxLbcZYjFGG",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0736_1448402760721760316": {
     "status": "Approved",
@@ -9014,7 +9046,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-14T19:36:42.995000+00:00",
     "drive_file_id": "1z9ErOEuqQEdn8_hsUGfgaEcBDU-Fhv_f",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0628_1457139377020080209": {
     "status": "Approved",
@@ -9317,7 +9350,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-14T21:06:12.824000+00:00",
     "drive_file_id": "1zPPRf8hk1MXADbSb9nllXam0JuA0DOUB",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0777_1180496662112763976": {
     "status": "Excluded (Oddify)",
@@ -9384,7 +9418,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-10T09:53:50.070000+00:00",
     "drive_file_id": "1ttrQjRMokfjqwwhEggrMbxc-FCiwn6B2",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0039_586924755588874288": {
     "status": "Excluded (Oddify)",
@@ -9425,7 +9460,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-14T22:29:22.924000+00:00",
     "drive_file_id": "1JfuiopnYugpj6RINQxk8G0CxMS9LF7i9",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0296_1248753063523520635": {
     "status": "Not Approved",
@@ -9596,7 +9632,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T19:17:27.141000+00:00",
     "drive_file_id": "1LDAXawbJ_WpnmO9Esx7x1cyH7hzdxEtD",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0429_970800736772456519": {
     "status": "Not Approved",
@@ -9662,7 +9699,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T21:12:17.034000+00:00",
     "drive_file_id": "1DaAh-bIWMQkkpkQlaK7XtAjA6iViXjVQ",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0502_831629322246815824": {
     "status": "Not Approved",
@@ -11392,7 +11430,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T19:25:06.622000+00:00",
     "drive_file_id": "1rikifpsgaq3dOP9ZDvj9IIjauO9eGlL_",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0656_1083377080617664563": {
     "status": "Not Approved",
@@ -12003,11 +12042,12 @@
     "has_screenshot": true,
     "approving_admin": "wettelitemod",
     "ticket_date": "2026-03-14T16:56:01.074000+00:00",
-    "deposit_amount": null,
-    "deposit_amount_source": "vision",
+    "deposit_amount": 200.0,
+    "deposit_amount_source": "text",
     "first_seen_at": "2026-03-14T16:56:01.074000+00:00",
     "drive_file_id": "17BiPsguxpF9vVnaAsiSJJjbJpeKFIQZn",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0754_1223375234128941176": {
     "status": "Approved",
@@ -13747,7 +13787,8 @@
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T19:17:27.141000+00:00",
     "drive_file_id": "18ccmyTxyy3n6_OHAW_le17CUB7Iy586c",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0073_1484610900093698100": {
     "status": "Excluded (No FTD)",
@@ -13918,7 +13959,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "drive_file_id": "1RTWetdep8QG65UYt0Uv09a5AN4o0cqle",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "closed-0062_1483038413727862784": {
     "status": "Excluded (No FTD)",
@@ -14540,11 +14582,12 @@
     "campaign_source": "manual",
     "ticket_date": "2026-03-25T17:42:13.828000+00:00",
     "first_seen_at": "2026-03-26T13:50:48.253029+00:00",
-    "deposit_amount": null,
-    "deposit_amount_source": "vision",
+    "deposit_amount": 50.0,
+    "deposit_amount_source": "text",
     "telegram_sent_at": "2026-03-26T14:14:43.648493+00:00",
     "drive_file_id": "156GfHMiLPVM_qcVPpw-VtXexg2r68qgf",
-    "vision_amount_retries": 2
+    "vision_amount_retries": 2,
+    "text_amount_tried": true
   },
   "support-0093_1485293525997322471": {
     "status": "Not Approved",
@@ -16169,8 +16212,8 @@
     "deposit_amount_source": ""
   },
   "closed-0187_1488188450468265997": {
-    "deposit_amount": null,
-    "deposit_amount_source": "vision",
+    "deposit_amount": 50.0,
+    "deposit_amount_source": "text",
     "user": "maurs4958",
     "ticket_date": "2026-03-30T14:49:36.544000+00:00",
     "drive_file_id": "1mlFlNVwXJ6_LmhmgT823CMfBjV2tNsl0",
@@ -16180,7 +16223,8 @@
     "approving_admin": "adonis39.",
     "campaign": "Betlabel",
     "has_screenshot": true,
-    "first_seen_at": "2026-03-31T08:35:39.956387+00:00"
+    "first_seen_at": "2026-03-31T08:35:39.956387+00:00",
+    "text_amount_tried": true
   },
   "closed-1096_1488252669821976656": {
     "status": "Not Approved",

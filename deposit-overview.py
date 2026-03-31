@@ -1012,6 +1012,10 @@ def group_by_day(results: list[dict], days: int = 7) -> list[dict]:
         }
     VOLUME_STATUSES = {"Approved", "Excluded (Promo)"}
     for r in results:
+        # Skip DM-approved entries — their ticket_date is when they were batch-imported,
+        # not when the actual deposit happened, so daily breakdown would be misleading
+        if r.get("ticket", "").startswith("dm-approved-"):
+            continue
         status = r["approval_status"]
         is_approved = status == "Approved"
         counts_for_volume = status in VOLUME_STATUSES
@@ -1474,6 +1478,10 @@ def generate_html_dashboard(results: list[dict], output_path: Path, user_lookup:
         )
     overall_7d_ftd_str   = _fmt_amt(overall_7d_ftd)
     overall_7d_total_str = _fmt_amt(overall_7d_total)
+    # Count DM-approved entries excluded from daily table
+    dm_approved_count = sum(1 for r in results
+                           if r.get("ticket", "").startswith("dm-approved-")
+                           and r.get("approval_status") == "Approved")
     h24_review_html = (
         f'<div class="h24-warn">⚠️ {len(new_to_check)} new ticket(s) need review</div>'
         if new_to_check else
@@ -1727,7 +1735,7 @@ def generate_html_dashboard(results: list[dict], output_path: Path, user_lookup:
     <div class="vol-coverage">
       7-day FTD volume: <strong style="color:#34d399">{overall_7d_ftd_str}</strong>
       &nbsp;·&nbsp; Total volume incl. promo: <strong>{overall_7d_total_str}</strong>
-      &nbsp;·&nbsp; <span style="color:#94a3b8">{overall_7d_approved} FTDs · {overall_7d_known} deposits have a confirmed amount</span>
+      &nbsp;·&nbsp; <span style="color:#94a3b8">{overall_7d_approved} FTDs · {overall_7d_known} deposits have a confirmed amount{f" · <em>{dm_approved_count} DM-approved not shown (no ticket date)</em>" if dm_approved_count else ""}</span>
     </div>
   </div>
 
