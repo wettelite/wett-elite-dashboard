@@ -2076,10 +2076,13 @@ def main():
         override = manual_overrides.get(ticket_name, {})
 
         # --- Fast path: ticket fully processed and amount either extracted or confirmed no Vision needed ---
-        # Only skip if amount source is set (Vision ran) OR ticket is non-Approved (no amount needed)
+        # Only skip if: amount was actually found, OR ticket is non-Approved (no amount needed),
+        # OR ticket has no screenshot (nothing to extract from)
         _amount_settled = (
-            bool(override.get("deposit_amount_source"))       # Vision ran → settled
+            (bool(override.get("deposit_amount_source")) and override.get("deposit_amount") is not None)
             or override.get("status") not in ("Approved",)    # Not approved → no amount needed
+            or (override.get("deposit_amount_source") == "vision" and not override.get("has_screenshot"))
+            or override.get("vision_amount_retries", 0) >= 2  # Vision retried enough, accept None
         )
         if (
             override.get("first_seen_at")
@@ -2102,11 +2105,12 @@ def main():
         #   mode "brand_and_amount" — Unknown campaign, no cached Vision brand
         #   mode "amount_only"      — brand known, Approved, no cached deposit_amount
         img_data = None
-        # "deposit_amount" key present AND source is set means Vision actually ran.
-        # Key present with empty source means it was set by migration (not Vision) — re-queue.
+        # Amount is settled if Vision extracted a value, OR if Vision has been
+        # retried (retry_count >= 2) without success — stop retrying.
+        _vision_retries = override.get("vision_amount_retries", 0)
         already_has_amount = (
-            "deposit_amount" in override
-            and bool(override.get("deposit_amount_source"))
+            (override.get("deposit_amount") is not None and bool(override.get("deposit_amount_source")))
+            or (override.get("deposit_amount_source") == "vision" and _vision_retries >= 2)
         )
         already_vision_classified = (
             override.get("campaign_source") == "vision"
@@ -2225,6 +2229,9 @@ def main():
                     manual_overrides[t]["signal"] = result["approval_signal"]
                 manual_overrides[t]["deposit_amount"] = result["deposit_amount"]
                 manual_overrides[t]["deposit_amount_source"] = "vision"
+                # Track retry count for amount extraction failures
+                if result["deposit_amount"] is None:
+                    manual_overrides[t]["vision_amount_retries"] = manual_overrides[t].get("vision_amount_retries", 0) + 1
 
                 if i % 10 == 0 or i == len(vision_queue):
                     log(f"  [{i}/{len(vision_queue)}] vision done "
@@ -2234,12 +2241,29 @@ def main():
         else:
             log("⚠️  No Anthropic API key found — skipping vision classification")
 
+    # Build username → Discord user_id map for DM entries missing user_id
+    _dm_uid_map: dict[str, str] = {}
+    if DISCORD_MEMBERS_FILE.exists():
+        try:
+            _disc = json.loads(DISCORD_MEMBERS_FILE.read_text())
+            _dm_uid_map = {m["user"]["username"].lower(): m["user"]["id"] for m in _disc if m.get("user", {}).get("username")}
+        except Exception:
+            pass
+
     # Inject DM-approved synthetic entries from manual_overrides into results
+    dm_uid_backfills = 0
     for key, v in manual_overrides.items():
         if key.startswith("dm-approved-"):
+            # Auto-populate user_id from Discord if missing
+            uid = v.get("user_id", "")
+            if not uid:
+                uid = _dm_uid_map.get(v.get("user", "").lower(), "")
+                if uid:
+                    v["user_id"] = uid  # persist back to overrides
+                    dm_uid_backfills += 1
             results.append({
                 "ticket":                key,
-                "user_id":               v.get("user_id", ""),
+                "user_id":               uid,
                 "user":                  v.get("user", ""),
                 "campaign":              v.get("campaign", "Unknown"),
                 "has_screenshot":        v.get("has_screenshot", False),
@@ -2254,6 +2278,8 @@ def main():
                 "deposit_amount_source": v.get("deposit_amount_source", ""),
                 "drive_file_id":         v.get("drive_file_id", ""),
             })
+    if dm_uid_backfills:
+        log(f"Auto-populated user_id for {dm_uid_backfills} DM-approved entries from Discord")
 
     # Inject orphaned override entries: tickets in overrides with a definitive status
     # but not matched from any Drive file (e.g. manually reviewed tickets whose Drive
@@ -2305,12 +2331,16 @@ def main():
         if r.get("drive_file_id") and not updated_overrides.get(t, {}).get("drive_file_id"):
             updated_overrides.setdefault(t, {})["drive_file_id"] = r["drive_file_id"]
 
-        # Persist deposit_amount if newly extracted (never overwrite an existing value)
+        # Persist deposit_amount if newly extracted (update if existing is None)
         if (
             r.get("deposit_amount_source") == "vision"
-            and "deposit_amount" not in updated_overrides.get(t, {})
+            and r.get("deposit_amount") is not None
+            and (
+                "deposit_amount" not in updated_overrides.get(t, {})
+                or updated_overrides.get(t, {}).get("deposit_amount") is None
+            )
         ):
-            updated_overrides[t]["deposit_amount"] = r.get("deposit_amount")
+            updated_overrides[t]["deposit_amount"] = r["deposit_amount"]
             updated_overrides[t]["deposit_amount_source"] = "vision"
     save_manual_overrides(updated_overrides)
     log(f"Saved {len(updated_overrides)} entries to manual-overrides.json")

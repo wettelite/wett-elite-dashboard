@@ -200,7 +200,8 @@
     "first_seen_at": "2026-03-20T02:57:13.341000+00:00",
     "deposit_amount": null,
     "deposit_amount_source": "vision",
-    "drive_file_id": "1xUhpfGKPjvl_qY1l7trpRO4dp1lKtsoE"
+    "drive_file_id": "1xUhpfGKPjvl_qY1l7trpRO4dp1lKtsoE",
+    "vision_amount_retries": 2
   },
   "closed-0729_933302930780586024": {
     "status": "Not Approved",
@@ -769,7 +770,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T11:39:08.522000+00:00",
-    "drive_file_id": "1-F9sAU0iLPT9qDsC0iMx_6TF-6blW6mf"
+    "drive_file_id": "1-F9sAU0iLPT9qDsC0iMx_6TF-6blW6mf",
+    "vision_amount_retries": 2
   },
   "koenisch-0874_453899041781055490": {
     "status": "Not Approved",
@@ -794,7 +796,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-21T12:04:48.384000+00:00",
-    "drive_file_id": "1gtaYfqCLiB9n1vAkq7VWaOSKRpAT7vBQ"
+    "drive_file_id": "1gtaYfqCLiB9n1vAkq7VWaOSKRpAT7vBQ",
+    "vision_amount_retries": 2
   },
   "closed-0779_381528046596784136": {
     "status": "Excluded (Oddify)",
@@ -927,7 +930,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T21:11:36.338000+00:00",
-    "drive_file_id": "1RaB_ZaezePYCoDt20mtghio7YHiy0s6v"
+    "drive_file_id": "1RaB_ZaezePYCoDt20mtghio7YHiy0s6v",
+    "vision_amount_retries": 2
   },
   "closed-0034_668213987757916170": {
     "status": "Approved",
@@ -953,7 +957,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T21:11:36.338000+00:00",
-    "drive_file_id": "112vWIcGiVPkrCz0GSRSx2i_duJfWEVdc"
+    "drive_file_id": "112vWIcGiVPkrCz0GSRSx2i_duJfWEVdc",
+    "vision_amount_retries": 2
   },
   "einzahlung-promo-4_1311057311829327872": {
     "status": "Excluded (Promo)",
@@ -1008,7 +1013,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T16:25:12.885000+00:00",
-    "drive_file_id": "1l7U2qynpf7f3EC3nfIR_MUpeMWMYOcVK"
+    "drive_file_id": "1l7U2qynpf7f3EC3nfIR_MUpeMWMYOcVK",
+    "vision_amount_retries": 2
   },
   "closed-0029_1386704133809242192": {
     "status": "Approved",
@@ -1087,7 +1093,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-14T22:47:59.388000+00:00",
-    "drive_file_id": "1G9j68vWMiRtpGtpd6k9oYKNSkFLPlgbv"
+    "drive_file_id": "1G9j68vWMiRtpGtpd6k9oYKNSkFLPlgbv",
+    "vision_amount_retries": 2
   },
   "koenisch-0925_1364677083564871742": {
     "status": "Not Approved",
@@ -1242,7 +1249,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-21T12:09:06.627000+00:00",
-    "drive_file_id": "1I_xe3FEV8Sp3PS_lkD7kZp_sXrEZzBPS"
+    "drive_file_id": "1I_xe3FEV8Sp3PS_lkD7kZp_sXrEZzBPS",
+    "vision_amount_retries": 2
   },
   "closed-0024_1324096174927384668": {
     "status": "Not Approved",
@@ -1304,7 +1312,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-22T13:25:29.502000+00:00",
-    "drive_file_id": "1w7e8PclQIZgIovoWxhkkVS2FOSnTj3vE"
+    "drive_file_id": "1w7e8PclQIZgIovoWxhkkVS2FOSnTj3vE",
+    "vision_amount_retries": 2
   },
   "closed-0026_1110949015861874798": {
     "status": "Approved",
@@ -1330,7 +1339,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T04:22:14.834000+00:00",
-    "drive_file_id": "1jF22gSP6SuljSa7sxOnYT0iKn9IcSXGJ"
+    "drive_file_id": "1jF22gSP6SuljSa7sxOnYT0iKn9IcSXGJ",
+    "vision_amount_retries": 2
   },
   "closed-0784_1133091584683020369": {
     "status": "Approved",
@@ -1383,7 +1393,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T20:07:56.665000+00:00",
-    "drive_file_id": "18dAe2XvP8rB9me-QXndt_XAaq18m_xC9"
+    "drive_file_id": "18dAe2XvP8rB9me-QXndt_XAaq18m_xC9",
+    "vision_amount_retries": 2
   },
   "closed-0033_777936849858461756": {
     "status": "Approved",
@@ -1409,7 +1420,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T16:54:22.276000+00:00",
-    "drive_file_id": "1izHdp3k91ZDPCE6Zq2JMnTl_7cGBgXTE"
+    "drive_file_id": "1izHdp3k91ZDPCE6Zq2JMnTl_7cGBgXTE",
+    "vision_amount_retries": 2
   },
   "closed-0070_1308438494158393395": {
     "status": "Approved",
@@ -1488,7 +1500,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T17:42:49.851000+00:00",
-    "drive_file_id": "1PyqtZemtOwn37_GbzWZMY7YVP4Y3BMJL"
+    "drive_file_id": "1PyqtZemtOwn37_GbzWZMY7YVP4Y3BMJL",
+    "vision_amount_retries": 2
   },
   "closed-0830_1480618335572852909": {
     "status": "Approved",
@@ -1514,7 +1527,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T17:50:59.044000+00:00",
-    "drive_file_id": "1WaFGbVXh3s2xYYjp2cUbBhRDyAgv2UoC"
+    "drive_file_id": "1WaFGbVXh3s2xYYjp2cUbBhRDyAgv2UoC",
+    "vision_amount_retries": 2
   },
   "closed-0800_1308438494158393395": {
     "status": "Approved",
@@ -1554,7 +1568,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T17:00:24.404000+00:00",
-    "drive_file_id": "1YmCMfr_VNTg7r7Bstl3uHR7RUPKQdVOT"
+    "drive_file_id": "1YmCMfr_VNTg7r7Bstl3uHR7RUPKQdVOT",
+    "vision_amount_retries": 2
   },
   "closed-0902_1409161492850413578": {
     "status": "Approved",
@@ -1567,7 +1582,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-21T10:13:02.799000+00:00",
-    "drive_file_id": "1Ks2NExhEU8VMl5jSdUJvEwZRdPI1QwkC"
+    "drive_file_id": "1Ks2NExhEU8VMl5jSdUJvEwZRdPI1QwkC",
+    "vision_amount_retries": 2
   },
   "closed-0041_588839050413080576": {
     "status": "Excluded (Oddify)",
@@ -2015,7 +2031,7 @@
     "has_screenshot": true,
     "approving_admin": "",
     "ticket_date": "2026-03-21T10:22:28.090000+00:00",
-    "deposit_amount": null,
+    "deposit_amount": 80.0,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-21T10:22:28.090000+00:00",
     "drive_file_id": "10__lX1W_LLUzqFe_cajQS8eFVJvdU_GA"
@@ -2438,7 +2454,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T20:57:03.153000+00:00",
-    "drive_file_id": "18vy9L_alKo2KLoLCQTE9mh4D0WO1Euza"
+    "drive_file_id": "18vy9L_alKo2KLoLCQTE9mh4D0WO1Euza",
+    "vision_amount_retries": 2
   },
   "closed-0410_1284445012536328212": {
     "status": "Approved",
@@ -2451,7 +2468,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T21:09:44.192000+00:00",
-    "drive_file_id": "1abA3ntQINl7o8JR4FFPkO90p9CqeWPo7"
+    "drive_file_id": "1abA3ntQINl7o8JR4FFPkO90p9CqeWPo7",
+    "vision_amount_retries": 2
   },
   "closed-0295_1374886047779127388": {
     "status": "Approved",
@@ -2464,7 +2482,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T19:47:00.318000+00:00",
-    "drive_file_id": "1ko09T6o-Zhq2zEHK3w_EVyW2U846YRqw"
+    "drive_file_id": "1ko09T6o-Zhq2zEHK3w_EVyW2U846YRqw",
+    "vision_amount_retries": 2
   },
   "closed-0264_632897025276379137": {
     "status": "Approved",
@@ -2477,7 +2496,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T19:15:08.637000+00:00",
-    "drive_file_id": "1GWv9XGpP3wjzosmrZygsIqNsooU_2wIo"
+    "drive_file_id": "1GWv9XGpP3wjzosmrZygsIqNsooU_2wIo",
+    "vision_amount_retries": 2
   },
   "closed-0333_924296166848471041": {
     "status": "Approved",
@@ -2556,7 +2576,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T17:49:13.471000+00:00",
-    "drive_file_id": "1RwNDw_GWNonbgKUYBBR7XOkw_MY4ByjT"
+    "drive_file_id": "1RwNDw_GWNonbgKUYBBR7XOkw_MY4ByjT",
+    "vision_amount_retries": 2
   },
   "closed-0047_536974714850115584": {
     "status": "Approved",
@@ -2570,7 +2591,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-11T12:23:01.702000+00:00",
-    "drive_file_id": "1DHXiOxDTMeZoP2XEhP-MwfC02fpPFc9p"
+    "drive_file_id": "1DHXiOxDTMeZoP2XEhP-MwfC02fpPFc9p",
+    "vision_amount_retries": 2
   },
   "closed-0229_1368271491308982343": {
     "status": "Approved",
@@ -2647,7 +2669,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T21:12:42.577000+00:00",
-    "drive_file_id": "1msnMmPVy5W92DQiw__qtqKqhWCkSUGLI"
+    "drive_file_id": "1msnMmPVy5W92DQiw__qtqKqhWCkSUGLI",
+    "vision_amount_retries": 2
   },
   "closed-0067_243919236269867009": {
     "status": "Approved",
@@ -2686,7 +2709,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-10T10:16:21.959000+00:00",
-    "drive_file_id": "1LfUqX0sNjjAx1WQStWlYXbuetK7P5yZW"
+    "drive_file_id": "1LfUqX0sNjjAx1WQStWlYXbuetK7P5yZW",
+    "vision_amount_retries": 2
   },
   "closed-0511_807649540143841300": {
     "status": "Approved",
@@ -2775,7 +2799,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-10T07:50:20.411000+00:00",
-    "drive_file_id": "1MLqeJx-cNMw3_FEExbwytLWBS7Xwf5m0"
+    "drive_file_id": "1MLqeJx-cNMw3_FEExbwytLWBS7Xwf5m0",
+    "vision_amount_retries": 2
   },
   "closed-0103_1418615601919950999": {
     "status": "Approved",
@@ -2788,7 +2813,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T17:55:19.928000+00:00",
-    "drive_file_id": "1uOF7FeAruZR7NaW8h-slV1-UwFigGjAq"
+    "drive_file_id": "1uOF7FeAruZR7NaW8h-slV1-UwFigGjAq",
+    "vision_amount_retries": 2
   },
   "closed-0098_695063799731978248": {
     "status": "Approved",
@@ -3382,7 +3408,7 @@
     "has_screenshot": true,
     "approving_admin": "wettelite",
     "ticket_date": "2026-03-09T18:16:57.342000+00:00",
-    "deposit_amount": null,
+    "deposit_amount": 50.0,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T18:16:57.342000+00:00",
     "drive_file_id": "16aZ4lEGkqnGQb6QmaYe2CutGWditKJo8"
@@ -3411,7 +3437,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T19:52:32.857000+00:00",
-    "drive_file_id": "1mJfwDwUICUuO3RAkHVI9CJgPWR9RnyvN"
+    "drive_file_id": "1mJfwDwUICUuO3RAkHVI9CJgPWR9RnyvN",
+    "vision_amount_retries": 2
   },
   "closed-0574_723485329272733767": {
     "status": "Approved",
@@ -3513,7 +3540,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T20:11:10.378000+00:00",
-    "drive_file_id": "1ltaThUhTWL7DhUWT55gJ0CRfUYn6ugSU"
+    "drive_file_id": "1ltaThUhTWL7DhUWT55gJ0CRfUYn6ugSU",
+    "vision_amount_retries": 2
   },
   "closed-0057_371199476573929472": {
     "status": "Not Approved",
@@ -3564,7 +3592,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-17T18:54:59.869000+00:00",
-    "drive_file_id": "1dnq1J_g_etxwiiHeMea4zRxLtqGBBTbJ"
+    "drive_file_id": "1dnq1J_g_etxwiiHeMea4zRxLtqGBBTbJ",
+    "vision_amount_retries": 2
   },
   "einzahlung-promo-09_567377646569259009": {
     "status": "Excluded (Promo)",
@@ -6806,7 +6835,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T21:10:50.831000+00:00",
-    "drive_file_id": "1otjoF74LW1KxHCLoyeAwglnYPH-3ib-i"
+    "drive_file_id": "1otjoF74LW1KxHCLoyeAwglnYPH-3ib-i",
+    "vision_amount_retries": 2
   },
   "closed-0445_1474675032260219112": {
     "status": "Approved",
@@ -8215,7 +8245,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-12T22:05:19.291000+00:00",
-    "drive_file_id": "17KkuvZQ0VJ78DJ1Bw-alYqlbU3jg-45d"
+    "drive_file_id": "17KkuvZQ0VJ78DJ1Bw-alYqlbU3jg-45d",
+    "vision_amount_retries": 2
   },
   "koenisch-0850_256093930620190722": {
     "status": "Approved",
@@ -8457,7 +8488,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-13T22:19:03.534000+00:00",
-    "drive_file_id": "16KLSw1iw1RQKgXR32LYY_CTlybgfEjYj"
+    "drive_file_id": "16KLSw1iw1RQKgXR32LYY_CTlybgfEjYj",
+    "vision_amount_retries": 2
   },
   "closed-0008_1482457643883958418": {
     "status": "Excluded (Oddify)",
@@ -8483,7 +8515,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-10T15:19:05.909000+00:00",
-    "drive_file_id": "1panJnk5pO4pRTNkrxN3EwUxLbcZYjFGG"
+    "drive_file_id": "1panJnk5pO4pRTNkrxN3EwUxLbcZYjFGG",
+    "vision_amount_retries": 2
   },
   "closed-0736_1448402760721760316": {
     "status": "Approved",
@@ -8496,7 +8529,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-14T19:36:42.995000+00:00",
-    "drive_file_id": "1z9ErOEuqQEdn8_hsUGfgaEcBDU-Fhv_f"
+    "drive_file_id": "1z9ErOEuqQEdn8_hsUGfgaEcBDU-Fhv_f",
+    "vision_amount_retries": 2
   },
   "closed-0628_1457139377020080209": {
     "status": "Approved",
@@ -8797,7 +8831,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-14T21:06:12.824000+00:00",
-    "drive_file_id": "1zPPRf8hk1MXADbSb9nllXam0JuA0DOUB"
+    "drive_file_id": "1zPPRf8hk1MXADbSb9nllXam0JuA0DOUB",
+    "vision_amount_retries": 2
   },
   "closed-0777_1180496662112763976": {
     "status": "Excluded (Oddify)",
@@ -8862,7 +8897,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-10T09:53:50.070000+00:00",
-    "drive_file_id": "1ttrQjRMokfjqwwhEggrMbxc-FCiwn6B2"
+    "drive_file_id": "1ttrQjRMokfjqwwhEggrMbxc-FCiwn6B2",
+    "vision_amount_retries": 2
   },
   "closed-0039_586924755588874288": {
     "status": "Excluded (Oddify)",
@@ -8902,7 +8938,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-14T22:29:22.924000+00:00",
-    "drive_file_id": "1JfuiopnYugpj6RINQxk8G0CxMS9LF7i9"
+    "drive_file_id": "1JfuiopnYugpj6RINQxk8G0CxMS9LF7i9",
+    "vision_amount_retries": 2
   },
   "closed-0296_1248753063523520635": {
     "status": "Not Approved",
@@ -9061,7 +9098,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T19:17:27.141000+00:00",
-    "drive_file_id": "1LDAXawbJ_WpnmO9Esx7x1cyH7hzdxEtD"
+    "drive_file_id": "1LDAXawbJ_WpnmO9Esx7x1cyH7hzdxEtD",
+    "vision_amount_retries": 2
   },
   "closed-0429_970800736772456519": {
     "status": "Not Approved",
@@ -9123,7 +9161,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-09T21:12:17.034000+00:00",
-    "drive_file_id": "1DaAh-bIWMQkkpkQlaK7XtAjA6iViXjVQ"
+    "drive_file_id": "1DaAh-bIWMQkkpkQlaK7XtAjA6iViXjVQ",
+    "vision_amount_retries": 2
   },
   "closed-0502_831629322246815824": {
     "status": "Not Approved",
@@ -10721,7 +10760,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T19:25:06.622000+00:00",
-    "drive_file_id": "1rikifpsgaq3dOP9ZDvj9IIjauO9eGlL_"
+    "drive_file_id": "1rikifpsgaq3dOP9ZDvj9IIjauO9eGlL_",
+    "vision_amount_retries": 2
   },
   "closed-0656_1083377080617664563": {
     "status": "Not Approved",
@@ -11296,7 +11336,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-14T16:56:01.074000+00:00",
-    "drive_file_id": "17BiPsguxpF9vVnaAsiSJJjbJpeKFIQZn"
+    "drive_file_id": "17BiPsguxpF9vVnaAsiSJJjbJpeKFIQZn",
+    "vision_amount_retries": 2
   },
   "closed-0754_1223375234128941176": {
     "status": "Approved",
@@ -11319,7 +11360,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "293456005696716800",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11345,7 +11386,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "420599033548111882",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11358,7 +11399,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "735118844128919593",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11371,7 +11412,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1060126838732640308",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11384,7 +11425,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "322675288121016320",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11397,7 +11438,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "584304679639449627",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11410,7 +11451,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "712668168652324865",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11436,7 +11477,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "525665603164438578",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11449,7 +11490,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "816244550161924138",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11462,7 +11503,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "497007488801964033",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11475,7 +11516,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "702815332460658759",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11488,7 +11529,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1463235692988600436",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11501,7 +11542,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "505877274558595107",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11514,7 +11555,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "790665086590910484",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11527,7 +11568,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "737144197827526686",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11540,7 +11581,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1048016771917033523",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11566,7 +11607,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "444132944974708746",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11579,7 +11620,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "478165780781989889",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11592,7 +11633,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "480784848781312010",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11605,7 +11646,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "785618394368049192",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11618,7 +11659,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1341433967102005420",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11631,7 +11672,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1480618056005718018",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11644,7 +11685,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "611148264279900171",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11657,7 +11698,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "796004269609713665",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11670,7 +11711,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1199773987648049329",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11683,7 +11724,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1481016564164726857",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11696,7 +11737,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1481016880222175536",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11709,7 +11750,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "501264433683628034",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11722,7 +11763,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1386920780633215037",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11735,7 +11776,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1480979857637904436",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11748,7 +11789,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1406743731792646275",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11761,7 +11802,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "780812305822646272",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11774,7 +11815,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "636674752714375208",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11787,7 +11828,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "692127774588141608",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11800,7 +11841,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1426109496207474720",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11813,7 +11854,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "282497623448092673",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11826,7 +11867,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1013174001121632336",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11839,7 +11880,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1443631773144715354",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11852,7 +11893,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1459731054834221211",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11865,7 +11906,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "712818294750707754",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11878,7 +11919,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "845691139196977182",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11891,7 +11932,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1480615075541942413",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11904,7 +11945,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "534770040441143314",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11917,7 +11958,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "805884953689587728",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11930,7 +11971,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "528732401757585408",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11943,7 +11984,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "807342230666215474",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11956,7 +11997,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "696476405269135451",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11969,7 +12010,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1429881331080368258",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11982,7 +12023,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1459455779072512110",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -11995,7 +12036,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "924358216803053598",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12008,7 +12049,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "777613138911559700",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12021,7 +12062,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1317826250685022309",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12034,7 +12075,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1480674106797068420",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12047,7 +12088,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1480674189240307832",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12060,7 +12101,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "775778287309160468",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12073,7 +12114,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1478050474287693874",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12086,7 +12127,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1441443214526648390",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12099,7 +12140,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "692772831561252946",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12112,7 +12153,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1477817846611312670",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12125,7 +12166,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "635798897737859072",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12138,7 +12179,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1466151800527781898",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12151,7 +12192,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1422335540966981682",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12164,7 +12205,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1480657676005540107",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12177,7 +12218,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "304310355880968192",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12190,7 +12231,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1241053546862870532",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12203,7 +12244,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "779756592923934770",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12216,7 +12257,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "909420435240796200",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12229,7 +12270,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "798155545789857792",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12242,7 +12283,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1320451776360480781",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12255,7 +12296,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1198620728422039646",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12268,7 +12309,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "463682830795407380",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12281,7 +12322,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "394607004158525452",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12294,7 +12335,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "860481306571046952",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12307,7 +12348,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1473763123428327446",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12320,7 +12361,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "735604382732779611",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12333,7 +12374,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "164685889161658368",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12346,7 +12387,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "558289511059030017",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12359,7 +12400,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "597496633797771369",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12372,7 +12413,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "693248722540167179",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12385,7 +12426,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "763475555588112424",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12398,7 +12439,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "635857155672768512",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12411,7 +12452,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1270370608705830981",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12424,7 +12465,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1298022847855329326",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12437,7 +12478,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1428255794125602826",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12450,7 +12491,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "556796764515074048",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12463,7 +12504,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1399669378605121628",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12476,7 +12517,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "906923747070595102",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12489,7 +12530,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "938319430448988192",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12502,7 +12543,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "972339805608362006",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12515,7 +12556,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1429169698687422546",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12528,7 +12569,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1105558049894174731",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12541,7 +12582,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1428722779359936534",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12554,7 +12595,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "1440936986503544893",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -12567,7 +12608,7 @@
     "has_screenshot": false,
     "approving_admin": "DM",
     "campaign_source": "manual",
-    "user_id": "",
+    "user_id": "941795848151519253",
     "first_seen_at": "2025-01-01T00:00:00+00:00",
     "deposit_amount": null,
     "deposit_amount_source": ""
@@ -13031,7 +13072,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "first_seen_at": "2026-03-20T19:17:27.141000+00:00",
-    "drive_file_id": "18ccmyTxyy3n6_OHAW_le17CUB7Iy586c"
+    "drive_file_id": "18ccmyTxyy3n6_OHAW_le17CUB7Iy586c",
+    "vision_amount_retries": 2
   },
   "closed-0073_1484610900093698100": {
     "status": "Excluded (No FTD)",
@@ -13196,7 +13238,8 @@
     "first_seen_at": "2026-03-20T02:57:13.341000+00:00",
     "deposit_amount": null,
     "deposit_amount_source": "vision",
-    "drive_file_id": "1RTWetdep8QG65UYt0Uv09a5AN4o0cqle"
+    "drive_file_id": "1RTWetdep8QG65UYt0Uv09a5AN4o0cqle",
+    "vision_amount_retries": 2
   },
   "closed-0062_1483038413727862784": {
     "status": "Excluded (No FTD)",
@@ -13271,35 +13314,38 @@
   "closed-0148_1486466883833167994": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 50.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T20:48:42.861000+00:00",
     "status": "Excluded (No FTD)",
     "signal": "vision_no_ftd",
     "user": "jaakob578578",
-    "drive_file_id": "1NIytYhV7OC3jerqYB9B45VJw9L0jjD-C"
+    "drive_file_id": "1NIytYhV7OC3jerqYB9B45VJw9L0jjD-C",
+    "vision_amount_retries": 3
   },
   "discord-promo-30_1486466883833167994": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 50.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T20:48:42.861000+00:00",
     "status": "Excluded (No FTD)",
     "signal": "vision_no_ftd",
     "user": "jaakob578578",
-    "drive_file_id": "1TaW-Oxk1o5njV-LeTWUN1AXAmThzv_fW"
+    "drive_file_id": "1TaW-Oxk1o5njV-LeTWUN1AXAmThzv_fW",
+    "vision_amount_retries": 3
   },
   "closed-0149_1486467499385163948": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 50.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T20:51:09.661000+00:00",
-    "status": "Excluded (Promo)",
-    "signal": "manual: discord promo only, no freigeschaltet",
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd",
     "user": "jackie202700_02836",
-    "drive_file_id": "1oGcPPyXa7tfhdhj8ny_YCFoyr12lVSC_"
+    "drive_file_id": "1oGcPPyXa7tfhdhj8ny_YCFoyr12lVSC_",
+    "vision_amount_retries": 3
   },
   "discord-promo-8_1486421671282999487": {
     "campaign": "Betlabel",
@@ -13315,13 +13361,14 @@
   "closed-0156_1486472030357557339": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 50.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T21:09:10.039000+00:00",
-    "status": "Excluded (Promo)",
-    "signal": "manual: discord promo only, no freigeschaltet",
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd",
     "user": "clumsy000000",
-    "drive_file_id": "10QiEdLyzlKCMBxw6M-V1yruJ8Az9tIgE"
+    "drive_file_id": "10QiEdLyzlKCMBxw6M-V1yruJ8Az9tIgE",
+    "vision_amount_retries": 3
   },
   "closed-0151_1486467982921171105": {
     "campaign": "Betlabel",
@@ -13337,24 +13384,26 @@
   "closed-0154_1486468951822307399": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 50.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T20:56:56.466000+00:00",
-    "status": "Excluded (Promo)",
-    "signal": "manual: discord promo only, no freigeschaltet",
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd",
     "user": "zizasolution_72301",
-    "drive_file_id": "19Zcv9uyUcm2BVWVgyoTT2Nz1IKNm4ea8"
+    "drive_file_id": "19Zcv9uyUcm2BVWVgyoTT2Nz1IKNm4ea8",
+    "vision_amount_retries": 3
   },
   "discord-promo-32_1486467499385163948": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 50.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T20:51:09.661000+00:00",
-    "status": "Excluded (Promo)",
-    "signal": "auto: discord-promo / promo-payout channel name",
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd",
     "user": "jackie202700_02836",
-    "drive_file_id": "1vrJaNbCD4zn7byB1JOUfs9jYbiXVa2DS"
+    "drive_file_id": "1vrJaNbCD4zn7byB1JOUfs9jYbiXVa2DS",
+    "vision_amount_retries": 3
   },
   "discord-promo-32_1486467982921171105": {
     "campaign": "Betlabel",
@@ -13370,68 +13419,74 @@
   "discord-promo-40_1486468951822307399": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 50.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T20:56:56.466000+00:00",
-    "status": "Excluded (Promo)",
-    "signal": "auto: discord-promo / promo-payout channel name",
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd",
     "user": "zizasolution_72301",
-    "drive_file_id": "1qVWRUW8aLpZUJp02Fh4Cxacxe-_2CrHy"
+    "drive_file_id": "1qVWRUW8aLpZUJp02Fh4Cxacxe-_2CrHy",
+    "vision_amount_retries": 3
   },
   "discord-promo-39_1486472030357557339": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 50.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T21:09:10.039000+00:00",
-    "status": "Excluded (Promo)",
-    "signal": "auto: discord-promo / promo-payout channel name",
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd",
     "user": "clumsy000000",
-    "drive_file_id": "1JUUD01bh-9lSRAua8b2rTTJgsSyzTQmJ"
+    "drive_file_id": "1JUUD01bh-9lSRAua8b2rTTJgsSyzTQmJ",
+    "vision_amount_retries": 3
   },
   "closed-0134_1486446376995782667": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 100.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T19:27:13.904000+00:00",
-    "status": "Excluded (Promo)",
-    "signal": "manual: discord promo only, no freigeschaltet",
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd",
     "user": "deidara79",
-    "drive_file_id": "1r7X9L2cVeH8lXW6OCsGrfyxo8Gg4VBjx"
+    "drive_file_id": "1r7X9L2cVeH8lXW6OCsGrfyxo8Gg4VBjx",
+    "vision_amount_retries": 3
   },
   "closed-0138_1486452542417408030": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 80.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T19:51:43.551000+00:00",
-    "status": "Excluded (Promo)",
-    "signal": "manual: discord promo only, no freigeschaltet",
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd",
     "user": "itachiuchi0791",
-    "drive_file_id": "1MqhS0Xyw768uG1Pt2r1DCxJsQK28P3ju"
+    "drive_file_id": "1MqhS0Xyw768uG1Pt2r1DCxJsQK28P3ju",
+    "vision_amount_retries": 3
   },
   "discord-promo-24_1486452542417408030": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 80.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T19:51:43.551000+00:00",
-    "status": "Excluded (Promo)",
-    "signal": "auto: discord-promo / promo-payout channel name",
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd",
     "user": "itachiuchi0791",
-    "drive_file_id": "1UtloxylUPBED3Ljin2OrbjznXlKIPRCu"
+    "drive_file_id": "1UtloxylUPBED3Ljin2OrbjznXlKIPRCu",
+    "vision_amount_retries": 3
   },
   "discord-promo-23_1486446376995782667": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 100.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T19:27:13.904000+00:00",
-    "status": "Excluded (Promo)",
-    "signal": "auto: discord-promo / promo-payout channel name",
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd",
     "user": "deidara79",
-    "drive_file_id": "1Luzjww2u_xfCJvafBEkQLUgAaF9FA5J5"
+    "drive_file_id": "1Luzjww2u_xfCJvafBEkQLUgAaF9FA5J5",
+    "vision_amount_retries": 3
   },
   "closed-0130_1486436043023585370": {
     "campaign": "Betlabel",
@@ -13447,13 +13502,14 @@
   "closed-0127_1486427622861832263": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 150.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T18:12:42.268000+00:00",
-    "status": "Excluded (Promo)",
-    "signal": "manual: discord promo only, no freigeschaltet",
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd",
     "user": "banzuzi.",
-    "drive_file_id": "1eijJFKUIqDqz4gyUvg9u8k3t1C2orfXG"
+    "drive_file_id": "1eijJFKUIqDqz4gyUvg9u8k3t1C2orfXG",
+    "vision_amount_retries": 3
   },
   "discord-promo-12_1486434514539380979": {
     "deposit_amount": 150.0,
@@ -13468,35 +13524,38 @@
   "discord-promo-10_1486428783593521152": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 60.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T18:17:19.240000+00:00",
-    "status": "Excluded (Promo)",
-    "signal": "auto: discord-promo / promo-payout channel name",
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd",
     "user": "dzgela77_16136",
-    "drive_file_id": "1wUlB6m3EekqPzPVUkTSugD78XTKEmVx7"
+    "drive_file_id": "1wUlB6m3EekqPzPVUkTSugD78XTKEmVx7",
+    "vision_amount_retries": 3
   },
   "discord-promo-7_1486427622861832263": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 150.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T18:12:42.268000+00:00",
-    "status": "Excluded (Promo)",
-    "signal": "auto: discord-promo / promo-payout channel name",
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd",
     "user": "banzuzi.",
-    "drive_file_id": "1sC4lPNfQIPNp21B2p0SCrbmUaq-nrxyd"
+    "drive_file_id": "1sC4lPNfQIPNp21B2p0SCrbmUaq-nrxyd",
+    "vision_amount_retries": 3
   },
   "closed-0128_1486428783593521152": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 60.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T18:17:19.240000+00:00",
-    "status": "Excluded (Promo)",
-    "signal": "manual: discord promo only, no freigeschaltet",
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd",
     "user": "dzgela77_16136",
-    "drive_file_id": "1mwC5kgIRHZEb9MYv_5dTSQn-IQ9ksxWy"
+    "drive_file_id": "1mwC5kgIRHZEb9MYv_5dTSQn-IQ9ksxWy",
+    "vision_amount_retries": 3
   },
   "discord-promo-9_1486423228875280485": {
     "campaign": "Betlabel",
@@ -13729,7 +13788,8 @@
     "deposit_amount": null,
     "deposit_amount_source": "vision",
     "telegram_sent_at": "2026-03-26T14:14:43.648493+00:00",
-    "drive_file_id": "156GfHMiLPVM_qcVPpw-VtXexg2r68qgf"
+    "drive_file_id": "156GfHMiLPVM_qcVPpw-VtXexg2r68qgf",
+    "vision_amount_retries": 2
   },
   "support-0093_1485293525997322471": {
     "status": "Not Approved",
@@ -13749,14 +13809,15 @@
   "closed-0111_1486405678963888138": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 104.49,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T16:45:30.878000+00:00",
     "telegram_sent_at": "2026-03-26T14:14:31.704479+00:00",
-    "status": "Not Approved",
-    "signal": "manual: no freigeschaltet / incomplete",
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd",
     "user": "sil_bra007",
-    "drive_file_id": "1IVCAk__0XzBTzVg1EwIPU_EG68AhQ54R"
+    "drive_file_id": "1IVCAk__0XzBTzVg1EwIPU_EG68AhQ54R",
+    "vision_amount_retries": 3
   },
   "closed-0110_1486405530917404792": {
     "campaign": "Betlabel",
@@ -13917,14 +13978,15 @@
   "closed-0135_1486447776995872798": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 50.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T19:32:48.609000+00:00",
     "telegram_sent_at": "2026-03-26T14:14:35.412080+00:00",
     "status": "Excluded (No FTD)",
     "signal": "vision_no_ftd",
     "user": "zojaza.",
-    "drive_file_id": "1dUUCrsBWAq0mPDWwQP9JZ9JQY6u7mpHm"
+    "drive_file_id": "1dUUCrsBWAq0mPDWwQP9JZ9JQY6u7mpHm",
+    "vision_amount_retries": 3
   },
   "closed-0160_1486482407770292395": {
     "campaign": "Betlabel",
@@ -14216,13 +14278,14 @@
   "closed-0139_1486453977393401927": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "deposit_amount": 104.49,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-25T19:57:25.752000+00:00",
     "status": "Excluded (No FTD)",
     "signal": "vision_no_ftd",
     "user": "milow02",
-    "drive_file_id": "16GKSfEZdCV7PUyGxUTgmp9d3hfrn1g1S"
+    "drive_file_id": "16GKSfEZdCV7PUyGxUTgmp9d3hfrn1g1S",
+    "vision_amount_retries": 3
   },
   "closed-0173_1487054011977830492": {
     "status": "Excluded (No FTD)",
@@ -14269,11 +14332,12 @@
     "campaign_source": "vision",
     "status": "Excluded (No FTD)",
     "signal": "vision_no_ftd",
-    "deposit_amount": 75.0,
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-28T17:54:40.485000+00:00",
     "user": "dasamy92",
-    "drive_file_id": "10QitCvAoyMzf63imdNlxos-c-VUEjqrV"
+    "drive_file_id": "10QitCvAoyMzf63imdNlxos-c-VUEjqrV",
+    "vision_amount_retries": 3
   },
   "oddify-0107_1488159374336856164": {
     "status": "Excluded (Oddify)",
@@ -15288,7 +15352,8 @@
     "deposit_amount_source": "vision",
     "user": "maurs4958",
     "ticket_date": "2026-03-30T14:49:36.544000+00:00",
-    "drive_file_id": "1mlFlNVwXJ6_LmhmgT823CMfBjV2tNsl0"
+    "drive_file_id": "1mlFlNVwXJ6_LmhmgT823CMfBjV2tNsl0",
+    "vision_amount_retries": 2
   },
   "closed-1096_1488252669821976656": {
     "status": "Not Approved",
