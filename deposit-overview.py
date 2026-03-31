@@ -1851,7 +1851,7 @@ function showUserDetail(idx) {{
   panel.innerHTML =
     '<div class="ul-detail-header">' +
       '<h3>' + (u.username || u.user_id || '—') + '</h3>' +
-      '<span class="ul-detail-close" onclick="document.getElementById(\'ulDetail\').classList.remove(\'open\')">✕</span>' +
+      '<span class="ul-detail-close" onclick="document.getElementById(&quot;ulDetail&quot;).classList.remove(&quot;open&quot;)">✕</span>' +
     '</div>' +
     '<div class="ul-detail-grid">' +
       '<div class="ul-detail-field"><div class="lbl">Status</div><div class="val"><span class="badge" style="background:' + bg + ';color:' + fg + '">' + u.status + '</span>' +
