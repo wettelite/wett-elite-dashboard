@@ -14,7 +14,7 @@ jobs:
   update:
     runs-on: ubuntu-latest
     permissions:
-      contents: write       # Needed to commit dashboard.html + manual-overrides.json back
+      contents: write       # Needed to commit dashboard.html back
 
     steps:
       - name: Checkout repo
@@ -34,6 +34,23 @@ jobs:
           echo '${{ secrets.GOOGLE_OAUTH_TOKEN }}'  > oauth-token.json
           echo '${{ secrets.ANTHROPIC_API_KEY }}'   > anthropic-api-key.txt
 
+      - name: Restore database from previous run
+        uses: actions/cache@v4
+        with:
+          path: dashboard.db
+          key: dashboard-db-${{ github.run_id }}
+          restore-keys: |
+            dashboard-db-
+
+      - name: Migrate from JSON if no database
+        run: |
+          if [ ! -f dashboard.db ]; then
+            echo "No cached database — migrating from manual-overrides.json"
+            python db.py migrate || echo "No JSON to migrate from, starting fresh"
+          else
+            echo "Database restored from cache ($(stat -c%s dashboard.db 2>/dev/null || stat -f%z dashboard.db) bytes)"
+          fi
+
       - name: Run deposit overview
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -45,10 +62,8 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # Fetch latest remote — direct API commits (overrides) may have landed during the run
           git fetch origin main
-          # Merge remote into local, keeping our freshly-generated files on conflict
           git merge -X ours origin/main --no-edit || true
-          git add dashboard.html manual-overrides.json
+          git add dashboard.html
           git diff --staged --quiet || git commit -m "auto: update dashboard $(date -u +'%Y-%m-%d %H:%M UTC')"
           git push

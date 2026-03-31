@@ -6,3 +6,7 @@ __pycache__/
 *.pyc
 venv/
 .env
+dashboard.db
+dashboard.db-wal
+dashboard.db-shm
+manual-overrides.json

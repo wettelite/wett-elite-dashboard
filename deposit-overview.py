@@ -559,20 +559,32 @@ def extract_amount_by_vision(
         return None
 
 # ---------------------------------------------------------------------------
-# Manual overrides — load saved human corrections from previous runs
+# Manual overrides — SQLite-backed storage (replaces manual-overrides.json)
 # ---------------------------------------------------------------------------
-MANUAL_OVERRIDES_FILE = SCRIPT_DIR / "manual-overrides.json"
+import db as dashboard_db
+
+MANUAL_OVERRIDES_FILE = SCRIPT_DIR / "manual-overrides.json"  # kept for JSON backup export
+DB_PATH = str(SCRIPT_DIR / "dashboard.db")
 
 def load_manual_overrides() -> dict:
-    if MANUAL_OVERRIDES_FILE.exists():
-        try:
-            return json.loads(MANUAL_OVERRIDES_FILE.read_text())
-        except Exception:
-            pass
-    return {}
+    """Load all tickets from SQLite. Falls back to JSON if DB is empty."""
+    conn = dashboard_db.init_db(DB_PATH)
+    tickets = dashboard_db.get_all_tickets(conn)
+    if not tickets and MANUAL_OVERRIDES_FILE.exists():
+        # First run after migration: import from JSON
+        n = dashboard_db.migrate_from_json(conn, str(MANUAL_OVERRIDES_FILE))
+        if n:
+            tickets = dashboard_db.get_all_tickets(conn)
+    conn.close()
+    return tickets
 
 def save_manual_overrides(overrides: dict):
-    MANUAL_OVERRIDES_FILE.write_text(json.dumps(overrides, indent=2, ensure_ascii=False))
+    """Save all tickets to SQLite + export JSON backup."""
+    conn = dashboard_db.init_db(DB_PATH)
+    dashboard_db.upsert_tickets(conn, overrides)
+    # Also export JSON backup
+    dashboard_db.export_to_json(conn, str(MANUAL_OVERRIDES_FILE))
+    conn.close()
 
 # ---------------------------------------------------------------------------
 # Exclusion & deduplication helpers
@@ -2584,12 +2596,9 @@ def main():
 
     # Once-per-day guard: check if we already sent today
     today_utc = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
-    _state_path = Path("manual-overrides.json")
-    try:
-        _state_data = json.loads(_state_path.read_text()) if _state_path.exists() else {}
-    except Exception:
-        _state_data = {}
-    last_sent_date = _state_data.get("_state", {}).get("last_telegram_date", "")
+    _db_conn = dashboard_db.init_db(DB_PATH)
+    last_sent_date = dashboard_db.get_state(_db_conn, "last_telegram_date") or ""
+    _db_conn.close()
     if last_sent_date == today_utc and not skip_telegram:
         log(f"📱 Telegram: already sent today ({today_utc}) — skipping to avoid flood")
         skip_telegram = True
@@ -2637,11 +2646,8 @@ def main():
 
         # Send one message per "to be checked" ticket with inline approve buttons
         # Skip tickets already sent to Telegram (prevent re-blast on every workflow trigger)
-        overrides_path = Path("manual-overrides.json")
-        try:
-            current_overrides = json.loads(overrides_path.read_text()) if overrides_path.exists() else {}
-        except Exception:
-            current_overrides = {}
+        _tg_db = dashboard_db.init_db(DB_PATH)
+        current_overrides = dashboard_db.get_all_tickets(_tg_db)
 
         newly_sent = 0
         for r in to_check_items:
@@ -2694,14 +2700,19 @@ def main():
             except Exception as e:
                 log(f"⚠️  Telegram inline msg error: {e}")
 
-        # Save updated telegram_sent_at flags + daily state back to manual-overrides.json
+        # Save updated telegram_sent_at flags + daily state to SQLite
         try:
-            if "_state" not in current_overrides:
-                current_overrides["_state"] = {}
-            current_overrides["_state"]["last_telegram_date"] = today_utc
-            overrides_path.write_text(json.dumps(current_overrides, indent=2, ensure_ascii=False))
+            for r in to_check_items:
+                t = r["ticket"]
+                if current_overrides.get(t, {}).get("telegram_sent_at"):
+                    dashboard_db.upsert_ticket(_tg_db, t, current_overrides[t])
+            dashboard_db.set_state(_tg_db, "last_telegram_date", today_utc)
+            # Also export JSON backup
+            dashboard_db.export_to_json(_tg_db, str(MANUAL_OVERRIDES_FILE))
         except Exception as e:
             log(f"⚠️  Could not save telegram state flags: {e}")
+        finally:
+            _tg_db.close()
 
         log(f"📱 Telegram: summary + {newly_sent} new inline ticket(s) sent ({len(to_check_items) - newly_sent} skipped, already sent)")
 
