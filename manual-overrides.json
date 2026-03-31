@@ -16352,5 +16352,19 @@
     "deposit_amount": null,
     "deposit_amount_source": "",
     "drive_file_id": "1rXm-6H5UQJeqaHPZMlq8FujTGunnEbzy"
+  },
+  "closed-1147_1488556521502801940": {
+    "status": "Not Approved",
+    "signal": "",
+    "user": "",
+    "campaign": "Unknown",
+    "has_screenshot": false,
+    "approving_admin": "",
+    "campaign_source": "",
+    "ticket_date": "2026-03-31T15:12:11.322000+00:00",
+    "first_seen_at": "2026-03-31T15:54:24.737864+00:00",
+    "deposit_amount": null,
+    "deposit_amount_source": "",
+    "drive_file_id": "1iLz0p2aB3YqblwSEBVs5mCHhjyVDa4VQ"
   }
 }
