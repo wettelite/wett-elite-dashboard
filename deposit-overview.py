@@ -411,6 +411,55 @@ def _parse_amount(text: str) -> float | None:
     return None
 
 
+def extract_amount_from_text(messages: list[dict]) -> float | None:
+    """Extract deposit amount from chat message text as fallback when Vision fails.
+
+    Scans non-admin user messages for patterns like:
+      - "50€", "€50", "50 euro", "50 EUR"
+      - "Habe 50€ eingezahlt", "eingezahlt 50"
+      - "deposited 50", "deposit of 50"
+      - Numbers with comma decimals: "50,00€"
+
+    Returns the first plausible amount (>= 5 and <= 10000) or None.
+    """
+    # Patterns ordered from most specific to least specific
+    amount_patterns = [
+        # "50€" / "50 €" / "50,00€" / "50.00€"
+        r'(\d{1,5}(?:[.,]\d{1,2})?)\s*€',
+        # "€50" / "€ 50" / "€50.00"
+        r'€\s*(\d{1,5}(?:[.,]\d{1,2})?)',
+        # "50 euro" / "50euro" / "50 EUR"
+        r'(\d{1,5}(?:[.,]\d{1,2})?)\s*(?:euro?|eur)\b',
+        # "eingezahlt 50" / "eingezahlt: 50"
+        r'eingezahlt[:\s]+(\d{1,5}(?:[.,]\d{1,2})?)',
+        # "deposited 50" / "deposit of 50"
+        r'deposit(?:ed)?(?:\s+of)?\s+(\d{1,5}(?:[.,]\d{1,2})?)',
+        # "habe 50 eingezahlt" / "hab 50 eingezahlt"
+        r'hab[e]?\s+(\d{1,5}(?:[.,]\d{1,2})?)\s*(?:€|euro?)?\s*eingezahlt',
+        # "50 eingezahlt"
+        r'(\d{1,5}(?:[.,]\d{1,2})?)\s*(?:€|euro?)?\s*eingezahlt',
+    ]
+
+    for msg in messages:
+        # Only check non-admin user messages
+        if is_admin(msg):
+            continue
+        content = (msg.get("content") or "").strip()
+        if not content:
+            continue
+        content_lower = content.lower()
+        for pat in amount_patterns:
+            m = re.search(pat, content_lower)
+            if m:
+                try:
+                    val = float(m.group(1).replace(",", "."))
+                    if 5.0 <= val <= 10000.0:
+                        return val
+                except (ValueError, IndexError):
+                    continue
+    return None
+
+
 def classify_brand_and_amount_by_vision(
     anthropic_client, images: list[tuple[str, str]]
 ) -> tuple[str, float | None, str]:
@@ -2241,6 +2290,50 @@ def main():
         else:
             log("⚠️  No Anthropic API key found — skipping vision classification")
 
+    # ---------------------------------------------------------------------------
+    # Text-based amount extraction — fallback for tickets where Vision failed
+    # ---------------------------------------------------------------------------
+    text_amount_candidates = []
+    for r in results:
+        t = r["ticket"]
+        override = manual_overrides.get(t, {})
+        if (
+            r.get("approval_status") == "Approved"
+            and r.get("deposit_amount") is None
+            and r.get("has_screenshot")
+            and not t.startswith("dm-approved-")
+            and not override.get("text_amount_tried")   # Don't re-download if already tried
+        ):
+            text_amount_candidates.append(r)
+
+    if text_amount_candidates:
+        log(f"\nText-based amount extraction: scanning {len(text_amount_candidates)} tickets with missing amounts...")
+        text_amounts_found = 0
+        for r in text_amount_candidates:
+            t = r["ticket"]
+            # We need the raw messages — re-download the HTML for text parsing
+            override = manual_overrides.get(t, {})
+            file_id = r.get("drive_file_id") or override.get("drive_file_id", "")
+            if not file_id:
+                continue
+            try:
+                html_bytes = drive_download_threadsafe(token, file_id)
+                messages = parse_messages(html_bytes)
+                if not messages:
+                    continue
+                amount = extract_amount_from_text(messages)
+                manual_overrides.setdefault(t, {})
+                manual_overrides[t]["text_amount_tried"] = True
+                if amount is not None:
+                    r["deposit_amount"] = amount
+                    r["deposit_amount_source"] = "text"
+                    manual_overrides[t]["deposit_amount"] = amount
+                    manual_overrides[t]["deposit_amount_source"] = "text"
+                    text_amounts_found += 1
+            except Exception:
+                continue
+        log(f"Text extraction complete: {text_amounts_found} amounts found from {len(text_amount_candidates)} candidates")
+
     # Build username → Discord user_id map for DM entries missing user_id
     _dm_uid_map: dict[str, str] = {}
     if DISCORD_MEMBERS_FILE.exists():
@@ -2347,7 +2440,7 @@ def main():
 
         # Persist deposit_amount if newly extracted (update if existing is None)
         if (
-            r.get("deposit_amount_source") == "vision"
+            r.get("deposit_amount_source") in ("vision", "text")
             and r.get("deposit_amount") is not None
             and (
                 "deposit_amount" not in updated_overrides.get(t, {})
@@ -2355,7 +2448,7 @@ def main():
             )
         ):
             updated_overrides[t]["deposit_amount"] = r["deposit_amount"]
-            updated_overrides[t]["deposit_amount_source"] = "vision"
+            updated_overrides[t]["deposit_amount_source"] = r["deposit_amount_source"]
     save_manual_overrides(updated_overrides)
     log(f"Saved {len(updated_overrides)} entries to manual-overrides.json")
 

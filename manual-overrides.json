@@ -837,8 +837,8 @@
     "has_screenshot": true,
     "approving_admin": "",
     "ticket_date": "2026-03-21T12:04:48.384000+00:00",
-    "deposit_amount": null,
-    "deposit_amount_source": "vision",
+    "deposit_amount": 50.0,
+    "deposit_amount_source": "text",
     "first_seen_at": "2026-03-21T12:04:48.384000+00:00",
     "drive_file_id": "1gtaYfqCLiB9n1vAkq7VWaOSKRpAT7vBQ",
     "vision_amount_retries": 2
@@ -15045,7 +15045,7 @@
     "first_seen_at": "2026-03-31T08:35:39.956562+00:00"
   },
   "_state": {
-    "last_telegram_date": "2026-03-30",
+    "last_telegram_date": "2026-03-31",
     "status": "Not Approved",
     "signal": "auto_fixed"
   },
