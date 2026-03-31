@@ -14267,9 +14267,9 @@
   "closed-0095_1487510241007374517": {
     "campaign": "Unknown",
     "campaign_source": "vision",
-    "status": "Excluded (Oddify)",
-    "signal": "Message content mentions Oddify",
-    "deposit_amount": 75.0,
+    "status": "Excluded (No FTD)",
+    "signal": "vision_no_ftd",
+    "deposit_amount": null,
     "deposit_amount_source": "vision",
     "ticket_date": "2026-03-28T17:54:40.485000+00:00",
     "user": "dasamy92",
