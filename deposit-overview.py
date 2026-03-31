@@ -1920,7 +1920,7 @@ function showUserDetail(idx) {{
     const [tbg, tfg] = getStatusStyle(t.status);
     const tcc = campColours[t.campaign] || '#6b7280';
     const link = t.drive_file_id
-      ? '<a href="https://drive.google.com/file/d/' + t.drive_file_id + '/view" target="_blank">' + t.ticket + '</a>'
+      ? '<a href="https://drive.google.com/file/d/' + t.drive_file_id + '/preview" target="_blank" style="color:#60a5fa;text-decoration:underline">' + t.ticket + '</a>'
       : t.ticket;
     const tAmt = t.amount != null ? '€' + t.amount.toFixed(2) : '—';
     ticketsHtml += '<tr>' +
@@ -2238,16 +2238,21 @@ def main():
     for key, v in manual_overrides.items():
         if key.startswith("dm-approved-"):
             results.append({
-                "ticket":          key,
-                "user_id":         v.get("user_id", ""),
-                "user":            v.get("user", ""),
-                "campaign":        v.get("campaign", "Unknown"),
-                "has_screenshot":  v.get("has_screenshot", False),
-                "approval_status": v.get("status", "Approved"),
-                "approval_signal": v.get("signal", ""),
-                "approving_admin": v.get("approving_admin", "DM"),
-                "parse_error":     False,
-                "campaign_source": v.get("campaign_source", "manual"),
+                "ticket":                key,
+                "user_id":               v.get("user_id", ""),
+                "user":                  v.get("user", ""),
+                "campaign":              v.get("campaign", "Unknown"),
+                "has_screenshot":        v.get("has_screenshot", False),
+                "approval_status":       v.get("status", "Approved"),
+                "approval_signal":       v.get("signal", ""),
+                "approving_admin":       v.get("approving_admin", "DM"),
+                "parse_error":           False,
+                "campaign_source":       v.get("campaign_source", "manual"),
+                "ticket_date":           v.get("ticket_date", ""),
+                "first_seen_at":         v.get("first_seen_at", ""),
+                "deposit_amount":        v.get("deposit_amount"),
+                "deposit_amount_source": v.get("deposit_amount_source", ""),
+                "drive_file_id":         v.get("drive_file_id", ""),
             })
 
     # Inject orphaned override entries: tickets in overrides with a definitive status
